@@ -1,0 +1,15 @@
+:root {
+  --paper: #000000;
+  --paper-dim: #0C0C10;
+  --ink: #FFFFFF;
+  --ink-soft: #D4D4D8;
+  --rule: rgba(255, 255, 255, 0.12);
+  --rule-strong: rgba(255, 255, 255, 0.28);
+  --risk-critical: #EF4444;
+  --risk-warning: #F59E0B;
+  --risk-safe: #22C55E;
+  --info: #3B82F6;
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-sans: "Public Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+}

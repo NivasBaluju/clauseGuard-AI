@@ -1,0 +1,26 @@
+{
+  "document_type": "insurance_policy",
+  "total_clauses": 3333,
+  "train_clauses": 2335,
+  "val_clauses": 499,
+  "test_clauses": 499,
+  "cohen_kappa_clause_type": 1.0,
+  "cohen_kappa_favorability": 0.8074,
+  "clause_type_counts": {
+    "coverage_scope": 334,
+    "exclusions": 334,
+    "deductible_premium": 334,
+    "claims_process": 333,
+    "cancellation_non_renewal": 333,
+    "limits_of_liability": 333,
+    "grace_period": 333,
+    "dispute_resolution_appraisal": 333,
+    "subrogation": 333,
+    "policy_period_renewal": 333
+  },
+  "favorability_counts": {
+    "needs_review": 1507,
+    "unfavorable": 764,
+    "fair": 1062
+  }
+}

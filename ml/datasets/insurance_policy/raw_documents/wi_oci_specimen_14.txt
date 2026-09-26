@@ -1,0 +1,36 @@
+DOCUMENT ID: wi_oci_specimen_14
+SOURCE URL: Wisconsin Office of the Commissioner of Insurance (OCI) Sample Homeowners Form 4 (https://oci.wi.gov)
+========================================================================
+
+SECTION I: PROPERTY COVERAGE
+Worldwide personal property coverage for named insured.
+
+SECTION I: ADDITIONAL LIVING EXPENSE
+Reimburses reasonable living costs after covered peril.
+
+SECTION I: PERILS INSURED
+Fire, lightning, explosion, riot, smoke, theft, freezing.
+
+SECTION I: EXCLUSIONS
+Excludes flood, sewer overflow, and earth sinking.
+
+SECTION I: DEDUCTIBLE
+$500.00 per occurrence.
+
+SECTION I: NON-RENEWAL (WIS. STAT. 631.36)
+Notice of non-renewal must be mailed at least 60 days prior to expiration.
+
+7. GRACE PERIOD
+30-day grace period for renewal premium.
+
+8. FRAUD AND MISREPRESENTATION
+Material misrepresentation voids coverage.
+
+9. APPRAISAL
+Independent appraisal for valuation disputes.
+
+10. SUBROGATION
+Insured transfers recovery rights to insurer upon payment.
+
+11. POLICY PERIOD
+Applies only to loss during policy period.

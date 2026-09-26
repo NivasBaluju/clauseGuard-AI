@@ -1,0 +1,51 @@
+{
+  "document_type": "rental_agreement",
+  "expected_clause_types": [
+    {
+      "type": "security_deposit",
+      "severity_if_missing": "high",
+      "note": "Standard protection specifying deposit amount, holding terms, and return timeline."
+    },
+    {
+      "type": "termination",
+      "severity_if_missing": "high",
+      "note": "Defines conditions and notice periods required to end the tenancy."
+    },
+    {
+      "type": "rent_payment_terms",
+      "severity_if_missing": "high",
+      "note": "Specifies monthly rent amount, due date, grace periods, and payment method."
+    },
+    {
+      "type": "maintenance_repairs",
+      "severity_if_missing": "medium",
+      "note": "Delineates landlord vs. tenant repair obligations."
+    },
+    {
+      "type": "entry_notice_access",
+      "severity_if_missing": "medium",
+      "note": "Establishes landlord's required notice (typically 24-48 hours) prior to entering premises."
+    },
+    {
+      "type": "insurance_liability",
+      "severity_if_missing": "medium",
+      "note": "Addresses renter insurance expectations and property liability."
+    },
+    {
+      "type": "utilities",
+      "severity_if_missing": "low",
+      "note": "Clarifies which party is responsible for water, electricity, trash, and gas."
+    },
+    {
+      "type": "pet_policy",
+      "severity_if_missing": "low",
+      "note": "Details whether pets are permitted, restricted breeds, and any associated fees."
+    },
+    {
+      "type": "subletting",
+      "severity_if_missing": "low",
+      "note": "Clarifies rules regarding assignment, short-term rental, or sublease."
+    }
+  ],
+  "notes": "Starter list based on common residential lease structure. Refine against your actual labeled corpus. If this is ever used for a specific jurisdiction's compliance claims, that jurisdiction's statute must be sourced and cited explicitly — do not present this list itself as a legal requirement."
+}

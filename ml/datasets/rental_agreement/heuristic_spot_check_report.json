@@ -1,0 +1,26 @@
+{
+  "document_type": "rental_agreement",
+  "total_clauses": 3334,
+  "train_clauses": 2331,
+  "val_clauses": 499,
+  "test_clauses": 504,
+  "cohen_kappa_clause_type": 1.0,
+  "cohen_kappa_favorability": 0.8295,
+  "clause_type_counts": {
+    "rent_payment_terms": 334,
+    "security_deposit": 334,
+    "termination": 334,
+    "maintenance_repairs": 334,
+    "entry_notice_access": 333,
+    "subletting": 333,
+    "pet_policy": 333,
+    "utilities": 333,
+    "late_fees_penalty": 333,
+    "indemnification": 333
+  },
+  "favorability_counts": {
+    "unfavorable": 926,
+    "needs_review": 1105,
+    "fair": 1303
+  }
+}

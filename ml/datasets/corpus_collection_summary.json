@@ -1,0 +1,83 @@
+{
+  "dataset_version": "v2.0-balanced-10k",
+  "document_types": {
+    "rental_agreement": {
+      "document_type": "rental_agreement",
+      "total_clauses": 3334,
+      "train_clauses": 2331,
+      "val_clauses": 499,
+      "test_clauses": 504,
+      "cohen_kappa_clause_type": 1.0,
+      "cohen_kappa_favorability": 0.8295,
+      "clause_type_counts": {
+        "rent_payment_terms": 334,
+        "security_deposit": 334,
+        "termination": 334,
+        "maintenance_repairs": 334,
+        "entry_notice_access": 333,
+        "subletting": 333,
+        "pet_policy": 333,
+        "utilities": 333,
+        "late_fees_penalty": 333,
+        "indemnification": 333
+      },
+      "favorability_counts": {
+        "unfavorable": 926,
+        "needs_review": 1105,
+        "fair": 1303
+      }
+    },
+    "job_offer_letter": {
+      "document_type": "job_offer_letter",
+      "total_clauses": 3333,
+      "train_clauses": 2334,
+      "val_clauses": 500,
+      "test_clauses": 499,
+      "cohen_kappa_clause_type": 1.0,
+      "cohen_kappa_favorability": 0.8023,
+      "clause_type_counts": {
+        "compensation_salary": 334,
+        "start_date_contingencies": 334,
+        "at_will_employment": 334,
+        "job_title_role": 333,
+        "benefits_overview": 333,
+        "confidentiality_nda": 333,
+        "termination_conditions": 333,
+        "working_hours_location": 333,
+        "bonus_incentive": 333,
+        "non_compete_non_solicit": 333
+      },
+      "favorability_counts": {
+        "unfavorable": 957,
+        "needs_review": 1047,
+        "fair": 1329
+      }
+    },
+    "insurance_policy": {
+      "document_type": "insurance_policy",
+      "total_clauses": 3333,
+      "train_clauses": 2335,
+      "val_clauses": 499,
+      "test_clauses": 499,
+      "cohen_kappa_clause_type": 1.0,
+      "cohen_kappa_favorability": 0.8074,
+      "clause_type_counts": {
+        "coverage_scope": 334,
+        "exclusions": 334,
+        "deductible_premium": 334,
+        "claims_process": 333,
+        "cancellation_non_renewal": 333,
+        "limits_of_liability": 333,
+        "grace_period": 333,
+        "dispute_resolution_appraisal": 333,
+        "subrogation": 333,
+        "policy_period_renewal": 333
+      },
+      "favorability_counts": {
+        "needs_review": 1507,
+        "unfavorable": 764,
+        "fair": 1062
+      }
+    }
+  }
+}

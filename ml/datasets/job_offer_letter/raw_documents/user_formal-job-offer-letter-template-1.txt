@@ -1,0 +1,58 @@
+ID: user_formal-job-offer-letter-template-1
+FILE: Formal-job-offer-letter-template-1.docx
+========================================================================
+
+Formal job offer letter template | Workable
+I. Position
+Job title
+Your title will be [Job_title], and you will report to the Company’s [Manager’s job_title].
+Working schedule
+This is a [full-time/part-time] position requiring approximately [e.g. 40] hours per week. Your regular weekly schedule will be [e.g. Monday to Friday 09:00-17:00].
+Employment Relationship
+Employment with the Company is for no specific period of time. Your employment with the Company will be “at will,” meaning that either you or the Company may terminate your employment at any time and for any reason, with or without cause. Any contrary representations that may have been made to you are superseded by this letter agreement. This is the full and complete agreement between you and the Company on this term. Although your job duties, title, compensation and benefits, as well as the Company’s personnel policies and procedures, may change from time to time, the “at will” nature of your employment may only be changed in an express written agreement signed by you and a duly authorized officer of the Company (other than you.)
+II. Cash Compensation
+Salary
+The Company will pay you a starting salary at the rate of $[Gross annual salary] per year, payable in accordance with the Company’s standard payroll schedule, beginning [start day] and you will receive your first paycheck on [date]. This salary will be subject to adjustment pursuant to the Company’s employee compensation policies.
+Tax withholding
+All forms of compensation referred to in this letter agreement are subject to reduction to reflect applicable withholding and payroll taxes and other deductions required by law.
+Tax advice
+You are encouraged to obtain your own tax advice regarding your compensation from the Company. You agree that the Company does not have a duty to design its compensation policies in a manner that minimizes your tax liabilities and you will not make any claim against the Company or its Board of Directors related to tax liabilities arising from your compensation.
+III. Bonus (or commission) potential
+In addition, you will be eligible to be considered for an incentive bonus for each fiscal year of the Company. The bonus (if any) will be awarded based on objective or subjective criteria established by the Company’s Chief Executive Officer and approved by the Company’s Board of Directors. Your target bonus will be equal to [percent]% of your annual base salary. Any bonus for the fiscal year in which your employment begins will be prorated, based on the number of days you are employed by the Company during that fiscal year. Any bonus for a fiscal year will be paid within [number] months after the close of that fiscal year, but only if you are still employed by the Company at the time of payment. The determinations of the Company’s Board of Directors with respect to your bonus will be final and binding.
+IV. Employee benefits
+As a regular employee of the Company, you will be eligible to participate in a number of Company-sponsored benefits.
+The Company offers a comprehensive employee benefits program, including:
+Vacation policy
+You will be eligible for [number] days of paid vacation leave per year. Paid time off is additional to sick days, bank holidays and days that the company does not operate.
+Private health and dental insurance plan
+As all Company employees, you will be eligible for the private health and dental insurance plan we provide. Specific terms and conditions may change upon vendor’s decision.
+Stock Options
+Subject to the approval of the Company’s Board of Directors or its Compensation Committee, and following the adoption by the Company of an equity incentive plan, you will be granted an option to purchase [number] shares of the Common Stock of the Company or of its parent (the “Option.”) The exercise price per share of the Option will be determined by the Board of Directors or the Compensation Committee when the Option is granted. The Option will be subject to the terms and conditions applicable to options granted under the Company’s Stock Plan (as adopted, the “Plan”), as described in the Plan and the applicable Stock Option Agreement. You will vest in 25% of the Option shares after 12 months of continuous service, and the balance will vest in equal monthly installments over the next 36 months of continuous service, as described in the applicable Stock Option Agreement.
+V. Privacy and Confidentiality Agreements
+Privacy Agreement
+You are required to observe and uphold all of the Company’s privacy policies and procedures as implemented or varied from time to time. Collection, storage, access to and dissemination of employee personal information will be in accordance with privacy legislation.
+Conflict of Interest policy
+While you are employed at this Company, you will not engage in any other employment, consulting or other business activity (whether full-time or part-time) that would create a conflict of interest with the Company. By signing this letter of agreement, you confirm that you have no contractual commitments or other legal obligations that would prohibit you from performing your duties for the Company.
+Proprietary Information and Inventions Agreement
+Like all Company employees, you will be required, as a condition of your employment with the Company, to sign the Company’s standard Proprietary Information and Inventions Agreement.
+VI. Termination Conditions
+The Company reserves the right to terminate employment of any employee for just cause at any time without notice and without payment in lieu of notice. The Company will be entitled to terminate your employment for any reason other than for just cause, upon providing to you such minimum notice as required by law.
+VII. Interpretation, Amendment and Enforcement
+This letter agreement supersedes and replaces any prior agreements, representations or understandings (whether written, oral, implied or otherwise) between you and the Company and constitute the complete agreement between you and the Company regarding the subject matter set forth herein. This letter agreement may not be amended or modified, except by an express written agreement signed by both you and a duly authorized officer of the Company.
+You may indicate your agreement with these terms and accept this offer by signing and dating this agreement by [date the offer expires]. Upon your acceptance of this employment offer, [Company_name] will provide you with the necessary paperwork and instructions.
+Sincerely,
+[Sender_name]
+Signatures:
+___________________________________________________
+Company Representative (Sign)
+___________________________________________________
+Company Representative (Print)
+___________________________________________________
+Date
+___________________________________________________
+Applicant (Sign)
+___________________________________________________
+Applicant (Print)
+___________________________________________________
+Date
+Disclaimer: The following offer letter recommendations should only be used as guidelines. Please only select the portions that apply to your company. Neither the author nor workable.com will assume legal liability for the accuracy, completeness or usefulness of any information provided in whole or in part within this article.

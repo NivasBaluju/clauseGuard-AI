@@ -1,0 +1,47 @@
+ID: user_offer_letter_template_india_greythr-2
+FILE: offer_letter_template_india_greythr-2.docx
+========================================================================
+
+Offer Letter
+[Must be printed on Official Company Letterhead]
+Date: [DD/MM/YYYY]
+To: [Candidate Full Name]
+Address: [Candidate Address]
+Email: [Candidate Email Address]
+Subject: Offer of Employment – [Candidate Name]
+Dear [Candidate Name],
+We are pleased to offer you the position of [Job Title] with [Company Name] at our [City] office. We believe that your skills and experience will be a valuable addition to our organization.
+Please find the key terms of your proposed employment below:
+1. Position and Commencement
+You will be employed as a [Job Title], reporting to the [Manager's Title/Department]. Your anticipated date of joining will be [Start Date], subject to satisfactory completion of your background verification and submission of the required documents.
+2. Compensation Structure
+Your Annual Cost to Company (CTC) will be ₹ [Amount] ([Amount in Words]), payable monthly in accordance with the Company's payroll cycle. The indicative break-up of your monthly gross salary is as follows:
+Basic Salary: ₹ [Amount]
+House Rent Allowance (HRA): ₹ [Amount]
+Conveyance Allowance: ₹ [Amount]
+Special Allowance: ₹ [Amount]
+Employer's Contribution to Provident Fund: ₹ [Amount]
+A detailed salary break-up (Annexure A) will be shared separately. Your salary will be subject to applicable statutory deductions, including Provident Fund (PF), Professional Tax, and Income Tax (TDS), as per prevailing law.
+3. Probation Period
+Your employment will be subject to a probationary period of [Duration, e.g., 3 or 6] months from your date of joining, during which your performance and conduct will be reviewed.
+4. Notice Period
+Upon successful confirmation post-probation, this employment may be terminated by either party by providing [Duration, e.g., 30, 60, or 90] days' written notice, or salary in lieu thereof, as per Company policy.
+5. Statutory Benefits
+Leave: Earned Leave, Casual Leave, and Sick Leave as per Company policy and the applicable Shops and Establishments Act.
+Provident Fund: Coverage under the Employees' Provident Fund (EPF) Scheme, as applicable.
+Gratuity: Payable as per the Payment of Gratuity Act, 1972, on completion of five years of continuous service.
+Medical Insurance: Group Mediclaim coverage for yourself [and your dependents, if applicable], as per Company policy.
+6. Conditions of Offer
+This offer is contingent upon the successful verification of your educational and employment credentials, and satisfactory completion of any pre-employment background check.
+Please review this offer carefully. To indicate your acceptance, kindly sign and return a copy of this letter to Human Resources no later than [Offer Expiration Date].
+We look forward to welcoming you to [Company Name].
+Sincerely,
+For [Company Name],
+(Authorized Signature)
+(Apply Official Company Stamp/Seal Here)
+[Authorized Signatory Name]
+[Designation, e.g., HR Director]
+Acceptance of Offer
+I, [Candidate Name], hereby accept the offer of employment as outlined above and agree to the terms and conditions stated herein.
+Signature (Employee): ___________________________
+Date: ___________________________

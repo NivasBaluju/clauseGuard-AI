@@ -1,0 +1,36 @@
+DOCUMENT ID: pa_pid_specimen_11
+SOURCE URL: Pennsylvania Insurance Department Sample HO-4 Contents Policy Form (https://www.insurance.pa.gov)
+========================================================================
+
+1. COVERAGE C PROPERTY
+Personal property covered anywhere in the world.
+
+2. LOSS OF USE
+Covers necessary increase in living expense.
+
+3. BROAD PERILS
+Covers 16 broad named perils including fire and theft.
+
+4. WATER EXCLUSION
+Excludes water damage from sewers or drains.
+
+5. DEDUCTIBLE
+$500.00 deductible per loss.
+
+6. APPRAISAL DISPUTES
+Disputes on valuation handled by independent appraisers.
+
+7. CANCELLATION NOTICE
+Notice of non-renewal must be mailed at least 30 days in advance.
+
+8. GRACE PERIOD FOR PREMIUM
+Grace period of 30 days granted for renewal premium remittance.
+
+9. FRAUD AND CONCEALMENT
+Willful misrepresentation of material facts voids coverage.
+
+10. SUBROGATION PROVISION
+Subrogation rights assigned to company upon payment.
+
+11. POLICY PERIOD
+Policy applies to loss occurring during effective policy period.

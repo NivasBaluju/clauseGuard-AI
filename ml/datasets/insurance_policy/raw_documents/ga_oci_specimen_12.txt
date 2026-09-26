@@ -1,0 +1,36 @@
+DOCUMENT ID: ga_oci_specimen_12
+SOURCE URL: Georgia Office of Insurance Safety Commissioner Specimen Renters Policy (https://oci.georgia.gov)
+========================================================================
+
+SECTION 1: PERSONAL PROPERTY COVERAGE
+Covers personal property owned by insured.
+
+SECTION 2: LOSS OF USE EXPENSES
+Living expenses for uninhabitable dwelling unit.
+
+SECTION 3: INSURED PERILS
+Fire, lightning, windstorm, vehicle damage, theft.
+
+SECTION 4: EXCLUSIONS
+Excludes earthquake, flood, and sewer backup.
+
+SECTION 5: DEDUCTIBLE
+$500.00 standard deductible.
+
+SECTION 6: CANCELLATION STATUTES (OCGA 33-24-44)
+Requires 30 days written notice for cancellation.
+
+7. GRACE PERIOD
+30 days grace period for payment of renewal premium.
+
+8. FRAUD AND CONCEALMENT
+Fraudulent misrepresentation voids the policy.
+
+9. APPRAISAL
+Appraisal process applies if parties disagree on value.
+
+10. SUBROGATION
+Company subrogated to rights of recovery upon payment.
+
+11. POLICY PERIOD
+Covers direct physical loss during policy period.

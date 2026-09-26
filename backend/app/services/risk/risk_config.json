@@ -1,0 +1,71 @@
+{
+  "favorability_severity_multiplier": {
+    "fair": 0.0,
+    "needs_review": 0.5,
+    "unfavorable": 1.0
+  },
+  "clause_type_base_weight": {
+    "termination": 1.0,
+    "penalty_late_fees": 0.9,
+    "late_fees_penalty": 0.9,
+    "security_deposit": 0.9,
+    "indemnification": 0.85,
+    "dispute_resolution": 0.7,
+    "rent_payment_terms": 0.6,
+    "renewal_auto_renewal": 0.65,
+    "subletting": 0.6,
+    "entry_notice_access": 0.55,
+    "maintenance_repairs": 0.5,
+    "insurance_liability": 0.45,
+    "utilities": 0.4,
+    "alterations_improvements": 0.35,
+    "pet_policy": 0.3,
+    "governing_law_jurisdiction": 0.25,
+    "non_compete_non_solicit": 1.0,
+    "intellectual_property_assignment": 0.9,
+    "termination_conditions": 0.9,
+    "at_will_employment": 0.85,
+    "arbitration_dispute_resolution": 0.75,
+    "confidentiality_nda": 0.7,
+    "compensation_salary": 0.65,
+    "bonus_incentive": 0.6,
+    "start_date_contingencies": 0.55,
+    "benefits_overview": 0.5,
+    "working_hours_location": 0.45,
+    "relocation_assistance": 0.4,
+    "job_title_role": 0.3,
+    "exclusions": 1.0,
+    "cancellation_non_renewal": 0.9,
+    "misrepresentation_fraud_clause": 0.85,
+    "limits_of_liability": 0.8,
+    "deductible_premium": 0.75,
+    "dispute_resolution_appraisal": 0.7,
+    "subrogation": 0.65,
+    "claims_process": 0.6,
+    "coverage_scope": 0.55,
+    "grace_period": 0.5,
+    "policy_period_renewal": 0.45
+  },
+  "sequence_adjustment_pairs": {
+    "_comment": "Optional, cheap way to encode cross-clause relationships in the risk engine itself. Format: 'prior_clause_type->current_clause_type': additive_multiplier_bump.",
+    "renewal_auto_renewal->termination": 0.1,
+    "at_will_employment->termination_conditions": 0.1,
+    "coverage_scope->exclusions": 0.1
+  },
+  "missing_clause_penalty_by_severity": {
+    "high": 15,
+    "medium": 8,
+    "low": 3
+  },
+  "composite_weights": {
+    "mean_clause_risk_weight": 0.7,
+    "missing_clause_penalty_weight": 0.3
+  },
+  "risk_bands": {
+    "low": [0, 25],
+    "medium": [26, 50],
+    "high": [51, 75],
+    "critical": [76, 100]
+  },
+  "_disclaimer": "All weights above are starting engineering defaults chosen for transparency and ease of tuning — not derived from a legal or statistical authority. Recalibrate against real annotator consensus and/or domain-expert review before treating outputs as decision-grade, and never present them in the UI as certified legal conclusions."
+}

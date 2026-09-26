@@ -1,0 +1,36 @@
+DOCUMENT ID: mi_difs_specimen_16
+SOURCE URL: Michigan Department of Insurance and Financial Services (DIFS) HO-4 Specimen (https://www.michigan.gov/difs)
+========================================================================
+
+SECTION 1: PERSONAL PROPERTY
+Covers personal property anywhere in the world.
+
+SECTION 2: LOSS OF USE
+Covers additional living expense.
+
+SECTION 3: PERILS INSURED
+Fire, lightning, windstorm, explosion, riot, smoke, vandalism, theft.
+
+SECTION 4: WATER EXCLUSION
+Excludes sewer backup and flooding.
+
+SECTION 5: DEDUCTIBLE
+$500.00 deductible per loss.
+
+SECTION 6: CANCELLATION (MCL 500.2833)
+30 days advance notice required for non-renewal.
+
+7. GRACE PERIOD
+30 days grace period for renewal premium payment.
+
+8. FRAUD AND CONCEALMENT
+Fraudulent statements void coverage under Michigan law.
+
+9. APPRAISAL
+Appraisal process for loss valuation disagreement.
+
+10. SUBROGATION
+Company acquires recovery rights upon payment.
+
+11. POLICY TERM
+Applies to loss occurring during effective policy period.
