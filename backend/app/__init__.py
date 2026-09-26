@@ -9,15 +9,17 @@ def create_app(config_class=Config):
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    cors.init_app(app, resources={r"/api/*": {"origins": app.config.get("CORS_ORIGINS", "*")}})
+    cors.init_app(app, resources={r"/api/*": {"origins": app.config.get("CORS_ORIGINS", "*")}}, supports_credentials=True)
 
     # Register API blueprints
     from app.api.health import health_bp
+    from app.api.auth import auth_bp
     from app.api.documents import documents_bp
     from app.api.analysis import analysis_bp
     from app.api.chat import chat_bp
 
     app.register_blueprint(health_bp, url_prefix="/api")
+    app.register_blueprint(auth_bp, url_prefix="/api")
     app.register_blueprint(documents_bp, url_prefix="/api")
     app.register_blueprint(analysis_bp, url_prefix="/api")
     app.register_blueprint(chat_bp, url_prefix="/api")
