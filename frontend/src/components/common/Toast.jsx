@@ -12,7 +12,7 @@ export function Toast({ message, type = "info", onClose, duration = 4000 }) {
   const borderColors = {
     success: "border-green-500 bg-zinc-950 text-green-300",
     error: "border-red-500 bg-zinc-950 text-red-300",
-    info: "border-blue-500 bg-zinc-950 text-blue-300",
+    info: "border-neutral-700 bg-black text-white",
   };
 
   const Icon = type === "success" ? CheckCircle2 : AlertCircle;

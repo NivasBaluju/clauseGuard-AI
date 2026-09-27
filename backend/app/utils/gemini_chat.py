@@ -97,9 +97,9 @@ INSTRUCTIONS:
 
                     return {
                         "answer": answer_text,
-                        "engine": "gemini",
-                        "provider": "google",
-                        "model": model_name,
+                        "engine": "neural_rag",
+                        "provider": "ai_copilot",
+                        "model": "legal-copilot-engine",
                         "grounded": is_grounded,
                         "confidence": 0.96 if is_grounded else 0.88,
                         "sources": sources,

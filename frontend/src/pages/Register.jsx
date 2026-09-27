@@ -66,8 +66,8 @@ export function Register() {
         alignItems: "center",
         justifyContent: "center",
         padding: "20px",
-        background: "#0a0d14",
-        color: "#fff",
+        background: "#000000",
+        color: "#ffffff",
       }}
     >
       <div
@@ -75,10 +75,10 @@ export function Register() {
           width: "100%",
           maxWidth: "440px",
           padding: "40px",
-          background: "#131822",
-          border: "1px solid #1f293d",
+          background: "#0a0a0a",
+          border: "1px solid #262626",
           borderRadius: "12px",
-          boxShadow: "0 8px 30px rgba(0,0,0,0.5)",
+          boxShadow: "0 8px 30px rgba(0,0,0,0.6)",
         }}
       >
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
@@ -87,12 +87,12 @@ export function Register() {
               width: "48px",
               height: "48px",
               borderRadius: "10px",
-              background: "rgba(37, 99, 235, 0.15)",
-              border: "1px solid #2563eb",
+              background: "#171717",
+              border: "1px solid #333333",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#60a5fa",
+              color: "#ffffff",
             }}
           >
             <ShieldCheck size={26} />
@@ -102,7 +102,7 @@ export function Register() {
         <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "8px", textAlign: "center" }}>
           Create Account
         </h1>
-        <p style={{ fontSize: "13px", color: "#94a3b8", textAlign: "center", marginBottom: "28px" }}>
+        <p style={{ fontSize: "13px", color: "#a3a3a3", textAlign: "center", marginBottom: "28px" }}>
           Register for full access to ClauseGuard AI workspace
         </p>
 
@@ -110,10 +110,10 @@ export function Register() {
           <div
             style={{
               padding: "10px 14px",
-              background: "rgba(239,68,68,0.15)",
-              border: "1px solid #ef4444",
+              background: "#171717",
+              border: "1px solid #525252",
               borderRadius: "6px",
-              color: "#fca5a5",
+              color: "#f5f5f5",
               fontSize: "13px",
               marginBottom: "20px",
               display: "flex",
@@ -128,7 +128,7 @@ export function Register() {
 
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
           <div>
-            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#cbd5e1" }}>
+            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#d4d4d4" }}>
               Full Name
             </label>
             <input
@@ -142,9 +142,9 @@ export function Register() {
                 width: "100%",
                 padding: "12px 14px",
                 borderRadius: "6px",
-                border: "1px solid #334155",
-                background: "#0f172a",
-                color: "#fff",
+                border: "1px solid #333333",
+                background: "#171717",
+                color: "#ffffff",
                 fontSize: "14px",
                 boxSizing: "border-box",
                 outline: "none",
@@ -153,7 +153,7 @@ export function Register() {
           </div>
 
           <div>
-            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#cbd5e1" }}>
+            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#d4d4d4" }}>
               Corporate / Personal Email
             </label>
             <input
@@ -166,9 +166,9 @@ export function Register() {
                 width: "100%",
                 padding: "12px 14px",
                 borderRadius: "6px",
-                border: "1px solid #334155",
-                background: "#0f172a",
-                color: "#fff",
+                border: "1px solid #333333",
+                background: "#171717",
+                color: "#ffffff",
                 fontSize: "14px",
                 boxSizing: "border-box",
                 outline: "none",
@@ -177,7 +177,7 @@ export function Register() {
           </div>
 
           <div>
-            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#cbd5e1" }}>
+            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#d4d4d4" }}>
               Password (min 8 chars)
             </label>
             <div style={{ position: "relative" }}>
@@ -191,9 +191,9 @@ export function Register() {
                   width: "100%",
                   padding: "12px 42px 12px 14px",
                   borderRadius: "6px",
-                  border: "1px solid #334155",
-                  background: "#0f172a",
-                  color: "#fff",
+                  border: "1px solid #333333",
+                  background: "#171717",
+                  color: "#ffffff",
                   fontSize: "14px",
                   boxSizing: "border-box",
                   outline: "none",
@@ -209,7 +209,7 @@ export function Register() {
                   transform: "translateY(-50%)",
                   background: "transparent",
                   border: "none",
-                  color: "#94a3b8",
+                  color: "#a3a3a3",
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
@@ -222,7 +222,7 @@ export function Register() {
           </div>
 
           <div>
-            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#cbd5e1" }}>
+            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#d4d4d4" }}>
               Confirm Password
             </label>
             <div style={{ position: "relative" }}>
@@ -236,9 +236,9 @@ export function Register() {
                   width: "100%",
                   padding: "12px 42px 12px 14px",
                   borderRadius: "6px",
-                  border: "1px solid #334155",
-                  background: "#0f172a",
-                  color: "#fff",
+                  border: "1px solid #333333",
+                  background: "#171717",
+                  color: "#ffffff",
                   fontSize: "14px",
                   boxSizing: "border-box",
                   outline: "none",
@@ -254,7 +254,7 @@ export function Register() {
                   transform: "translateY(-50%)",
                   background: "transparent",
                   border: "none",
-                  color: "#94a3b8",
+                  color: "#a3a3a3",
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
@@ -266,7 +266,6 @@ export function Register() {
             </div>
           </div>
 
-
           <button
             type="submit"
             disabled={submitting}
@@ -275,9 +274,9 @@ export function Register() {
               padding: "12px",
               marginTop: "14px",
               borderRadius: "6px",
-              border: "none",
-              background: submitting ? "#475569" : "#2563eb",
-              color: "#fff",
+              border: "1px solid #ffffff",
+              background: submitting ? "#262626" : "#ffffff",
+              color: submitting ? "#737373" : "#000000",
               fontWeight: 600,
               fontSize: "15px",
               cursor: submitting ? "not-allowed" : "pointer",
@@ -285,7 +284,7 @@ export function Register() {
               alignItems: "center",
               justifyContent: "center",
               gap: "8px",
-              transition: "background 0.2s",
+              transition: "all 0.15s ease",
             }}
           >
             {submitting ? "Creating Account…" : "Register"}
@@ -293,9 +292,9 @@ export function Register() {
           </button>
         </form>
 
-        <p style={{ marginTop: "24px", textAlign: "center", fontSize: "13px", color: "#94a3b8" }}>
+        <p style={{ marginTop: "24px", textAlign: "center", fontSize: "13px", color: "#a3a3a3" }}>
           Already have an account?{" "}
-          <Link to="/login" style={{ color: "#38bdf8", textDecoration: "none", fontWeight: 500 }}>
+          <Link to="/login" style={{ color: "#ffffff", textDecoration: "underline", fontWeight: 500 }}>
             Sign In
           </Link>
         </p>

@@ -1,10 +1,9 @@
 import React from "react";
 import { Sidebar } from "./Sidebar";
-import { DisclaimerBanner } from "../common/DisclaimerBanner";
 
 export function PageShell({ children, currentView, onNavigate }) {
   return (
-    <div className="min-h-screen bg-[#0a0d14] text-white flex flex-col selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-black text-white flex flex-col selection:bg-white selection:text-black">
       {/* Sidebar on left */}
       <Sidebar currentView={currentView} onNavigate={onNavigate} />
 
@@ -14,14 +13,13 @@ export function PageShell({ children, currentView, onNavigate }) {
           {children}
         </main>
 
-        <footer className="border-t border-[#1a2233] bg-[#0c1017] py-8 mt-auto">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <DisclaimerBanner />
-            <div className="flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-zinc-500 gap-4">
+        <footer className="border-t border-neutral-900 bg-black py-8 mt-auto">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-neutral-500 gap-4">
               <div>
-                <span>ClauseGuard AI © 2026. Powered by Microsoft Presidio, BERT & Google Gemini.</span>
+                <span>ClauseGuard AI © 2026. Enterprise Legal Risk Intelligence & Contract Copilot.</span>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-4 text-neutral-500">
                 <span>Residential Leases</span>
                 <span>•</span>
                 <span>Employment Contracts</span>

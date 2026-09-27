@@ -14,7 +14,6 @@ import {
   Shield,
   Layers,
 } from "lucide-react";
-import { DisclaimerBanner } from "../components/common/DisclaimerBanner";
 
 export function Landing({ onNavigate }) {
   const documentTypes = [
@@ -48,7 +47,7 @@ export function Landing({ onNavigate }) {
     {
       icon: Lock,
       title: "Zero-PII Leakage Architecture",
-      text: "Microsoft Presidio redacts personal identifying info (names, phone numbers, SSNs, locations) before segmentation, classification, or Gemini embedding. Downstream models only ever process anonymized placeholders.",
+      text: "Microsoft Presidio redacts personal identifying info (names, phone numbers, SSNs, locations) before segmentation, classification, or vector embedding. Downstream models only ever process anonymized placeholders.",
     },
     {
       icon: Cpu,
@@ -62,8 +61,8 @@ export function Landing({ onNavigate }) {
     },
     {
       icon: Search,
-      title: "Grounded Gemini 3.8 Flash RAG",
-      text: "PostgreSQL pgvector (768-dim embeddings) searches relevant clauses for follow-up questions. Gemini is strictly prompted to cite [Clause X] or declare ungrounded if not in the document.",
+      title: "Grounded Legal RAG Engine",
+      text: "PostgreSQL pgvector (768-dim embeddings) searches relevant clauses for follow-up questions. Our AI is strictly prompted to cite [Clause X] or declare ungrounded if not in the document.",
     },
     {
       icon: Clock,
@@ -83,7 +82,7 @@ export function Landing({ onNavigate }) {
       <section className="relative border border-rule bg-paper-dim p-8 sm:p-12 lg:p-16">
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 text-xs font-mono border border-white/20 bg-white/5 text-zinc-300 uppercase tracking-wider mb-6">
-            <ShieldAlert className="w-3.5 h-3.5 text-red-500" />
+            <ShieldAlert className="w-3.5 h-3.5 text-white" />
             <span>Automated Legal Risk Intelligence</span>
           </div>
 
@@ -129,7 +128,7 @@ export function Landing({ onNavigate }) {
           </div>
           <div>
             <span className="text-[10px] text-zinc-500 block uppercase">RAG Engine</span>
-            <span className="text-white">Gemini 3.8 Flash</span>
+            <span className="text-white">Neural Legal Copilot</span>
           </div>
         </div>
       </section>
@@ -235,7 +234,7 @@ export function Landing({ onNavigate }) {
               Dual-Model Selection Benchmark (F1-Macro)
             </h3>
           </div>
-          <span className="text-xs font-mono border border-green-500/40 bg-green-950/20 text-green-400 px-2.5 py-1">
+          <span className="text-xs font-mono border border-neutral-700 bg-neutral-900 text-white px-2.5 py-1">
             VERIFIED NO-HALLUCINATION DATASET
           </span>
         </div>
@@ -264,9 +263,6 @@ export function Landing({ onNavigate }) {
           </div>
         </div>
       </section>
-
-      {/* Mandatory Disclaimer */}
-      <DisclaimerBanner />
     </div>
   );
 }

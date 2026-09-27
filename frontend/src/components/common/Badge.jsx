@@ -14,8 +14,8 @@ export function Badge({ variant = "default", children, className = "" }) {
     unfavorable: "border-red-500/40 bg-red-950/30 text-red-400",
 
     // Status / info
-    info: "border-blue-500/40 bg-blue-950/20 text-blue-400",
-    default: "border-white/20 bg-white/5 text-zinc-300",
+    info: "border-neutral-700 bg-neutral-900 text-white",
+    default: "border-neutral-800 bg-neutral-900 text-neutral-300",
   };
 
   const style = variantStyles[variant.toLowerCase()] || variantStyles.default;

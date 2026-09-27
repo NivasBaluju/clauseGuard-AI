@@ -46,7 +46,7 @@ export function ChatInput({ onSendMessage, isLoading, documentType = "rental_agr
       {/* Suggestions */}
       <div>
         <div className="flex items-center gap-1.5 text-[11px] font-mono text-zinc-500 uppercase tracking-wider mb-2">
-          <Sparkles className="w-3 h-3 text-blue-400" />
+          <Sparkles className="w-3 h-3 text-white" />
           <span>Suggested Inquiries for this Document:</span>
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -89,9 +89,9 @@ export function ChatInput({ onSendMessage, isLoading, documentType = "rental_agr
       </form>
 
       <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 pt-1">
-        <span className="flex items-center gap-1">
-          <Shield className="w-3 h-3 text-green-500" />
-          Strict RAG Grounding: Gemini answers solely using retrieved document clauses.
+        <span className="flex items-center gap-1 text-neutral-400">
+          <Shield className="w-3 h-3 text-neutral-300" />
+          Strict RAG Grounding: AI answers solely using retrieved document clauses.
         </span>
         <span>Press Enter to send, Shift+Enter for newline</span>
       </div>

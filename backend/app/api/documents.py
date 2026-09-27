@@ -2,7 +2,7 @@ import os
 import tempfile
 import threading
 import logging
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, request, jsonify, current_app, g
 from werkzeug.utils import secure_filename
 from app.extensions import db
 from app.models.document import Document
@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 
 documents_bp = Blueprint("documents", __name__)
 
+from app.middleware.auth import optional_auth
+
 def run_pipeline_async(app, document_id, file_path, ext):
     with app.app_context():
         try:
@@ -22,6 +24,7 @@ def run_pipeline_async(app, document_id, file_path, ext):
             logger.error(f"Async pipeline processing failed for {document_id}: {e}")
 
 @documents_bp.route("/documents", methods=["POST"])
+@optional_auth
 def upload_document():
     if "file" not in request.files:
         return jsonify({"error": "No file uploaded in 'file' field."}), 400
@@ -47,6 +50,10 @@ def upload_document():
     temp_path = os.path.join(temp_dir, f"cg_{filename}")
     file.save(temp_path)
 
+    # Associate with currently logged-in user
+    user = getattr(g, "user", None)
+    user_id = user.id if user else None
+
     # Create document record
     doc = Document(
         filename=filename,
@@ -54,6 +61,7 @@ def upload_document():
         document_type=doc_type,
         status="uploaded",
         processing_stage="queued",
+        user_id=user_id,
     )
     db.session.add(doc)
     db.session.commit()
@@ -66,6 +74,8 @@ def upload_document():
 
     log_audit_event(
         action="DOC_UPLOADED",
+        user_id=user_id,
+        user_email=user.email if user else None,
         resource_type="document",
         resource_id=str(doc.id),
         details={"filename": doc.filename, "document_type": doc.document_type, "format": ext}
@@ -81,18 +91,31 @@ def upload_document():
     }), 201
 
 @documents_bp.route("/documents", methods=["GET"])
+@optional_auth
 def list_documents():
-    docs = Document.query.order_by(Document.uploaded_at.desc()).all()
+    user = getattr(g, "user", None)
+    if not user:
+        return jsonify([]), 200
+
+    docs = Document.query.filter_by(user_id=user.id).order_by(Document.uploaded_at.desc()).all()
     return jsonify([d.to_dict(include_text=False) for d in docs]), 200
 
 @documents_bp.route("/documents/<uuid:doc_id>", methods=["GET"])
+@optional_auth
 def get_document(doc_id):
     doc = Document.query.get_or_404(doc_id)
+    user = getattr(g, "user", None)
+    if user and doc.user_id and doc.user_id != user.id:
+        return jsonify({"error": "Unauthorized access to this document."}), 403
     return jsonify(doc.to_dict(include_text=True)), 200
 
 @documents_bp.route("/documents/<uuid:doc_id>/status", methods=["GET"])
+@optional_auth
 def get_document_status(doc_id):
     doc = Document.query.get_or_404(doc_id)
+    user = getattr(g, "user", None)
+    if user and doc.user_id and doc.user_id != user.id:
+        return jsonify({"error": "Unauthorized access to this document."}), 403
     return jsonify({
         "document_id": str(doc.id),
         "status": doc.status,
@@ -103,8 +126,13 @@ def get_document_status(doc_id):
     }), 200
 
 @documents_bp.route("/documents/<uuid:doc_id>", methods=["DELETE"])
+@optional_auth
 def delete_document(doc_id):
     doc = Document.query.get_or_404(doc_id)
+    user = getattr(g, "user", None)
+    if user and doc.user_id and doc.user_id != user.id:
+        return jsonify({"error": "Unauthorized. You can only delete your own documents."}), 403
+
     filename = doc.filename
     doc_id_str = str(doc.id)
     db.session.delete(doc)
@@ -112,6 +140,8 @@ def delete_document(doc_id):
 
     log_audit_event(
         action="DOC_DELETED",
+        user_id=user.id if user else None,
+        user_email=user.email if user else None,
         resource_type="document",
         resource_id=doc_id_str,
         details={"filename": filename}

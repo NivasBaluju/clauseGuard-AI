@@ -24,7 +24,9 @@ class Document(db.Model):
     model_version = db.Column(db.String(64))
     uploaded_at = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
     analyzed_at = db.Column(db.DateTime(timezone=True))
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id", ondelete="CASCADE"), nullable=True, index=True)
 
+    user = db.relationship("User", backref=db.backref("documents", cascade="all, delete-orphan", lazy="dynamic"))
     clauses = db.relationship("Clause", back_populates="document", cascade="all, delete-orphan", order_by="Clause.clause_index")
     missing_clauses = db.relationship("MissingClause", back_populates="document", cascade="all, delete-orphan")
     deadlines = db.relationship("Deadline", back_populates="document", cascade="all, delete-orphan")
@@ -46,6 +48,7 @@ class Document(db.Model):
             "model_version": self.model_version,
             "uploaded_at": self.uploaded_at.isoformat() if self.uploaded_at else None,
             "analyzed_at": self.analyzed_at.isoformat() if self.analyzed_at else None,
+            "user_id": str(self.user_id) if self.user_id else None,
         }
         if include_text:
             data["redacted_text"] = self.redacted_text

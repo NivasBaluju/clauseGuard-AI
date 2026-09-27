@@ -115,10 +115,10 @@ export const ChatTab = ({ documentId }) => {
         display: "flex",
         flexDirection: "column",
         height: "650px",
-        border: "1px solid #222",
+        border: "1px solid #262626",
         borderRadius: "12px",
-        background: "#0f1117",
-        color: "#fff",
+        background: "#000000",
+        color: "#ffffff",
         overflow: "hidden",
       }}
     >
@@ -126,24 +126,25 @@ export const ChatTab = ({ documentId }) => {
       <div
         style={{
           padding: "16px 20px",
-          borderBottom: "1px solid #222",
+          borderBottom: "1px solid #262626",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          background: "#161922",
+          background: "#0a0a0a",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 600, fontSize: "15px" }}>
-          <span style={{ height: "8px", width: "8px", borderRadius: "50%", background: "#22c55e" }} />
-          Deciva AI Assistant
+          <span style={{ height: "8px", width: "8px", borderRadius: "50%", background: "#ffffff" }} />
+          AI Legal Copilot
         </div>
         <span
           style={{
             fontSize: "11px",
-            background: "rgba(255,255,255,0.06)",
+            background: "rgba(255,255,255,0.1)",
             padding: "4px 8px",
             borderRadius: "4px",
-            color: "#aaa",
+            color: "#ffffff",
+            border: "1px solid #333333",
           }}
         >
           Grounded Copilot
@@ -157,7 +158,8 @@ export const ChatTab = ({ documentId }) => {
           display: "flex",
           gap: "8px",
           overflowX: "auto",
-          borderBottom: "1px solid #1a1e28",
+          borderBottom: "1px solid #262626",
+          background: "#000000",
         }}
       >
         {suggestions.map((s, idx) => (
@@ -169,9 +171,9 @@ export const ChatTab = ({ documentId }) => {
               whiteSpace: "nowrap",
               padding: "6px 12px",
               borderRadius: "20px",
-              border: "1px solid #2e3648",
-              background: "#1a1f2c",
-              color: "#cbd5e1",
+              border: "1px solid #333333",
+              background: "#171717",
+              color: "#e5e5e5",
               fontSize: "12px",
               cursor: sending ? "not-allowed" : "pointer",
             }}
@@ -191,13 +193,14 @@ export const ChatTab = ({ documentId }) => {
           display: "flex",
           flexDirection: "column",
           gap: "16px",
+          background: "#000000",
         }}
       >
         {messages.length === 0 ? (
-          <div style={{ margin: "auto", textAlign: "center", color: "#64748b" }}>
-            <div style={{ fontSize: "32px", marginBottom: "8px" }}>🤖</div>
-            <div style={{ fontWeight: 600, color: "#e2e8f0" }}>How can I assist you today?</div>
-            <div style={{ fontSize: "13px" }}>Ask any question or click a suggestion chip above.</div>
+          <div style={{ margin: "auto", textAlign: "center", color: "#a3a3a3" }}>
+            <div style={{ fontSize: "32px", marginBottom: "8px" }}>⚖️</div>
+            <div style={{ fontWeight: 600, color: "#ffffff" }}>How can I assist you today?</div>
+            <div style={{ fontSize: "13px", color: "#a3a3a3" }}>Ask any question or click a suggestion chip above.</div>
           </div>
         ) : (
           messages.map((m, idx) => {
@@ -208,13 +211,14 @@ export const ChatTab = ({ documentId }) => {
                 style={{
                   alignSelf: isUser ? "flex-end" : "flex-start",
                   maxWidth: "80%",
-                  background: isUser ? "#2563eb" : "#1e2330",
-                  color: "#fff",
+                  background: isUser ? "#ffffff" : "#171717",
+                  color: isUser ? "#000000" : "#ffffff",
+                  border: isUser ? "1px solid #ffffff" : "1px solid #262626",
                   borderRadius: isUser ? "16px 16px 2px 16px" : "16px 16px 16px 2px",
                   padding: "12px 16px",
                   fontSize: "14px",
                   lineHeight: "1.5",
-                  boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                  boxShadow: "0 2px 6px rgba(0,0,0,0.4)",
                 }}
               >
                 {!isUser && (
@@ -225,25 +229,26 @@ export const ChatTab = ({ documentId }) => {
                         textTransform: "uppercase",
                         padding: "2px 6px",
                         borderRadius: "4px",
-                        background: m.grounded ? "rgba(34,197,94,0.15)" : "rgba(234,179,8,0.15)",
-                        color: m.grounded ? "#4ade80" : "#facc15",
+                        background: "rgba(255,255,255,0.1)",
+                        color: "#ffffff",
+                        border: "1px solid #333333",
                       }}
                     >
                       {m.grounded ? "✓ Grounded" : "Notice"}
                     </span>
                     {typeof m.confidence === "number" && (
-                      <span style={{ fontSize: "11px", color: "#94a3b8" }}>
+                      <span style={{ fontSize: "11px", color: "#a3a3a3" }}>
                         ({Math.round(m.confidence * 100)}% confidence)
                       </span>
                     )}
                   </div>
                 )}
-                <div>{m.content}</div>
+                <div style={{ color: isUser ? "#000000" : "#ffffff" }}>{m.content}</div>
 
                 {/* Evidence Citations */}
                 {!isUser && m.sources && m.sources.length > 0 && (
-                  <div style={{ marginTop: "10px", paddingTop: "8px", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-                    <div style={{ fontSize: "11px", fontWeight: 600, color: "#94a3b8", marginBottom: "4px" }}>
+                  <div style={{ marginTop: "10px", paddingTop: "8px", borderTop: "1px solid rgba(255,255,255,0.15)" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 600, color: "#a3a3a3", marginBottom: "4px" }}>
                       📎 Citations:
                     </div>
                     {m.sources.map((src, sIdx) => (
@@ -251,11 +256,12 @@ export const ChatTab = ({ documentId }) => {
                         key={sIdx}
                         style={{
                           fontSize: "12px",
-                          background: "rgba(0,0,0,0.2)",
+                          background: "rgba(255,255,255,0.05)",
                           padding: "6px 8px",
                           borderRadius: "4px",
                           fontStyle: "italic",
-                          color: "#cbd5e1",
+                          color: "#d4d4d4",
+                          border: "1px solid #262626",
                           marginTop: sIdx > 0 ? "4px" : "0",
                         }}
                       >
@@ -272,11 +278,12 @@ export const ChatTab = ({ documentId }) => {
           <div
             style={{
               alignSelf: "flex-start",
-              background: "#1e2330",
+              background: "#171717",
+              border: "1px solid #262626",
               padding: "10px 16px",
               borderRadius: "16px",
               fontSize: "13px",
-              color: "#94a3b8",
+              color: "#a3a3a3",
             }}
           >
             ✦ Generating response…
@@ -288,8 +295,8 @@ export const ChatTab = ({ documentId }) => {
       <div
         style={{
           padding: "16px",
-          borderTop: "1px solid #222",
-          background: "#161922",
+          borderTop: "1px solid #262626",
+          background: "#0a0a0a",
           display: "flex",
           gap: "10px",
         }}
@@ -305,9 +312,9 @@ export const ChatTab = ({ documentId }) => {
             flex: 1,
             padding: "12px 16px",
             borderRadius: "8px",
-            border: "1px solid #334155",
-            background: "#0f172a",
-            color: "#fff",
+            border: "1px solid #333333",
+            background: "#171717",
+            color: "#ffffff",
             fontSize: "14px",
             outline: "none",
           }}
@@ -318,11 +325,12 @@ export const ChatTab = ({ documentId }) => {
           style={{
             padding: "12px 24px",
             borderRadius: "8px",
-            border: "none",
-            background: sending || !input.trim() ? "#475569" : "#2563eb",
-            color: "#fff",
+            border: "1px solid #ffffff",
+            background: sending || !input.trim() ? "#262626" : "#ffffff",
+            color: sending || !input.trim() ? "#737373" : "#000000",
             fontWeight: 600,
             cursor: sending || !input.trim() ? "not-allowed" : "pointer",
+            transition: "all 0.15s ease",
           }}
         >
           Send

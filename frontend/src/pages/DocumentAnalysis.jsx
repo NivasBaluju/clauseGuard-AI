@@ -7,7 +7,6 @@ import { DeadlineTimeline } from "../components/analysis/DeadlineTimeline";
 import { RedactedTextViewer } from "../components/analysis/RedactedTextViewer";
 import { PiiSummaryPanel } from "../components/analysis/PiiSummaryPanel";
 import { ChatPanel } from "../components/chat/ChatPanel";
-import { DisclaimerBanner } from "../components/common/DisclaimerBanner";
 import { Badge } from "../components/common/Badge";
 import {
   ArrowLeft,
@@ -169,9 +168,6 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
           </a>
         </div>
       </div>
-
-      {/* Mandatory Non-Legal-Advice Disclaimer (Section 0 requirement) */}
-      <DisclaimerBanner />
 
       {/* Tab Navigation */}
       <div className="flex border-b border-rule overflow-x-auto gap-1">

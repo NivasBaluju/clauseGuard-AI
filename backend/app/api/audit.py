@@ -16,17 +16,25 @@ def get_audit_logs():
     Supports filtering by action, resource_type, and pagination.
     """
     try:
-        user = getattr(g, "current_user", None)
+        user = getattr(g, "user", None)
         limit = min(int(request.args.get("limit", 100)), 500)
         offset = int(request.args.get("offset", 0))
         action_filter = request.args.get("action")
         resource_type = request.args.get("resource_type")
 
+        if not user:
+            return jsonify({
+                "total": 0,
+                "logs": [],
+                "limit": limit,
+                "offset": offset
+            }), 200
+
         query = AuditLog.query
 
-        # If user is not an admin, restrict to user's own logs
-        if user and getattr(user, "role", "user") != "admin":
-            query = query.filter((AuditLog.user_id == user.id) | (AuditLog.user_id.is_(None)))
+        # Restrict strictly to user's own logs (by user_id or user_email)
+        if getattr(user, "role", "user") != "admin":
+            query = query.filter((AuditLog.user_id == user.id) | (AuditLog.user_email == user.email))
 
         if action_filter:
             query = query.filter(AuditLog.action == action_filter)
@@ -60,7 +68,7 @@ def create_client_audit_log():
         if not action:
             return jsonify({"error": "Action is required"}), 400
 
-        user = getattr(g, "current_user", None)
+        user = getattr(g, "user", None)
         user_id = user.id if user else None
         user_email = user.email if user else data.get("user_email")
 

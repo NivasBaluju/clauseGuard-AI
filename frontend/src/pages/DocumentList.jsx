@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../api/client";
 import { Badge } from "../components/common/Badge";
-import { DisclaimerBanner } from "../components/common/DisclaimerBanner";
 import {
   FileText,
   Trash2,
@@ -266,9 +265,6 @@ export function DocumentList({ onNavigate }) {
           })}
         </div>
       )}
-
-      {/* Mandatory Disclaimer */}
-      <DisclaimerBanner />
     </div>
   );
 }

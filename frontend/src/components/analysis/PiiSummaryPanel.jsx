@@ -56,7 +56,7 @@ export function PiiSummaryPanel({ documentId }) {
       </div>
 
       <p className="text-xs text-zinc-400 leading-relaxed mb-4">
-        Microsoft Presidio redacted personal identifying information before clause segmentation, model inference, or storage. Downstream models and Gemini RAG only ever process anonymized placeholders.
+        Microsoft Presidio redacted personal identifying information before clause segmentation, model inference, or storage. Downstream models and our AI RAG engine only ever process anonymized placeholders.
       </p>
 
       {totalFindings === 0 ? (
@@ -83,9 +83,9 @@ export function PiiSummaryPanel({ documentId }) {
             ))}
           </div>
 
-          <div className="border border-blue-500/30 bg-blue-950/20 p-3 flex items-start gap-2.5">
-            <EyeOff className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-            <p className="text-xs text-blue-200/90 leading-relaxed">
+          <div className="border border-neutral-700 bg-neutral-900 p-3 flex items-start gap-2.5">
+            <EyeOff className="w-4 h-4 text-white shrink-0 mt-0.5" />
+            <p className="text-xs text-neutral-300 leading-relaxed">
               <strong>Zero-Storage Guarantee:</strong> The database only records entity types and character offsets. Actual names, phone numbers, or account numbers are never retained in plaintext.
             </p>
           </div>

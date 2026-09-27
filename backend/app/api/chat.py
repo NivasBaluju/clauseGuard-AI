@@ -57,6 +57,8 @@ def post_chat_message():
             doc_uuid = uuid.UUID(str(document_id))
             doc = db.session.get(Document, doc_uuid)
             if doc:
+                if doc.user_id and (not user or doc.user_id != user.id):
+                    return jsonify({"error": "Unauthorized access to this document."}), 403
                 document_text = doc.redacted_text or ""
         except Exception as e:
             logger.warning(f"Could not parse document_id {document_id}: {e}")
@@ -124,10 +126,10 @@ def get_conversation_history():
     """
     document_id = request.args.get("documentId")
     user = getattr(g, "user", None)
-    
-    query = ChatMessage.query
-    if user:
-        query = query.filter_by(user_id=user.id)
+    if not user:
+        return jsonify({"messages": []}), 200
+
+    query = ChatMessage.query.filter_by(user_id=user.id)
     
     if document_id:
         try:
@@ -146,8 +148,13 @@ def get_conversation_history():
 # =========================================================================
 
 @chat_bp.route("/documents/<uuid:doc_id>/chat", methods=["POST"])
+@optional_auth
 def chat_with_document_legacy(doc_id):
-    Document.query.get_or_404(doc_id)
+    doc = Document.query.get_or_404(doc_id)
+    user = getattr(g, "user", None)
+    if doc.user_id and (not user or doc.user_id != user.id):
+        return jsonify({"error": "Unauthorized access to document chat."}), 403
+
     data = request.get_json() or {}
     question = data.get("question", "").strip()
 
@@ -163,8 +170,13 @@ def chat_with_document_legacy(doc_id):
     return jsonify(result), 200
 
 @chat_bp.route("/documents/<uuid:doc_id>/chat/history", methods=["GET"])
+@optional_auth
 def get_chat_history_legacy(doc_id):
-    Document.query.get_or_404(doc_id)
+    doc = Document.query.get_or_404(doc_id)
+    user = getattr(g, "user", None)
+    if doc.user_id and (not user or doc.user_id != user.id):
+        return jsonify({"error": "Unauthorized access to document chat history."}), 403
+
     sessions = (
         ChatSession.query.filter_by(document_id=doc_id)
         .order_by(ChatSession.created_at.desc())

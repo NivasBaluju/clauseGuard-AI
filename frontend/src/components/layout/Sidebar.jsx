@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   ShieldAlert,
+  Shield,
   Layers,
   FileText,
   UploadCloud,
@@ -32,8 +33,8 @@ export function Sidebar({ currentView, onNavigate }) {
           label: "AI Legal Copilot",
           icon: Bot,
           path: "/chat",
-          badge: "Gemini RAG",
-          badgeColor: "bg-blue-950/80 text-blue-300 border-blue-500/40",
+          badge: "AI Copilot",
+          badgeColor: "bg-neutral-800 text-neutral-300 border-neutral-700",
         },
       ],
     },
@@ -46,15 +47,15 @@ export function Sidebar({ currentView, onNavigate }) {
           icon: Activity,
           path: "/audit",
           badge: "Logs",
-          badgeColor: "bg-purple-950/80 text-purple-300 border-purple-500/40",
+          badgeColor: "bg-neutral-800 text-neutral-300 border-neutral-700",
         },
         {
           id: "guide",
           label: "Platform Guide",
           icon: BookOpen,
           path: "/guide",
-          badge: "Tour",
-          badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+          badge: "Guide",
+          badgeColor: "bg-neutral-800 text-neutral-300 border-neutral-700",
         },
       ],
     },
@@ -77,10 +78,10 @@ export function Sidebar({ currentView, onNavigate }) {
   return (
     <>
       {/* Mobile Top Header with toggle */}
-      <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-[#0a0d14] border-b border-[#1c2333] sticky top-0 z-50">
+      <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-black border-b border-neutral-900 sticky top-0 z-50">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 border border-white/20 bg-zinc-950 flex items-center justify-center text-white">
-            <ShieldAlert className="w-4 h-4 text-red-500" />
+          <div className="w-7 h-7 border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white">
+            <Shield className="w-4 h-4 text-white" />
           </div>
           <span className="font-serif text-sm font-bold tracking-tight text-white">
             ClauseGuard AI
@@ -88,7 +89,7 @@ export function Sidebar({ currentView, onNavigate }) {
         </div>
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="p-1.5 border border-[#1f293d] text-zinc-400 hover:text-white bg-[#131822]"
+          className="p-1.5 border border-neutral-800 text-neutral-400 hover:text-white bg-neutral-950"
         >
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
@@ -98,31 +99,31 @@ export function Sidebar({ currentView, onNavigate }) {
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
-          className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+          className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
         />
       )}
 
       {/* Main Sidebar */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 w-64 sm:w-72 bg-[#0c1017] border-r border-[#1a2233] flex flex-col transition-transform duration-200 ease-in-out ${
+        className={`fixed top-0 bottom-0 left-0 z-50 w-64 sm:w-72 bg-black border-r border-neutral-900 flex flex-col transition-transform duration-200 ease-in-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
         {/* Brand Area */}
-        <div className="p-5 border-b border-[#1a2233] bg-[#090c12]">
+        <div className="p-5 border-b border-neutral-900 bg-black">
           <button
             onClick={() => handleNavClick("landing")}
             className="flex items-center gap-3 text-left w-full group"
           >
-            <div className="w-9 h-9 rounded-lg border border-red-500/40 bg-red-950/20 flex items-center justify-center text-white group-hover:border-red-400 transition-colors shadow-lg shadow-red-950/20">
-              <ShieldAlert className="w-5 h-5 text-red-500" />
+            <div className="w-9 h-9 rounded-lg border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white group-hover:border-neutral-500 transition-colors">
+              <Shield className="w-5 h-5 text-white" />
             </div>
             <div>
               <span className="font-serif text-base font-bold tracking-tight text-white block">
                 ClauseGuard AI
               </span>
-              <span className="text-[10px] font-mono text-zinc-500 tracking-wider uppercase block -mt-0.5">
-                Deciva Legal Copilot
+              <span className="text-[10px] font-mono text-neutral-500 tracking-wider uppercase block -mt-0.5">
+                Enterprise Legal AI
               </span>
             </div>
           </button>
@@ -132,7 +133,7 @@ export function Sidebar({ currentView, onNavigate }) {
         <div className="flex-1 overflow-y-auto px-3 py-5 space-y-6">
           {navItems.map((group, gIdx) => (
             <div key={gIdx} className="space-y-1.5">
-              <div className="px-3 text-[10px] font-mono text-zinc-500 tracking-widest uppercase">
+              <div className="px-3 text-[10px] font-mono text-neutral-500 tracking-widest uppercase">
                 {group.group}
               </div>
               <div className="space-y-1">
@@ -145,21 +146,23 @@ export function Sidebar({ currentView, onNavigate }) {
                       onClick={() => handleNavClick(item.id)}
                       className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md text-xs font-mono transition-all ${
                         isActive
-                          ? "bg-white/10 text-white font-semibold border border-white/20 shadow-sm"
-                          : "text-zinc-400 hover:text-white hover:bg-white/5 border border-transparent"
+                          ? "bg-white text-black font-semibold shadow-sm"
+                          : "text-neutral-400 hover:text-white hover:bg-neutral-900 border border-transparent"
                       }`}
                     >
                       <div className="flex items-center gap-2.5">
                         <Icon
                           className={`w-4 h-4 ${
-                            isActive ? "text-white" : "text-zinc-400"
+                            isActive ? "text-black" : "text-neutral-400"
                           }`}
                         />
                         <span>{item.label}</span>
                       </div>
                       {item.badge && (
                         <span
-                          className={`text-[9px] font-mono border px-1.5 py-0.5 rounded tracking-wide ${item.badgeColor}`}
+                          className={`text-[9px] font-mono border px-1.5 py-0.5 rounded tracking-wide ${
+                            isActive ? "bg-neutral-200 text-black border-neutral-300" : item.badgeColor
+                          }`}
                         >
                           {item.badge}
                         </span>
@@ -173,29 +176,29 @@ export function Sidebar({ currentView, onNavigate }) {
         </div>
 
         {/* User Card & Sign Out at Bottom */}
-        <div className="p-4 border-t border-[#1a2233] bg-[#090c12]">
+        <div className="p-4 border-t border-neutral-900 bg-black">
           {user ? (
             <div className="space-y-3">
-              <div className="flex items-center gap-3 px-2 py-1.5 rounded bg-[#131822] border border-[#1f293d]">
-                <div className="w-8 h-8 rounded-full bg-blue-950 border border-blue-500/40 flex items-center justify-center text-blue-300">
+              <div className="flex items-center gap-3 px-2 py-1.5 rounded bg-neutral-950 border border-neutral-800">
+                <div className="w-8 h-8 rounded-full bg-neutral-900 border border-neutral-700 flex items-center justify-center text-white">
                   <User size={16} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="text-xs font-mono font-medium text-white block truncate">
                     {user.name || user.email}
                   </span>
-                  <span className="text-[10px] font-mono text-zinc-500 block truncate">
+                  <span className="text-[10px] font-mono text-neutral-500 block truncate">
                     {user.email}
                   </span>
                 </div>
-                <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 bg-blue-950/80 border border-blue-500/30 text-blue-300 rounded">
+                <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 bg-neutral-900 border border-neutral-700 text-neutral-300 rounded">
                   {user.role || "user"}
                 </span>
               </div>
 
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded text-xs font-mono text-red-400 hover:text-red-300 hover:bg-red-950/20 border border-red-950/40 transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded text-xs font-mono text-neutral-300 hover:text-white hover:bg-neutral-900 border border-neutral-800 transition-colors"
               >
                 <LogOut size={14} />
                 <span>Sign Out</span>
@@ -204,7 +207,7 @@ export function Sidebar({ currentView, onNavigate }) {
           ) : (
             <button
               onClick={() => handleNavClick("login")}
-              className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-mono font-medium rounded transition-colors"
+              className="w-full py-2 bg-white hover:bg-neutral-200 text-black font-semibold text-xs font-mono rounded transition-colors"
             >
               Sign In to Account
             </button>

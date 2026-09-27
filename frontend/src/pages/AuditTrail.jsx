@@ -6,7 +6,6 @@ import {
   ShieldCheck,
   RefreshCw,
   Search,
-  Filter,
   CheckCircle,
   AlertCircle,
   LogIn,
@@ -79,61 +78,61 @@ export function AuditTrail({ onNavigate }) {
     switch (action) {
       case "USER_LOGIN":
         return {
-          bg: "bg-emerald-950/50 text-emerald-300 border-emerald-500/40",
+          bg: "bg-neutral-900 text-white border-neutral-700",
           icon: LogIn,
           label: "User Sign In",
         };
       case "USER_REGISTER":
         return {
-          bg: "bg-blue-950/50 text-blue-300 border-blue-500/40",
+          bg: "bg-neutral-900 text-white border-neutral-700",
           icon: ShieldCheck,
           label: "Account Created",
         };
       case "USER_LOGOUT":
         return {
-          bg: "bg-zinc-900 text-zinc-400 border-zinc-700",
+          bg: "bg-neutral-900 text-neutral-400 border-neutral-700",
           icon: LogOut,
           label: "User Sign Out",
         };
       case "LOGIN_FAILED":
         return {
-          bg: "bg-red-950/50 text-red-300 border-red-500/40",
+          bg: "bg-neutral-900 text-neutral-300 border-neutral-700",
           icon: AlertCircle,
           label: "Failed Login",
         };
       case "DOC_UPLOADED":
         return {
-          bg: "bg-blue-950/50 text-blue-300 border-blue-500/40",
+          bg: "bg-neutral-900 text-white border-neutral-700",
           icon: UploadCloud,
           label: "Document Uploaded",
         };
       case "DOC_ANALYZED":
         return {
-          bg: "bg-cyan-950/50 text-cyan-300 border-cyan-500/40",
+          bg: "bg-neutral-900 text-white border-neutral-700",
           icon: CheckCircle,
           label: "Analysis Finished",
         };
       case "DOC_DELETED":
         return {
-          bg: "bg-red-950/50 text-red-300 border-red-500/40",
+          bg: "bg-neutral-900 text-neutral-400 border-neutral-700",
           icon: AlertCircle,
           label: "Document Deleted",
         };
       case "CHAT_QUERY":
         return {
-          bg: "bg-purple-950/50 text-purple-300 border-purple-500/40",
+          bg: "bg-neutral-900 text-white border-neutral-700",
           icon: Bot,
           label: "AI Copilot Query",
         };
       case "CHAT_OPENED":
         return {
-          bg: "bg-purple-950/30 text-purple-400 border-purple-500/20",
+          bg: "bg-neutral-900 text-neutral-400 border-neutral-700",
           icon: Bot,
           label: "Chat Opened",
         };
       default:
         return {
-          bg: "bg-zinc-800 text-zinc-300 border-zinc-700",
+          bg: "bg-neutral-900 text-neutral-300 border-neutral-700",
           icon: Activity,
           label: action,
         };
@@ -143,19 +142,19 @@ export function AuditTrail({ onNavigate }) {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="border border-[#1f293d] bg-[#0f1420] p-6 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="border border-neutral-800 bg-neutral-950 p-6 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-500/40 flex items-center justify-center text-purple-400 shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-700 flex items-center justify-center text-white shrink-0">
             <Activity className="w-5 h-5" />
           </div>
           <div>
             <h1 className="font-serif text-2xl font-bold text-white flex items-center gap-2">
               Audit & Compliance Trail
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950/80 text-purple-300 border border-purple-500/30">
-                PostgreSQL Ledger
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-900 text-neutral-300 border border-neutral-700">
+                Ledger
               </span>
             </h1>
-            <p className="text-xs font-mono text-zinc-400 mt-1">
+            <p className="text-xs font-mono text-neutral-400 mt-1">
               Immutable chronological record of document uploads, automated risk evaluations, AI copilot queries, and security sessions.
             </p>
           </div>
@@ -164,7 +163,7 @@ export function AuditTrail({ onNavigate }) {
         <button
           onClick={fetchLogs}
           disabled={loading}
-          className="px-3.5 py-2 border border-[#1f293d] bg-[#131822] hover:bg-[#1a2233] text-zinc-300 hover:text-white rounded text-xs font-mono flex items-center gap-2 transition-colors"
+          className="px-3.5 py-2 border border-neutral-700 bg-neutral-900 hover:bg-neutral-800 text-white rounded text-xs font-mono flex items-center gap-2 transition-colors"
         >
           <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
           <span>Refresh Trail</span>
@@ -173,49 +172,49 @@ export function AuditTrail({ onNavigate }) {
 
       {/* KPI Summary Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="border border-[#1f293d] bg-[#0c1017] p-4 rounded-lg flex flex-col justify-between">
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+        <div className="border border-neutral-800 bg-neutral-950 p-4 rounded-lg flex flex-col justify-between">
+          <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">
             Total Logged Events
           </span>
           <span className="font-serif text-2xl font-bold text-white mt-1">
             {totalEvents}
           </span>
-          <span className="text-[10px] font-mono text-zinc-500 mt-1">System-wide actions</span>
+          <span className="text-[10px] font-mono text-neutral-500 mt-1">User-specific actions</span>
         </div>
 
-        <div className="border border-[#1f293d] bg-[#0c1017] p-4 rounded-lg flex flex-col justify-between">
-          <span className="text-[10px] font-mono text-blue-400 uppercase tracking-wider">
+        <div className="border border-neutral-800 bg-neutral-950 p-4 rounded-lg flex flex-col justify-between">
+          <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">
             Document Ingestions
           </span>
-          <span className="font-serif text-2xl font-bold text-blue-300 mt-1">
+          <span className="font-serif text-2xl font-bold text-white mt-1">
             {docEvents}
           </span>
-          <span className="text-[10px] font-mono text-zinc-500 mt-1">Uploads & Audits</span>
+          <span className="text-[10px] font-mono text-neutral-500 mt-1">Uploads & Audits</span>
         </div>
 
-        <div className="border border-[#1f293d] bg-[#0c1017] p-4 rounded-lg flex flex-col justify-between">
-          <span className="text-[10px] font-mono text-purple-400 uppercase tracking-wider">
+        <div className="border border-neutral-800 bg-neutral-950 p-4 rounded-lg flex flex-col justify-between">
+          <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">
             AI Inquiries
           </span>
-          <span className="font-serif text-2xl font-bold text-purple-300 mt-1">
+          <span className="font-serif text-2xl font-bold text-white mt-1">
             {chatEvents}
           </span>
-          <span className="text-[10px] font-mono text-zinc-500 mt-1">Grounded RAG Queries</span>
+          <span className="text-[10px] font-mono text-neutral-500 mt-1">Grounded RAG Queries</span>
         </div>
 
-        <div className="border border-[#1f293d] bg-[#0c1017] p-4 rounded-lg flex flex-col justify-between">
-          <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider">
+        <div className="border border-neutral-800 bg-neutral-950 p-4 rounded-lg flex flex-col justify-between">
+          <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">
             Auth & Sessions
           </span>
-          <span className="font-serif text-2xl font-bold text-emerald-300 mt-1">
+          <span className="font-serif text-2xl font-bold text-white mt-1">
             {authEvents}
           </span>
-          <span className="text-[10px] font-mono text-zinc-500 mt-1">Logins & Registrations</span>
+          <span className="text-[10px] font-mono text-neutral-500 mt-1">Logins & Registrations</span>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="border border-[#1f293d] bg-[#0f1420] p-4 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="border border-neutral-800 bg-neutral-950 p-4 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Category Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
           {[
@@ -229,8 +228,8 @@ export function AuditTrail({ onNavigate }) {
               onClick={() => setFilterType(tab.id)}
               className={`px-3 py-1.5 rounded text-xs font-mono whitespace-nowrap transition-colors border ${
                 filterType === tab.id
-                  ? "bg-white/10 text-white font-semibold border-white/30"
-                  : "text-zinc-400 hover:text-white border-transparent hover:bg-white/5"
+                  ? "bg-white text-black font-semibold border-white"
+                  : "text-neutral-400 hover:text-white border-transparent hover:bg-neutral-900"
               }`}
             >
               {tab.label}
@@ -240,33 +239,33 @@ export function AuditTrail({ onNavigate }) {
 
         {/* Search */}
         <div className="relative w-full sm:w-64">
-          <Search size={14} className="absolute left-3 top-2.5 text-zinc-500" />
+          <Search size={14} className="absolute left-3 top-2.5 text-neutral-500" />
           <input
             type="text"
             placeholder="Search action or details…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-[#131822] border border-[#1f293d] rounded text-xs font-mono pl-8 pr-3 py-1.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500"
+            className="w-full bg-neutral-900 border border-neutral-800 rounded text-xs font-mono pl-8 pr-3 py-1.5 text-white placeholder-neutral-500 focus:outline-none focus:border-white"
           />
         </div>
       </div>
 
       {/* Trail List Table */}
-      <div className="border border-[#1f293d] bg-[#0c1017] rounded-xl overflow-hidden shadow-xl">
+      <div className="border border-neutral-800 bg-neutral-950 rounded-xl overflow-hidden shadow-xl">
         {loading ? (
-          <div className="p-12 text-center text-xs font-mono text-zinc-500 animate-pulse">
+          <div className="p-12 text-center text-xs font-mono text-neutral-500 animate-pulse">
             Loading audit records from database…
           </div>
         ) : filteredLogs.length === 0 ? (
           <div className="p-12 text-center space-y-2">
-            <Activity className="w-8 h-8 text-zinc-600 mx-auto" />
-            <h4 className="font-serif text-sm text-zinc-300">No Audit Events Found</h4>
-            <p className="text-xs font-mono text-zinc-500">
+            <Activity className="w-8 h-8 text-neutral-600 mx-auto" />
+            <h4 className="font-serif text-sm text-neutral-300">No Audit Events Found</h4>
+            <p className="text-xs font-mono text-neutral-500">
               No actions match the selected filter criteria.
             </p>
           </div>
         ) : (
-          <div className="divide-y divide-[#1a2233]">
+          <div className="divide-y divide-neutral-900">
             {filteredLogs.map((log) => {
               const badge = getActionBadge(log.action);
               const Icon = badge.icon;
@@ -278,7 +277,7 @@ export function AuditTrail({ onNavigate }) {
               return (
                 <div
                   key={log.id}
-                  className="p-4 hover:bg-[#0f1420] transition-colors"
+                  className="p-4 hover:bg-neutral-900 transition-colors"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-start sm:items-center gap-3">
@@ -295,19 +294,19 @@ export function AuditTrail({ onNavigate }) {
                             {badge.label}
                           </span>
                           {log.resource_type && (
-                            <span className="text-[10px] font-mono text-zinc-400">
+                            <span className="text-[10px] font-mono text-neutral-400">
                               • {log.resource_type}
                             </span>
                           )}
                           {log.user_email && (
-                            <span className="text-[10px] font-mono text-zinc-300 bg-white/5 px-2 py-0.5 rounded">
+                            <span className="text-[10px] font-mono text-neutral-300 bg-neutral-900 border border-neutral-800 px-2 py-0.5 rounded">
                               {log.user_email}
                             </span>
                           )}
                         </div>
 
                         {/* Summary description from details */}
-                        <div className="text-xs font-mono text-zinc-300 mt-1">
+                        <div className="text-xs font-mono text-neutral-300 mt-1">
                           {log.action === "DOC_UPLOADED" && (
                             <span>
                               Uploaded <strong>{log.details?.filename}</strong> (
@@ -318,7 +317,7 @@ export function AuditTrail({ onNavigate }) {
                             <span>
                               Analysis completed for <strong>{log.details?.filename}</strong> —
                               Risk Score:{" "}
-                              <strong className="text-red-400">
+                              <strong className="text-white">
                                 {log.details?.overall_risk_score}
                               </strong>{" "}
                               ({log.details?.risk_band})
@@ -348,14 +347,14 @@ export function AuditTrail({ onNavigate }) {
                     </div>
 
                     <div className="flex items-center gap-4 self-end sm:self-center">
-                      <span className="text-[11px] font-mono text-zinc-500 whitespace-nowrap">
+                      <span className="text-[11px] font-mono text-neutral-500 whitespace-nowrap">
                         {formattedDate}
                       </span>
                       <button
                         onClick={() =>
                           setExpandedLogId(isExpanded ? null : log.id)
                         }
-                        className="text-zinc-500 hover:text-white p-1 rounded transition-colors"
+                        className="text-neutral-500 hover:text-white p-1 rounded transition-colors"
                         title="Inspect Event JSON"
                       >
                         {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -365,9 +364,9 @@ export function AuditTrail({ onNavigate }) {
 
                   {/* Expanded JSON Inspector */}
                   {isExpanded && (
-                    <div className="mt-3 p-3 rounded bg-[#090c12] border border-[#1f293d] text-[11px] font-mono space-y-1">
-                      <div className="text-zinc-500 text-[10px] uppercase">Event Payload Metadata:</div>
-                      <pre className="text-emerald-400 overflow-x-auto p-2 bg-black/40 rounded">
+                    <div className="mt-3 p-3 rounded bg-neutral-900 border border-neutral-800 text-[11px] font-mono space-y-1">
+                      <div className="text-neutral-400 text-[10px] uppercase">Event Payload Metadata:</div>
+                      <pre className="text-neutral-200 overflow-x-auto p-2 bg-black border border-neutral-800 rounded">
                         {JSON.stringify(log, null, 2)}
                       </pre>
                     </div>

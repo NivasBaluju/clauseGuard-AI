@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { DocumentTypeSelect } from "../components/upload/DocumentTypeSelect";
 import { Dropzone } from "../components/upload/Dropzone";
 import { ProcessingStatus } from "../components/upload/ProcessingStatus";
-import { DisclaimerBanner } from "../components/common/DisclaimerBanner";
 import { usePolling } from "../hooks/usePolling";
 import { api } from "../api/client";
 import { ArrowLeft, ShieldAlert, ArrowRight, AlertCircle } from "lucide-react";
@@ -183,9 +182,6 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
           </div>
         </div>
       )}
-
-      {/* Mandatory Disclaimer */}
-      <DisclaimerBanner />
     </div>
   );
 }

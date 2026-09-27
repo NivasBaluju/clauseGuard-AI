@@ -32,19 +32,19 @@ export function StandaloneChat({ onNavigate }) {
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Header Banner */}
-      <div className="border border-rule bg-paper-dim p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="border border-neutral-800 bg-neutral-950 p-6 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 border border-blue-500/40 bg-blue-950/40 flex items-center justify-center text-blue-400">
+          <div className="w-10 h-10 border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white rounded-xl">
             <Bot className="w-5 h-5" />
           </div>
           <div>
             <h1 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-              Deciva Enterprise AI Chat Copilot
-              <span className="text-[10px] font-mono border border-emerald-500/40 bg-emerald-950/30 text-emerald-300 px-2 py-0.5 rounded">
+              ClauseGuard AI Chat Copilot
+              <span className="text-[10px] font-mono border border-neutral-700 bg-neutral-900 text-white px-2 py-0.5 rounded">
                 Grounded RAG
               </span>
             </h1>
-            <p className="text-xs font-mono text-zinc-400 mt-1">
+            <p className="text-xs font-mono text-neutral-400 mt-1">
               Ask legal copilot questions, analyze clauses, or inspect specific uploaded documents with verified citations.
             </p>
           </div>
@@ -52,15 +52,15 @@ export function StandaloneChat({ onNavigate }) {
 
         {/* Document Scope Selector */}
         <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-2">
-          <label className="text-xs font-mono text-zinc-400 whitespace-nowrap flex items-center gap-1.5">
-            <FileText className="w-3.5 h-3.5 text-zinc-400" />
+          <label className="text-xs font-mono text-neutral-400 whitespace-nowrap flex items-center gap-1.5">
+            <FileText className="w-3.5 h-3.5 text-neutral-400" />
             Context Scope:
           </label>
           <select
             value={selectedDocId}
             onChange={(e) => setSelectedDocId(e.target.value)}
             disabled={loadingDocs}
-            className="w-full sm:w-64 bg-zinc-900 border border-rule text-white text-xs font-mono py-2 px-3 focus:outline-none focus:border-blue-500 rounded"
+            className="w-full sm:w-64 bg-neutral-900 border border-neutral-800 text-white text-xs font-mono py-2 px-3 focus:outline-none focus:border-white rounded"
           >
             <option value="">General Copilot Mode</option>
             {documents.map((d) => (
@@ -73,7 +73,7 @@ export function StandaloneChat({ onNavigate }) {
       </div>
 
       {/* Main Grounded Chat Component */}
-      <div className="border border-rule bg-paper rounded-lg shadow-xl overflow-hidden">
+      <div className="border border-neutral-800 bg-black rounded-lg shadow-xl overflow-hidden">
         <ChatTab
           key={selectedDocId || "general"}
           documentId={selectedDocId || null}
@@ -81,14 +81,14 @@ export function StandaloneChat({ onNavigate }) {
       </div>
 
       {/* Architecture Footer Note */}
-      <div className="flex flex-wrap items-center justify-between text-[11px] font-mono text-zinc-500 px-2 py-1">
+      <div className="flex flex-wrap items-center justify-between text-[11px] font-mono text-neutral-500 px-2 py-1">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <ShieldCheck className="w-3.5 h-3.5 text-neutral-400" />
           <span>Strict Hallucination Prevention • Confidence Scoring • Citation Excerpts</span>
         </div>
         <div className="flex items-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-          <span>Google Gemini 1.5 Flash + Local Heuristic Engine</span>
+          <Sparkles className="w-3.5 h-3.5 text-neutral-400" />
+          <span>Neural RAG + Legal Analysis Engine</span>
         </div>
       </div>
     </div>

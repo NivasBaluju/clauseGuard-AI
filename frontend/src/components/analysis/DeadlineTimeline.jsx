@@ -40,7 +40,7 @@ export function DeadlineTimeline({ deadlines = [] }) {
                   <div className="flex items-center gap-2">
                     <span className="w-6 h-6 border border-rule bg-white/5 flex items-center justify-center text-white text-xs">
                       {dl.parsed_date ? (
-                        <Calendar className="w-3.5 h-3.5 text-blue-400" />
+                        <Calendar className="w-3.5 h-3.5 text-white" />
                       ) : (
                         <Clock className="w-3.5 h-3.5 text-zinc-400" />
                       )}
@@ -60,7 +60,7 @@ export function DeadlineTimeline({ deadlines = [] }) {
                     )}
 
                     {dl.parsed_date && (
-                      <span className="text-xs font-mono px-2 py-0.5 border border-blue-500/40 bg-blue-950/20 text-blue-400">
+                      <span className="text-xs font-mono px-2 py-0.5 border border-neutral-700 bg-neutral-900 text-white">
                         {dl.parsed_date}
                       </span>
                     )}

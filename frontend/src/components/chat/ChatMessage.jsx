@@ -22,26 +22,26 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
               <User className="w-3.5 h-3.5" />
             </div>
           ) : (
-            <div className="w-6 h-6 border border-blue-500/40 bg-blue-950/40 flex items-center justify-center text-blue-400">
+            <div className="w-6 h-6 border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white">
               <Bot className="w-3.5 h-3.5" />
             </div>
           )}
-          <span className="font-mono text-xs text-zinc-400 uppercase tracking-wider">
-            {isUser ? "You" : "ClauseGuard AI (Grounded Gemini RAG)"}
+          <span className="font-mono text-xs text-neutral-400 uppercase tracking-wider">
+            {isUser ? "You" : "ClauseGuard AI (Grounded Legal Copilot)"}
           </span>
         </div>
 
         {!isUser && (
           <div className="flex items-center gap-2">
             {message.grounded ? (
-              <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-green-400 border border-green-500/40 bg-green-950/30 px-2 py-0.5">
-                <CheckCircle2 className="w-3 h-3" />
+              <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-white border border-neutral-700 bg-neutral-900 px-2 py-0.5">
+                <CheckCircle2 className="w-3 h-3 text-white" />
                 Grounded ({message.cited_clause_ids?.length || 0} citations)
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-amber-400 border border-amber-500/40 bg-amber-950/30 px-2 py-0.5">
-                <AlertTriangle className="w-3 h-3" />
-                Not Grounded / No Document Support
+              <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-neutral-300 border border-neutral-700 bg-neutral-900 px-2 py-0.5">
+                <AlertTriangle className="w-3 h-3 text-neutral-400" />
+                Not Grounded / General Legal Query
               </span>
             )}
           </div>
@@ -66,10 +66,10 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
                 <button
                   key={clauseId}
                   onClick={() => onSelectClause && onSelectClause(clauseId)}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono border border-blue-500/40 bg-blue-950/20 text-blue-300 hover:border-blue-400 hover:bg-blue-900/40 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono border border-neutral-700 bg-neutral-900 text-white hover:border-neutral-500 hover:bg-neutral-800 transition-colors"
                   title="Click to view clause in document"
                 >
-                  <FileText className="w-3 h-3 text-blue-400" />
+                  <FileText className="w-3 h-3 text-white" />
                   <span>
                     {clause ? `Clause #${clause.clause_index + 1}: ${clause.clause_type?.replace(/_/g, " ").toUpperCase()}` : `Clause ${clauseId.slice(0, 8)}`}
                   </span>
@@ -95,13 +95,13 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
             ) : (
               <>
                 <ChevronDown className="w-3 h-3" />
-                <span>Inspect {message.retrieved_clauses.length} pgvector retrieved clauses passed to Gemini</span>
+                <span>Inspect {message.retrieved_clauses.length} vector-retrieved clauses passed to AI Copilot</span>
               </>
             )}
           </button>
 
           {showRetrieved && (
-            <div className="mt-2 space-y-2 border-l-2 border-blue-500/30 pl-3 pt-1">
+            <div className="mt-2 space-y-2 border-l-2 border-neutral-700 pl-3 pt-1">
               {message.retrieved_clauses.map((rc, idx) => (
                 <div key={idx} className="bg-black/40 border border-rule p-2.5 text-xs">
                   <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 mb-1">
