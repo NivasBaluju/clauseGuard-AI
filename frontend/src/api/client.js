@@ -1,4 +1,17 @@
-export const BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
+const rawBaseUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || "";
+
+function resolveBaseUrl() {
+  if (!rawBaseUrl || rawBaseUrl.trim() === "") {
+    return "/api";
+  }
+  const trimmed = rawBaseUrl.trim().replace(/\/+$/, "");
+  if (trimmed.endsWith("/api")) {
+    return trimmed;
+  }
+  return `${trimmed}/api`;
+}
+
+export const BASE_URL = resolveBaseUrl();
 
 export function apiUrl(endpoint) {
   const clean = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
