@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { api } from "../api/client";
 import {
   ShieldAlert,
   ShieldCheck,
@@ -41,30 +42,12 @@ export function AuthPortal({ onAuthSuccess }) {
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
-      });
+      const data = await api.login(email.trim().toLowerCase(), password);
 
-      let data = {};
-      const contentType = res.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await res.json();
-      } else {
-        throw new Error(
-          res.status === 401
-            ? "Invalid email or password. If you don't have an account, click 'Create Account' above."
-            : "Server connection reset. Please try signing in again."
-        );
-      }
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          throw new Error("Invalid email or password. If you don't have an account, click 'Create Account' above.");
-        }
-        throw new Error(data.error || "Login failed. Please check your credentials.");
+      if (data.token) {
+        try {
+          localStorage.setItem("cg_token", data.token);
+        } catch (e) {}
       }
 
       login(data.user);
@@ -88,28 +71,17 @@ export function AuthPortal({ onAuthSuccess }) {
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim().toLowerCase(),
-          password,
-          confirmPassword,
-        }),
+      const data = await api.register({
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        password,
+        confirmPassword,
       });
 
-      let data = {};
-      const contentType = res.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await res.json();
-      } else {
-        throw new Error("Server connection reset during registration. Please try again.");
-      }
-
-      if (!res.ok) {
-        throw new Error(data.error || "Registration failed. Try using a different email address.");
+      if (data.token) {
+        try {
+          localStorage.setItem("cg_token", data.token);
+        } catch (e) {}
       }
 
       // Auto login upon successful registration

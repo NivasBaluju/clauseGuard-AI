@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Eye, EyeOff } from "lucide-react";
 
+import { api } from "../api/client";
+
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,27 +26,12 @@ export function Login() {
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
-      });
+      const data = await api.login(email.trim().toLowerCase(), password);
 
-      let data = {};
-      const contentType = res.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await res.json();
-      } else {
-        throw new Error(
-          res.status === 401
-            ? "Invalid email or password. Please verify your credentials."
-            : "Server connection reset. Please try signing in again."
-        );
-      }
-
-      if (!res.ok) {
-        throw new Error(data.error || "Login failed");
+      if (data.token) {
+        try {
+          localStorage.setItem("cg_token", data.token);
+        } catch (e) {}
       }
 
       login(data.user);

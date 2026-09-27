@@ -15,6 +15,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { api } from "../api/client";
 
 export function AuditTrail({ onNavigate }) {
   const { user } = useAuth();
@@ -27,13 +28,8 @@ export function AuditTrail({ onNavigate }) {
   const fetchLogs = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/audit?limit=200", {
-        credentials: "include",
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setLogs(data.logs || []);
-      }
+      const data = await api.getAuditLogs(200);
+      setLogs(data.logs || []);
     } catch (err) {
       console.error("Failed to load audit logs:", err);
     } finally {

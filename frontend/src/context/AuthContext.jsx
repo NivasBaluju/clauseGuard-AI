@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { api } from "../api/client";
 
 const AuthContext = createContext(null);
 
@@ -6,14 +7,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if user is already authenticated via httpOnly cookie or token
+  // Check if user is already authenticated via token or httpOnly cookie
   const refreshUser = useCallback(async () => {
     try {
-      const res = await fetch("/api/auth/me", {
-        credentials: "include",
-      });
-      if (res.ok) {
-        const data = await res.json();
+      const data = await api.getMe();
+      if (data && data.user) {
         setUser(data.user);
         return data.user;
       } else {
@@ -38,10 +36,11 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
+      await api.logout();
+    } catch (e) {}
+    try {
+      localStorage.removeItem("cg_token");
+      localStorage.removeItem("token");
     } catch (e) {}
     setUser(null);
   };

@@ -1,7 +1,12 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
+export const BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
+
+export function apiUrl(endpoint) {
+  const clean = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+  return `${BASE_URL}${clean}`;
+}
 
 async function request(endpoint, options = {}) {
-  const url = `${BASE_URL}${endpoint}`;
+  const url = apiUrl(endpoint);
   const headers = { ...(options.headers || {}) };
   
   // Attach token from localStorage if present
@@ -45,6 +50,25 @@ async function request(endpoint, options = {}) {
 }
 
 export const api = {
+  // Auth
+  login: (email, password) =>
+    request("/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    }),
+  register: (payload) =>
+    request("/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }),
+  getMe: () => request("/auth/me"),
+  logout: () => request("/auth/logout", { method: "POST" }),
+
+  // Audit Logs
+  getAuditLogs: (limit = 200) => request(`/audit?limit=${limit}`),
+
   // Documents
   getDocuments: () => request("/documents"),
   getDocument: (id) => request(`/documents/${id}`),
@@ -75,4 +99,12 @@ export const api = {
       body: JSON.stringify({ question, session_id: sessionId }),
     }),
   getChatHistory: (docId) => request(`/documents/${docId}/chat/history`),
+
+  // Standalone Chat
+  sendStandaloneChat: (question, sessionId = null) =>
+    request("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, session_id: sessionId }),
+    }),
 };

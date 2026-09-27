@@ -7,12 +7,24 @@ logger = logging.getLogger(__name__)
 
 _models_cache = {}
 
+def get_models_dir() -> Path:
+    env_dir = os.environ.get("MODELS_DIR")
+    if env_dir and Path(env_dir).exists():
+        return Path(env_dir)
+    backend_models = Path(__file__).resolve().parents[3] / "models"
+    if backend_models.exists():
+        return backend_models
+    repo_artifacts = Path(__file__).resolve().parents[4] / "ml" / "artifacts"
+    if repo_artifacts.exists():
+        return repo_artifacts
+    return backend_models
+
 def get_baseline_model(document_type: str, task: str = "clause_type"):
     key = f"{document_type}_{task}"
     if key in _models_cache:
         return _models_cache[key]
 
-    ml_dir = Path(__file__).resolve().parents[4] / "ml" / "artifacts" / document_type
+    ml_dir = get_models_dir() / document_type
     model_path = ml_dir / f"baseline_tfidf_lr_{task}.joblib"
 
     if not model_path.exists():

@@ -12,7 +12,9 @@ class Config:
         "DATABASE_URL",
         "postgresql+psycopg2://clauseguard:clauseguard@localhost:5432/clauseguard"
     )
-    if raw_db_url.startswith("postgresql://"):
+    if raw_db_url.startswith("postgres://"):
+        raw_db_url = raw_db_url.replace("postgres://", "postgresql+psycopg2://", 1)
+    elif raw_db_url.startswith("postgresql://"):
         raw_db_url = raw_db_url.replace("postgresql://", "postgresql+psycopg2://", 1)
     SQLALCHEMY_DATABASE_URI = raw_db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -31,15 +33,22 @@ class Config:
     FIELD_ENCRYPTION_KEY = os.environ.get("FIELD_ENCRYPTION_KEY", "")
     TESSERACT_CMD = os.environ.get("TESSERACT_CMD", "")
     
-    CORS_ORIGINS = [
-        origin.strip() for origin in os.environ.get(
-            "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
-        ).split(",") if origin.strip()
-    ]
+    # Configurable CORS origins with support for FRONTEND_URL (Vercel)
+    frontend_env = os.environ.get("FRONTEND_URL", "")
+    cors_env = os.environ.get("CORS_ORIGINS", "")
+    allowed_origins = set()
+    for item in f"{frontend_env},{cors_env}".split(","):
+        s = item.strip().rstrip("/")
+        if s:
+            allowed_origins.add(s)
+    if not allowed_origins:
+        allowed_origins = {"http://localhost:5173", "http://127.0.0.1:5173"}
+    CORS_ORIGINS = list(allowed_origins)
     
     MAX_UPLOAD_MB = int(os.environ.get("MAX_UPLOAD_MB", 20))
     MAX_CONTENT_LENGTH = MAX_UPLOAD_MB * 1024 * 1024
     
-    BASELINE_MODEL_PATH = os.environ.get("BASELINE_MODEL_PATH", "./ml/artifacts/baseline_tfidf_lr.joblib")
-    BERT_CLAUSE_TYPE_MODEL_PATH = os.environ.get("BERT_CLAUSE_TYPE_MODEL_PATH", "./ml/artifacts/bert_clause_type/final")
-    BERT_FAVORABILITY_MODEL_PATH = os.environ.get("BERT_FAVORABILITY_MODEL_PATH", "./ml/artifacts/bert_favorability/final")
+    MODELS_DIR = Path(__file__).resolve().parent.parent / "models"
+    BASELINE_MODEL_PATH = os.environ.get("BASELINE_MODEL_PATH", str(MODELS_DIR / "baseline_tfidf_lr.joblib"))
+    BERT_CLAUSE_TYPE_MODEL_PATH = os.environ.get("BERT_CLAUSE_TYPE_MODEL_PATH", str(MODELS_DIR / "bert_clause_type" / "final"))
+    BERT_FAVORABILITY_MODEL_PATH = os.environ.get("BERT_FAVORABILITY_MODEL_PATH", str(MODELS_DIR / "bert_favorability" / "final"))

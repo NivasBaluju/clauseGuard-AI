@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent / "backend"))
+
+# Add backend directory to sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from app import create_app, db
 from sqlalchemy import text

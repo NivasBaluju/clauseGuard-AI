@@ -32,15 +32,26 @@ _bert_models = {}
 _bert_tokenizers = {}
 _bert_metadata = {}
 
-project_root = Path(__file__).resolve().parents[4]
+def get_models_dir() -> Path:
+    env_dir = os.environ.get("MODELS_DIR")
+    if env_dir and Path(env_dir).exists():
+        return Path(env_dir)
+    backend_models = Path(__file__).resolve().parents[3] / "models"
+    if backend_models.exists():
+        return backend_models
+    repo_artifacts = Path(__file__).resolve().parents[4] / "ml" / "artifacts"
+    if repo_artifacts.exists():
+        return repo_artifacts
+    return backend_models
 
 def get_bert_model_and_tokenizer(document_type: str, task: str = "clause_type"):
     key = f"{document_type}_{task}"
     if key in _bert_models:
         return _bert_models[key], _bert_tokenizers[key], _bert_metadata[key]
 
-    ml_dir = project_root / "ml" / "artifacts" / document_type
-    report_file = project_root / "ml" / "artifacts" / "model_comparison_report.json"
+    models_dir = get_models_dir()
+    ml_dir = models_dir / document_type
+    report_file = models_dir / "model_comparison_report.json"
     
     # Check evaluation report to see which model won for this task
     winning_model_type = None

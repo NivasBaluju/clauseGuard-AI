@@ -26,15 +26,24 @@ def create_app(config_class=Config):
     app.register_blueprint(chat_bp, url_prefix="/api")
     app.register_blueprint(audit_bp, url_prefix="/api")
 
+    # Root-level health endpoint for Cloud platforms (Render / AWS / GCP)
+    @app.route("/health", methods=["GET"])
+    def root_health():
+        from app.api.health import health_check
+        return health_check()
+
     # Global JSON error handling for API routes
-    @app.errorhandler(500)
-    def internal_error(error):
-        db.session.rollback()
+    from werkzeug.exceptions import HTTPException
+
+    @app.errorhandler(HTTPException)
+    def handle_http_exception(e):
         from flask import jsonify
-        return jsonify({"error": "Database connection reset. Please retry your request."}), 500
+        return jsonify({"error": e.description}), e.code
 
     @app.errorhandler(Exception)
     def unhandled_exception(error):
+        if isinstance(error, HTTPException):
+            return error
         import logging
         from flask import jsonify, request
         logging.getLogger(__name__).error(f"Unhandled exception on {request.path}: {error}", exc_info=True)

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { LegalMarkdown } from "../chat/LegalMarkdown";
+import { apiUrl } from "../../api/client";
 
 export const ChatTab = ({ documentId }) => {
   const [messages, setMessages] = useState([]);
@@ -21,10 +22,17 @@ export const ChatTab = ({ documentId }) => {
     let isMounted = true;
     const fetchHistory = async () => {
       try {
-        const url = documentId
-          ? `/api/chat/history?documentId=${documentId}`
-          : "/api/chat/history";
-        const res = await fetch(url, { credentials: "include" });
+        const path = documentId
+          ? `/chat/history?documentId=${documentId}`
+          : "/chat/history";
+        const token = localStorage.getItem("cg_token") || localStorage.getItem("token");
+        const headers = {};
+        if (token) headers["Authorization"] = `Bearer ${token}`;
+
+        const res = await fetch(apiUrl(path), {
+          credentials: "include",
+          headers,
+        });
         if (res.ok) {
           const data = await res.json();
           if (isMounted) {
@@ -66,9 +74,13 @@ export const ChatTab = ({ documentId }) => {
     setSending(true);
 
     try {
-      const res = await fetch("/api/chat", {
+      const token = localStorage.getItem("cg_token") || localStorage.getItem("token");
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+
+      const res = await fetch(apiUrl("/chat"), {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         credentials: "include",
         body: JSON.stringify({ question: q, documentId }),
       });

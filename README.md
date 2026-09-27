@@ -101,8 +101,140 @@ npm run dev
 
 ## Verification & Test Results
 
-- **Unit & Integration Tests**: 18 unit tests passed in `backend/tests/` covering ingestion, PII masking, risk math, and REST endpoints.
+- **Unit & Integration Tests**: 23 tests passed in `backend/tests/` covering ingestion, OCR pipeline, PII masking, risk math, and REST endpoints.
 - **End-to-End Pipeline**: Verified via `test_upload_pipeline.py` with live uploads across all 3 document categories:
   - `sample_residential_lease.txt`: 14 clauses segmented, 6 deadlines extracted, 25 PII entities redacted, Gemini RAG response grounded with citations, PDF report generated.
   - `sample_tech_offer_letter.txt`: 11 clauses segmented, 6 deadlines extracted, 7 PII entities redacted, PDF report generated.
   - `sample_ho4_renters_policy.txt`: 21 clauses segmented, 8 deadlines extracted, 5 PII entities redacted, PDF report generated.
+
+---
+
+# Production Deployment
+
+## Architecture Overview
+
+```
+User Browser
+    │
+    ▼
+Vercel (React + Vite SPA)
+Directory: frontend/
+    │
+    │ HTTPS API Requests (with Authorization: Bearer <token>)
+    ▼
+Render (ONE Unified Flask Backend Web Service)
+Directory: backend/
+    │
+    ├── In-Process ML / NLP / OCR Pipeline:
+    │   ├── Baseline TF-IDF & Logistic Regression Models (backend/models/)
+    │   ├── Fine-Tuned DistilBERT Models (backend/models/)
+    │   ├── RapidOCR / ONNX Runtime (CPU Ingestion Engine)
+    │   ├── spaCy (en_core_web_sm embedded wheel)
+    │   ├── Microsoft Presidio (PII redaction)
+    │   ├── Risk Scoring Engine & Clause Extractor
+    │   └── ReportLab PDF Generator
+    │
+    ├── External Services:
+    │   ├── Neon Serverless PostgreSQL (DATABASE_URL with pgvector)
+    │   └── Google Gemini Managed API (GEMINI_API_KEY)
+```
+
+## Backend Deployment (Render)
+
+- **Service Type**: Web Service
+- **Environment**: Python 3
+- **Root Directory**: `backend`
+- **Python Version**: `3.11` (specified in runtime configuration)
+- **Build Command**:
+  ```bash
+  pip install -r requirements.txt
+  ```
+- **Pre-Deploy Command**:
+  ```bash
+  python run_migrations.py
+  ```
+- **Start Command**:
+  ```bash
+  gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 300 wsgi:app
+  ```
+- **Health Check Path**: `/health` (also supports `/api/health`)
+- **Worker Configuration**:
+  - Initial worker count: **1 worker with 4 threads** (`--workers 1 --threads 4`).
+  - *Rationale*: ML models (TF-IDF, PyTorch/BERT, RapidOCR, spaCy) are loaded in-process. A single worker prevents memory duplication across worker processes while threads handle concurrent I/O.
+- **Measured Hardware Requirements**:
+  - *Idle Flask + Extensions*: ~532 MB RAM
+  - *After RapidOCR + spaCy/Presidio*: ~651 MB RAM
+  - *After DistilBERT loaded + active inference*: ~929 MB RAM
+  - *Peak observed during realistic document pipeline*: **973.8 MB RAM**
+  - *Absolute Minimum*: 1 GB (Render Starter — viable for TF-IDF baseline mode only; 512 MB will OOM kill on startup)
+  - *Recommended Production*: **Standard (2 GB RAM)** for full concurrent DistilBERT + RapidOCR execution without OOM risk.
+
+## Frontend Deployment (Vercel)
+
+- **Framework Preset**: Vite
+- **Root Directory**: `frontend`
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Environment Variables**:
+  ```bash
+  VITE_API_BASE_URL=https://<your-render-service-name>.onrender.com/api
+  ```
+
+## Required Environment Variables
+
+All sensitive values must be injected via Render / Vercel dashboard environment settings. Never commit secrets to Git.
+
+### Backend (Render Web Service)
+| Variable Name | Required | Description |
+|---|---|---|
+| `DATABASE_URL` | Yes | Neon PostgreSQL connection URI (`postgresql://user:pass@host/dbname?sslmode=require`) |
+| `SECRET_KEY` | Yes | Cryptographic secret for Flask session cookies (32+ chars) |
+| `JWT_SECRET` | Yes | Cryptographic secret for signing HS256 auth tokens (32+ chars) |
+| `FIELD_ENCRYPTION_KEY` | Yes | Fernet AES-256 key for encrypting raw text at rest (generate via `Fernet.generate_key()`) |
+| `GEMINI_API_KEY` | Yes | Google AI Studio API key for Gemini RAG and copilot chat |
+| `FRONTEND_URL` | Yes | Allowed CORS origin (e.g., `https://clauseguard-ai.vercel.app` or comma-separated list) |
+| `FLASK_ENV` | Optional | Set to `production` |
+| `FLASK_DEBUG` | Optional | Set to `false` (default) |
+| `MODELS_DIR` | Optional | Defaults to deterministic `backend/models` |
+| `PORT` | Auto | Provided automatically by Render (binds `0.0.0.0:$PORT`) |
+
+### Frontend (Vercel)
+| Variable Name | Required | Description |
+|---|---|---|
+| `VITE_API_BASE_URL` | Yes | Public HTTPS URL of the Render backend `/api` endpoint |
+
+## Database Migration Command
+
+The migration system is idempotent and safe for zero-downtime deployments. It creates missing tables, adds missing columns, and verifies indexes without dropping data:
+```bash
+# In backend directory:
+python run_migrations.py
+```
+
+## Local Production Simulation
+
+To run the production WSGI server locally using Gunicorn:
+```bash
+cd backend
+gunicorn --bind 127.0.0.1:5000 --workers 1 --threads 4 --timeout 300 wsgi:app
+```
+
+## ML Model Runtime Requirements
+
+All production model artifacts are bundled directly inside the backend service at `backend/models/`:
+- **TF-IDF + Logistic Regression**: Bundled in `backend/models/<doc_type>/baseline/` (`.joblib` format, ~1.2 MB total).
+- **DistilBERT**: Optional transformer weights loaded from `backend/models/<doc_type>/bert/` or initialized via HuggingFace cache.
+- **spaCy NLP**: Pinned to `en_core_web_sm` (v3.7.1 / v3.8.0 wheel specified in `requirements.txt`).
+- **Microsoft Presidio**: Uses the bundled spaCy NLP pipeline; requires zero external server.
+- **RapidOCR / ONNX Runtime**: Uses `rapidocr-onnxruntime` + `opencv-python-headless` for headless CPU inference on scanned documents. All 3 ONNX models (detection, classification, recognition ~16 MB total) are bundled directly inside the installed Python package wheel; zero network downloads are required on startup or container restart.
+
+## File Storage & Retention Architecture
+
+- **User Uploads**:
+  - Stored temporarily in OS system temporary storage (`tempfile.gettempdir()`) solely during document extraction.
+  - Immediately deleted in the `finally:` block of `process_document_pipeline`.
+- **Extracted Text & PII**:
+  - Anonymized text and metadata are stored in the Neon PostgreSQL database.
+  - Raw sensitive text is encrypted at rest using AES-256 Fernet before database storage.
+- **Render Storage Requirement**:
+  - Render **does NOT require a persistent disk**. The stateless web service container is fully sufficient.

@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { ShieldCheck, Lock, Mail, User, ArrowRight, AlertCircle, Eye, EyeOff } from "lucide-react";
 
+import { api } from "../api/client";
+
 export function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,27 +29,18 @@ export function Register() {
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim().toLowerCase(),
-          password,
-          confirmPassword,
-        }),
+      const data = await api.register({
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        password,
+        confirmPassword,
       });
 
-      let data = {};
-      const contentType = res.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await res.json();
-      } else {
-        throw new Error("Server connection reset. Please try again.");
+      if (data.token) {
+        try {
+          localStorage.setItem("cg_token", data.token);
+        } catch (e) {}
       }
-
-      if (!res.ok) throw new Error(data.error || "Registration failed");
 
       login(data.user);
       navigate("/documents", { replace: true });
