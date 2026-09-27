@@ -1,5 +1,13 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate, useNavigate, useParams, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useParams,
+  useLocation,
+} from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { PageShell } from "./components/layout/PageShell";
 import { Landing } from "./pages/Landing";
@@ -7,23 +15,12 @@ import { Upload } from "./pages/Upload";
 import { DocumentList } from "./pages/DocumentList";
 import { DocumentAnalysis } from "./pages/DocumentAnalysis";
 import { StandaloneChat } from "./pages/StandaloneChat";
-import { Login } from "./pages/Login";
-import { Register } from "./pages/Register";
+import { AuditTrail } from "./pages/AuditTrail";
+import { PlatformGuide } from "./pages/PlatformGuide";
+import { AuthPortal } from "./pages/AuthPortal";
+import { ShieldAlert } from "lucide-react";
 
-// Step 4 ProtectedRoute implementation as requested
-export function ProtectedRoute({ children }) {
-  const { isAuthenticated, loading } = useAuth();
-  if (loading) {
-    return (
-      <div className="py-16 text-center text-zinc-400 font-mono text-xs animate-pulse">
-        Verifying secure session token…
-      </div>
-    );
-  }
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
-}
-
-// Wrapper for DocumentAnalysis extracting route params
+// Wrapper for DocumentAnalysis reading route params
 function DocumentAnalysisWrapper({ onNavigate }) {
   const { id } = useParams();
   return <DocumentAnalysis documentId={id} onNavigate={onNavigate} />;
@@ -36,12 +33,12 @@ function UploadWrapper({ onNavigate }) {
   return <Upload onNavigate={onNavigate} initialDocType={initialDocType} />;
 }
 
-// Inner App with routing and centralized navigation handler
-function AppRoutes() {
+// Main authenticated application shell with sidebar routing
+function AuthenticatedApp() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Map pathname to currentView for Navbar active indicator
+  // Active view mapping for sidebar
   const getCurrentView = () => {
     const path = location.pathname;
     if (path === "/") return "landing";
@@ -49,8 +46,8 @@ function AppRoutes() {
     if (path === "/documents") return "documents";
     if (path === "/upload") return "upload";
     if (path === "/chat") return "chat";
-    if (path === "/login") return "login";
-    if (path === "/register") return "register";
+    if (path === "/audit") return "audit";
+    if (path === "/guide") return "guide";
     return "";
   };
 
@@ -75,11 +72,11 @@ function AppRoutes() {
       case "chat":
         navigate("/chat");
         break;
-      case "login":
-        navigate("/login");
+      case "audit":
+        navigate("/audit");
         break;
-      case "register":
-        navigate("/register");
+      case "guide":
+        navigate("/guide");
         break;
       default:
         navigate("/");
@@ -92,39 +89,53 @@ function AppRoutes() {
   return (
     <PageShell currentView={currentView} onNavigate={handleNavigate}>
       <Routes>
-        {/* Public Authentication Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
-        {/* Public Application Routes */}
         <Route path="/" element={<Landing onNavigate={handleNavigate} />} />
         <Route path="/upload" element={<UploadWrapper onNavigate={handleNavigate} />} />
         <Route path="/documents" element={<DocumentList onNavigate={handleNavigate} />} />
         <Route path="/documents/:id" element={<DocumentAnalysisWrapper onNavigate={handleNavigate} />} />
+        <Route path="/chat" element={<StandaloneChat onNavigate={handleNavigate} />} />
+        <Route path="/audit" element={<AuditTrail onNavigate={handleNavigate} />} />
+        <Route path="/guide" element={<PlatformGuide onNavigate={handleNavigate} />} />
         <Route path="/dashboard" element={<Navigate to="/documents" replace />} />
-
-        {/* Protected Enterprise AI Chat Route */}
-        <Route
-          path="/chat"
-          element={
-            <ProtectedRoute>
-              <StandaloneChat onNavigate={handleNavigate} />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Catch-all fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </PageShell>
   );
 }
 
+// Root Controller: Gatekeeper checks authentication first
+function RootController() {
+  const { isAuthenticated, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // Loading state while verifying session token
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#07090e] text-white flex flex-col items-center justify-center space-y-4">
+        <div className="w-12 h-12 rounded-xl bg-[#0f1420] border border-red-500/40 flex items-center justify-center text-red-500 animate-pulse">
+          <ShieldAlert size={26} />
+        </div>
+        <div className="text-xs font-mono text-zinc-400">
+          Verifying security session credentials…
+        </div>
+      </div>
+    );
+  }
+
+  // Gatekeeper: If unauthenticated, render the full AuthPortal directly
+  if (!isAuthenticated) {
+    return <AuthPortal onAuthSuccess={() => navigate("/")} />;
+  }
+
+  // Once authenticated, render the full workspace with the Sidebar
+  return <AuthenticatedApp />;
+}
+
 export function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppRoutes />
+        <RootController />
       </AuthProvider>
     </BrowserRouter>
   );

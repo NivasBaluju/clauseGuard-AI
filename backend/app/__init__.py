@@ -17,11 +17,14 @@ def create_app(config_class=Config):
     from app.api.documents import documents_bp
     from app.api.analysis import analysis_bp
     from app.api.chat import chat_bp
+    from app.api.audit import audit_bp
 
     app.register_blueprint(health_bp, url_prefix="/api")
     app.register_blueprint(auth_bp, url_prefix="/api")
     app.register_blueprint(documents_bp, url_prefix="/api")
     app.register_blueprint(analysis_bp, url_prefix="/api")
     app.register_blueprint(chat_bp, url_prefix="/api")
+    app.register_blueprint(audit_bp, url_prefix="/api")
+
 
     return app

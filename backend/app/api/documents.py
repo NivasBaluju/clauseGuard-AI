@@ -8,8 +8,10 @@ from app.extensions import db
 from app.models.document import Document
 from app.utils.validators import allowed_file, validate_document_type
 from app.services.pipeline import process_document_pipeline
+from app.services.audit_service import log_audit_event
 
 logger = logging.getLogger(__name__)
+
 documents_bp = Blueprint("documents", __name__)
 
 def run_pipeline_async(app, document_id, file_path, ext):
@@ -62,6 +64,13 @@ def upload_document():
     thread.daemon = True
     thread.start()
 
+    log_audit_event(
+        action="DOC_UPLOADED",
+        resource_type="document",
+        resource_id=str(doc.id),
+        details={"filename": doc.filename, "document_type": doc.document_type, "format": ext}
+    )
+
     return jsonify({
         "id": str(doc.id),
         "document_id": str(doc.id),
@@ -96,6 +105,17 @@ def get_document_status(doc_id):
 @documents_bp.route("/documents/<uuid:doc_id>", methods=["DELETE"])
 def delete_document(doc_id):
     doc = Document.query.get_or_404(doc_id)
+    filename = doc.filename
+    doc_id_str = str(doc.id)
     db.session.delete(doc)
     db.session.commit()
+
+    log_audit_event(
+        action="DOC_DELETED",
+        resource_type="document",
+        resource_id=doc_id_str,
+        details={"filename": filename}
+    )
+
     return jsonify({"message": f"Document {doc_id} deleted successfully."}), 200
+

@@ -12,8 +12,10 @@ from app.utils.password_policy import (
     verify_password,
     verify_dummy_password,
 )
+from app.services.audit_service import log_audit_event
 
 auth_bp = Blueprint("auth", __name__)
+
 
 def get_cookie_kwargs():
     is_prod = os.environ.get("FLASK_ENV") == "production"
@@ -83,6 +85,16 @@ def register():
     }
     token = jwt.encode(payload, jwt_secret, algorithm="HS256")
 
+    # Record audit log
+    log_audit_event(
+        action="USER_REGISTER",
+        user_id=user.id,
+        user_email=user.email,
+        resource_type="user",
+        resource_id=str(user.id),
+        details={"name": user.name, "role": user.role}
+    )
+
     response = make_response(jsonify({
         "ok": True,
         "token": token,
@@ -108,9 +120,20 @@ def login():
     if not user or not user.password_hash:
         # Prevents timing attack / user enumeration
         verify_dummy_password(password)
+        log_audit_event(
+            action="LOGIN_FAILED",
+            user_email=clean_email,
+            details={"reason": "User not found"}
+        )
         return jsonify({"error": "Invalid email or password"}), 401
 
     if not verify_password(password, user.password_hash):
+        log_audit_event(
+            action="LOGIN_FAILED",
+            user_id=user.id,
+            user_email=user.email,
+            details={"reason": "Invalid password"}
+        )
         return jsonify({"error": "Invalid email or password"}), 401
 
     # Create new session
@@ -130,6 +153,16 @@ def login():
         "exp": datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=7),
     }
     token = jwt.encode(payload, jwt_secret, algorithm="HS256")
+
+    # Record audit log
+    log_audit_event(
+        action="USER_LOGIN",
+        user_id=user.id,
+        user_email=user.email,
+        resource_type="session",
+        resource_id=str(session_obj.id),
+        details={"ip": request.remote_addr, "userAgent": request.headers.get("User-Agent", "")[:100]}
+    )
 
     response = make_response(jsonify({
         "ok": True,
@@ -164,14 +197,22 @@ def logout():
         try:
             payload = jwt.decode(token, get_jwt_secret(), algorithms=["HS256"])
             session_id = payload.get("sessionId")
+            user_id = payload.get("userId")
             if session_id:
                 session_obj = db.session.get(Session, session_id)
                 if session_obj:
                     session_obj.revoked = True
                     db.session.commit()
+            log_audit_event(
+                action="USER_LOGOUT",
+                user_id=user_id,
+                resource_type="session",
+                resource_id=str(session_id)
+            )
         except Exception:
             pass
 
     response = make_response(jsonify({"ok": True, "message": "Signed out successfully"}), 200)
     response.set_cookie("token", "", expires=0, path="/", httponly=True)
     return response
+

@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { ShieldCheck, ArrowRight, AlertCircle } from "lucide-react";
+import { ShieldCheck, ArrowRight, AlertCircle, Eye, EyeOff } from "lucide-react";
 
 export function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -170,49 +173,92 @@ export function Register() {
             <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#cbd5e1" }}>
               Password (min 8 chars)
             </label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••••••"
-              style={{
-                width: "100%",
-                padding: "12px 14px",
-                borderRadius: "6px",
-                border: "1px solid #334155",
-                background: "#0f172a",
-                color: "#fff",
-                fontSize: "14px",
-                boxSizing: "border-box",
-                outline: "none",
-              }}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••••••"
+                style={{
+                  width: "100%",
+                  padding: "12px 42px 12px 14px",
+                  borderRadius: "6px",
+                  border: "1px solid #334155",
+                  background: "#0f172a",
+                  color: "#fff",
+                  fontSize: "14px",
+                  boxSizing: "border-box",
+                  outline: "none",
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: "absolute",
+                  right: "12px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "transparent",
+                  border: "none",
+                  color: "#94a3b8",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                title={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <div>
             <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#cbd5e1" }}>
               Confirm Password
             </label>
-            <input
-              type="password"
-              required
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="••••••••••••"
-              style={{
-                width: "100%",
-                padding: "12px 14px",
-                borderRadius: "6px",
-                border: "1px solid #334155",
-                background: "#0f172a",
-                color: "#fff",
-                fontSize: "14px",
-                boxSizing: "border-box",
-                outline: "none",
-              }}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••••••"
+                style={{
+                  width: "100%",
+                  padding: "12px 42px 12px 14px",
+                  borderRadius: "6px",
+                  border: "1px solid #334155",
+                  background: "#0f172a",
+                  color: "#fff",
+                  fontSize: "14px",
+                  boxSizing: "border-box",
+                  outline: "none",
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                style={{
+                  position: "absolute",
+                  right: "12px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "transparent",
+                  border: "none",
+                  color: "#94a3b8",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                title={showConfirmPassword ? "Hide password" : "Show password"}
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
+
 
           <button
             type="submit"

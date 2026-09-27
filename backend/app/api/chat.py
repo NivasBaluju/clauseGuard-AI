@@ -91,6 +91,22 @@ def post_chat_message():
     db.session.add(asst_msg)
     db.session.commit()
 
+    # Record audit log
+    from app.services.audit_service import log_audit_event
+    log_audit_event(
+        action="CHAT_QUERY",
+        user_id=user.id,
+        user_email=user.email,
+        resource_type="chat_message",
+        resource_id=str(assistant_msg_id),
+        details={
+            "question": question[:120],
+            "documentId": str(doc_uuid) if doc_uuid else None,
+            "grounded": ai_result.get("grounded", True),
+            "confidence": ai_result.get("confidence", 0.94)
+        }
+    )
+
     return jsonify({
         "id": str(assistant_msg_id),
         "answer": ai_result["answer"],

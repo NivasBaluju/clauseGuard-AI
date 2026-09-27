@@ -5,6 +5,7 @@ from app.models.deadline import Deadline
 from app.models.pii_finding import PIIFinding
 from app.models.chat import ChatSession, ChatMessage
 from app.models.user import User, Session
+from app.models.audit_log import AuditLog
 
 __all__ = [
     "Document",
@@ -16,4 +17,6 @@ __all__ = [
     "ChatMessage",
     "User",
     "Session",
+    "AuditLog",
 ]
+

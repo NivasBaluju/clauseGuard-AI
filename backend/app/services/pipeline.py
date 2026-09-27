@@ -12,13 +12,15 @@ from app.utils.encryption import encrypt_text
 from app.services.ingestion.extractor import extract_text
 from app.services.privacy.pii_redactor import redact
 from app.services.nlp.segmenter import segment_clauses
-from app.services.nlp.classifier_bert import classify_clause
+from app.services.nlp.classifier_bert import classify_clause, classify_clauses_batch
 from app.services.risk.risk_engine import compute_clause_risk, compute_document_risk, compute_risk_band
 from app.services.missing_clauses.detector import detect_missing_clauses
 from app.services.deadlines.deadline_extractor import extract_all_deadlines
-from app.services.rag.embedder import embed_text
+from app.services.rag.embedder import embed_text, batch_embed_texts
+from app.services.audit_service import log_audit_event
 
 logger = logging.getLogger(__name__)
+
 
 def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Document:
     """
@@ -100,36 +102,35 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
             clause_objs.append(c)
         db.session.commit()
 
-        # Stage 4: Clause Classification (Type + Favorability)
+        # Stage 4: Clause Classification (Type + Favorability) - BATCHED
         doc.processing_stage = "classifying_clauses"
         db.session.commit()
-        logger.info(f"[{doc.id}] Stage 4: Classifying {len(clause_objs)} clauses")
+        logger.info(f"[{doc.id}] Stage 4: Classifying {len(clause_objs)} clauses in high-speed batch mode")
 
-        model_version_used = "bert-windowed-v1"
+        # Prepare items for batch classification
+        clause_items = []
         for i, c in enumerate(clause_objs):
             prev_t = clause_objs[i - 1].redacted_text if i > 0 else None
             next_t = clause_objs[i + 1].redacted_text if i + 1 < len(clause_objs) else None
+            clause_items.append({
+                "text": c.redacted_text,
+                "prev_text": prev_t,
+                "next_text": next_t,
+            })
 
-            # Predict clause type
-            c_type, c_conf, m_ver = classify_clause(
-                clause_text=c.redacted_text,
-                document_type=doc.document_type,
-                prev_clause_text=prev_t,
-                next_clause_text=next_t,
-                task="clause_type",
-            )
+        # Batch predict clause types
+        type_results = classify_clauses_batch(clause_items, document_type=doc.document_type, task="clause_type")
+        # Batch predict favorabilities
+        fav_results = classify_clauses_batch(clause_items, document_type=doc.document_type, task="favorability")
+
+        model_version_used = "bert-windowed-v1"
+        for i, c in enumerate(clause_objs):
+            c_type, c_conf, m_ver = type_results[i]
             c.clause_type = c_type
             c.clause_type_confidence = c_conf
             model_version_used = m_ver
 
-            # Predict favorability
-            fav_label, fav_conf, _ = classify_clause(
-                clause_text=c.redacted_text,
-                document_type=doc.document_type,
-                prev_clause_text=prev_t,
-                next_clause_text=next_t,
-                task="favorability",
-            )
+            fav_label, fav_conf, _ = fav_results[i]
             c.favorability_label = fav_label
             c.favorability_confidence = fav_conf
 
@@ -198,19 +199,15 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
             db.session.add(d_obj)
         db.session.commit()
 
-        # Stage 7: Embeddings for RAG
+        # Stage 7: Embeddings for RAG - HIGH-SPEED BATCH
         doc.processing_stage = "generating_embeddings"
         db.session.commit()
-        logger.info(f"[{doc.id}] Stage 7: Generating Gemini embeddings for clauses")
+        logger.info(f"[{doc.id}] Stage 7: Generating Gemini embeddings for {len(clause_objs)} clauses in batch")
 
-        for c in clause_objs:
-            try:
-                emb = embed_text(c.redacted_text, task_type="RETRIEVAL_DOCUMENT")
-                c.embedding = emb
-            except Exception as e:
-                logger.warning(f"Embedding failed for clause {c.clause_index}: {e}")
-                # Set zero vector fallback
-                c.embedding = [0.0] * 768
+        texts_to_embed = [c.redacted_text for c in clause_objs]
+        batch_embs = batch_embed_texts(texts_to_embed, task_type="RETRIEVAL_DOCUMENT")
+        for c, emb in zip(clause_objs, batch_embs):
+            c.embedding = emb
         db.session.commit()
 
         # Completed
@@ -220,7 +217,23 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
         db.session.commit()
         logger.info(f"[{doc.id}] Document processing completed successfully! Risk Score: {doc.overall_risk_score} ({doc.risk_band})")
 
+        # Record audit log for completed analysis
+        log_audit_event(
+            action="DOC_ANALYZED",
+            resource_type="document",
+            resource_id=str(doc.id),
+            details={
+                "filename": doc.filename,
+                "overall_risk_score": doc.overall_risk_score,
+                "risk_band": doc.risk_band,
+                "clauses_count": len(clause_objs),
+                "deadlines_count": len(extracted_deadlines),
+                "missing_clauses_count": len(missing_list)
+            }
+        )
+
         return doc
+
 
     except Exception as e:
         logger.exception(f"Pipeline error for document {doc.id}: {e}")
