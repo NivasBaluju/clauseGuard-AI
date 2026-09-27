@@ -31,7 +31,18 @@ export function Login() {
         body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
       });
 
-      const data = await res.json();
+      let data = {};
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        throw new Error(
+          res.status === 401
+            ? "Invalid email or password. Please verify your credentials."
+            : "Server connection reset. Please try signing in again."
+        );
+      }
+
       if (!res.ok) {
         throw new Error(data.error || "Login failed");
       }
@@ -39,7 +50,7 @@ export function Login() {
       login(data.user);
       navigate("/documents", { replace: true });
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Failed to sign in. Please verify your credentials.");
     } finally {
       setSubmitting(false);
     }

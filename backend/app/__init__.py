@@ -26,5 +26,22 @@ def create_app(config_class=Config):
     app.register_blueprint(chat_bp, url_prefix="/api")
     app.register_blueprint(audit_bp, url_prefix="/api")
 
+    # Global JSON error handling for API routes
+    @app.errorhandler(500)
+    def internal_error(error):
+        db.session.rollback()
+        from flask import jsonify
+        return jsonify({"error": "Database connection reset. Please retry your request."}), 500
+
+    @app.errorhandler(Exception)
+    def unhandled_exception(error):
+        import logging
+        from flask import jsonify, request
+        logging.getLogger(__name__).error(f"Unhandled exception on {request.path}: {error}", exc_info=True)
+        try:
+            db.session.rollback()
+        except Exception:
+            pass
+        return jsonify({"error": "Server error. Please retry in a few moments."}), 500
 
     return app

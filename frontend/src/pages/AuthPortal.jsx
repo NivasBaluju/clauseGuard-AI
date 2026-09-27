@@ -50,9 +50,23 @@ export function AuthPortal({ onAuthSuccess }) {
         body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
       });
 
-      const data = await res.json();
+      let data = {};
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        throw new Error(
+          res.status === 401
+            ? "Invalid email or password. If you don't have an account, click 'Create Account' above."
+            : "Server connection reset. Please try signing in again."
+        );
+      }
+
       if (!res.ok) {
-        throw new Error(data.error || "Login failed");
+        if (res.status === 401) {
+          throw new Error("Invalid email or password. If you don't have an account, click 'Create Account' above.");
+        }
+        throw new Error(data.error || "Login failed. Please check your credentials.");
       }
 
       login(data.user);
@@ -88,8 +102,17 @@ export function AuthPortal({ onAuthSuccess }) {
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Registration failed");
+      let data = {};
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        throw new Error("Server connection error during registration. Please try again.");
+      }
+
+      if (!res.ok) {
+        throw new Error(data.error || "Registration failed. Please check your details.");
+      }
 
       login(data.user);
       if (onAuthSuccess) onAuthSuccess(data.user);

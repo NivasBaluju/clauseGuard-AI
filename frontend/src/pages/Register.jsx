@@ -39,13 +39,20 @@ export function Register() {
         }),
       });
 
-      const data = await res.json();
+      let data = {};
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        throw new Error("Server connection error during registration. Please try again.");
+      }
+
       if (!res.ok) throw new Error(data.error || "Registration failed");
 
       login(data.user);
       navigate("/documents", { replace: true });
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Failed to create account. Please try again.");
     } finally {
       setSubmitting(false);
     }

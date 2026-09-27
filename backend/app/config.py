@@ -16,6 +16,13 @@ class Config:
         raw_db_url = raw_db_url.replace("postgresql://", "postgresql+psycopg2://", 1)
     SQLALCHEMY_DATABASE_URI = raw_db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True,
+        "pool_recycle": 280,
+        "pool_timeout": 30,
+        "max_overflow": 10,
+        "pool_size": 5,
+    }
     
     GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
     GEMINI_CHAT_MODEL = os.environ.get("GEMINI_CHAT_MODEL", "gemini-3.8-flash")
