@@ -13,18 +13,18 @@ export function Navbar({ currentView, onNavigate }) {
   };
 
   return (
-    <header className="border-b border-neutral-800 bg-black sticky top-0 z-40">
+    <header className="border-b border-neutral-200 bg-white sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand */}
         <button
           onClick={() => onNavigate("landing")}
           className="flex items-center gap-3 text-left group"
         >
-          <div className="w-8 h-8 border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white group-hover:border-neutral-500 transition-colors rounded">
-            <ShieldAlert className="w-4 h-4 text-white" />
+          <div className="w-8 h-8 border border-neutral-300 bg-neutral-100 flex items-center justify-center text-black group-hover:border-black transition-colors rounded">
+            <ShieldAlert className="w-4 h-4 text-black" />
           </div>
           <div>
-            <span className="font-serif text-lg font-bold tracking-tight text-white block">
+            <span className="font-serif text-lg font-bold tracking-tight text-black block">
               ClauseGuard AI
             </span>
             <span className="text-[10px] font-mono text-neutral-500 tracking-wider uppercase block -mt-1">
@@ -37,10 +37,10 @@ export function Navbar({ currentView, onNavigate }) {
         <nav className="flex items-center gap-1 sm:gap-2">
           <button
             onClick={() => onNavigate("landing")}
-            className={`px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors border ${
+            className={`px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors border rounded ${
               currentView === "landing"
-                ? "border-white text-white bg-white/10 font-semibold"
-                : "border-transparent text-neutral-400 hover:text-white hover:border-neutral-800"
+                ? "border-black text-black bg-neutral-100 font-semibold"
+                : "border-transparent text-neutral-600 hover:text-black hover:border-neutral-200"
             }`}
           >
             Overview
@@ -48,10 +48,10 @@ export function Navbar({ currentView, onNavigate }) {
 
           <button
             onClick={() => onNavigate("documents")}
-            className={`px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors border ${
+            className={`px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors border rounded ${
               currentView === "documents"
-                ? "border-white text-white bg-white/10 font-semibold"
-                : "border-transparent text-neutral-400 hover:text-white hover:border-neutral-800"
+                ? "border-black text-black bg-neutral-100 font-semibold"
+                : "border-transparent text-neutral-600 hover:text-black hover:border-neutral-200"
             }`}
           >
             Documents
@@ -59,19 +59,19 @@ export function Navbar({ currentView, onNavigate }) {
 
           <button
             onClick={() => onNavigate("chat")}
-            className={`px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors border flex items-center gap-1.5 ${
+            className={`px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors border rounded flex items-center gap-1.5 ${
               currentView === "chat"
-                ? "border-white text-white bg-white/10 font-semibold"
-                : "border-transparent text-neutral-400 hover:text-white hover:border-neutral-800"
+                ? "border-black text-black bg-neutral-100 font-semibold"
+                : "border-transparent text-neutral-600 hover:text-black hover:border-neutral-200"
             }`}
           >
-            <Bot className="w-3.5 h-3.5 text-white" />
+            <Bot className="w-3.5 h-3.5 text-black" />
             <span>AI Copilot</span>
           </button>
 
           <button
             onClick={() => onNavigate("upload")}
-            className="px-3.5 py-2 text-xs font-mono uppercase tracking-wider border border-white text-black bg-white hover:bg-neutral-200 transition-colors flex items-center gap-1.5 font-semibold"
+            className="px-3.5 py-2 text-xs font-mono uppercase tracking-wider border border-black text-white bg-black hover:bg-neutral-800 transition-colors flex items-center gap-1.5 font-semibold rounded"
           >
             <UploadCloud className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Upload Document</span>
@@ -79,22 +79,22 @@ export function Navbar({ currentView, onNavigate }) {
           </button>
 
           {/* Divider */}
-          <div className="h-6 w-px bg-neutral-800 mx-1 hidden sm:block" />
+          <div className="h-6 w-px bg-neutral-200 mx-1 hidden sm:block" />
 
           {/* Authentication State */}
           {isAuthenticated && user ? (
             <div className="flex items-center gap-2">
-              <div className="hidden md:flex items-center gap-2 px-2.5 py-1.5 border border-neutral-800 bg-neutral-900 text-xs font-mono">
-                <User className="w-3.5 h-3.5 text-white" />
-                <span className="text-white max-w-[120px] truncate">{user.name || user.email}</span>
-                <span className="text-[10px] uppercase px-1 py-0.2 bg-neutral-800 border border-neutral-700 text-neutral-300 rounded">
+              <div className="hidden md:flex items-center gap-2 px-2.5 py-1.5 border border-neutral-200 bg-neutral-50 text-xs font-mono rounded">
+                <User className="w-3.5 h-3.5 text-black" />
+                <span className="text-black max-w-[120px] truncate">{user.name || user.email}</span>
+                <span className="text-[10px] uppercase px-1 py-0.2 bg-neutral-100 border border-neutral-300 text-neutral-700 rounded font-semibold">
                   {user.role || "user"}
                 </span>
               </div>
               <button
                 onClick={handleLogout}
                 title="Sign Out"
-                className="p-2 text-xs font-mono border border-transparent hover:border-neutral-700 text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors flex items-center gap-1"
+                className="p-2 text-xs font-mono border border-transparent hover:border-neutral-300 text-neutral-600 hover:text-black hover:bg-neutral-100 transition-colors flex items-center gap-1 rounded"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span className="hidden lg:inline text-[11px] uppercase tracking-wider">Sign Out</span>
@@ -104,10 +104,10 @@ export function Navbar({ currentView, onNavigate }) {
             <div className="flex items-center gap-1.5">
               <button
                 onClick={() => onNavigate("login")}
-                className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider border transition-colors flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider border rounded transition-colors flex items-center gap-1.5 ${
                   currentView === "login"
-                    ? "border-white text-black bg-white font-semibold"
-                    : "border-transparent text-neutral-300 hover:text-white hover:border-neutral-800"
+                    ? "border-black text-white bg-black font-semibold"
+                    : "border-neutral-200 text-neutral-700 hover:text-black hover:border-black"
                 }`}
               >
                 <LogIn className="w-3.5 h-3.5" />
@@ -115,7 +115,7 @@ export function Navbar({ currentView, onNavigate }) {
               </button>
               <button
                 onClick={() => onNavigate("register")}
-                className="hidden sm:flex px-3 py-1.5 text-xs font-mono uppercase tracking-wider border border-white bg-white text-black hover:bg-neutral-200 transition-colors items-center gap-1.5 font-semibold"
+                className="hidden sm:flex px-3 py-1.5 text-xs font-mono uppercase tracking-wider border border-black bg-black text-white hover:bg-neutral-800 transition-colors items-center gap-1.5 font-semibold rounded"
               >
                 <UserPlus className="w-3.5 h-3.5" />
                 <span>Register</span>

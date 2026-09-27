@@ -1,23 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
+import { LegalMarkdown } from "../chat/LegalMarkdown";
 
 export const ChatTab = ({ documentId }) => {
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const chatWindowRef = useRef(null);
 
+  // Suggestions for rapid query testing
   const suggestions = [
-    "What are the key obligations and payment terms?",
     "What are the termination conditions?",
-    "Are there any penalties, liabilities, or deadlines?",
-    "What is the governing law or jurisdiction?",
+    "Is there an automatic renewal clause?",
+    "What is the required notice period?",
+    "Summarize the main liabilities & risks",
   ];
 
-  // 1. Load chat history on mount
+  // Fetch chronological chat history
   useEffect(() => {
     let isMounted = true;
-    async function loadHistory() {
+    const fetchHistory = async () => {
       try {
         const url = documentId
           ? `/api/chat/history?documentId=${documentId}`
@@ -25,35 +27,42 @@ export const ChatTab = ({ documentId }) => {
         const res = await fetch(url, { credentials: "include" });
         if (res.ok) {
           const data = await res.json();
-          if (isMounted) setMessages(data.messages || []);
+          if (isMounted) {
+            setMessages(data.messages || []);
+          }
         }
       } catch (err) {
-        console.error("Failed to load chat history", err);
+        console.error("Failed to load chat history:", err);
       } finally {
         if (isMounted) setLoading(false);
       }
-    }
-    loadHistory();
+    };
+    fetchHistory();
     return () => {
       isMounted = false;
     };
   }, [documentId]);
 
-  // 2. Auto-scroll to bottom
+  // Scroll to bottom on new message
   useEffect(() => {
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
     }
   }, [messages, sending]);
 
-  // 3. Send message handler
-  const handleSend = async (questionText) => {
-    const q = (questionText || input).trim();
+  const handleSend = async (customText) => {
+    const q = (customText || input).trim();
     if (!q || sending) return;
 
-    setInput("");
-    const userMsg = { id: `user-${Date.now()}`, role: "USER", content: q };
+    // Optimistically append user message
+    const userMsg = {
+      id: `temp-${Date.now()}`,
+      role: "USER",
+      content: q,
+      created_at: new Date().toISOString(),
+    };
     setMessages((prev) => [...prev, userMsg]);
+    if (!customText) setInput("");
     setSending(true);
 
     try {
@@ -66,7 +75,7 @@ export const ChatTab = ({ documentId }) => {
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.error || "Server error");
+        throw new Error(errorData.error || "Unable to generate a response right now. Please try again.");
       }
 
       const data = await res.json();
@@ -85,7 +94,7 @@ export const ChatTab = ({ documentId }) => {
         {
           id: `err-${Date.now()}`,
           role: "ASSISTANT",
-          content: `⚠️ Error: ${err.message}`,
+          content: err.message || "Unable to generate a response right now. Please try again.",
           grounded: false,
         },
       ]);
@@ -103,7 +112,7 @@ export const ChatTab = ({ documentId }) => {
 
   if (loading) {
     return (
-      <div style={{ padding: "32px", textAlign: "center", color: "#888" }}>
+      <div style={{ padding: "32px", textAlign: "center", color: "#666", background: "#ffffff" }}>
         Loading AI Chat Session…
       </div>
     );
@@ -115,10 +124,10 @@ export const ChatTab = ({ documentId }) => {
         display: "flex",
         flexDirection: "column",
         height: "650px",
-        border: "1px solid #262626",
+        border: "1px solid #e5e5e5",
         borderRadius: "12px",
-        background: "#000000",
-        color: "#ffffff",
+        background: "#ffffff",
+        color: "#000000",
         overflow: "hidden",
       }}
     >
@@ -126,25 +135,26 @@ export const ChatTab = ({ documentId }) => {
       <div
         style={{
           padding: "16px 20px",
-          borderBottom: "1px solid #262626",
+          borderBottom: "1px solid #e5e5e5",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          background: "#0a0a0a",
+          background: "#fafafa",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 600, fontSize: "15px" }}>
-          <span style={{ height: "8px", width: "8px", borderRadius: "50%", background: "#ffffff" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 600, fontSize: "15px", color: "#000000" }}>
+          <span style={{ height: "8px", width: "8px", borderRadius: "50%", background: "#000000" }} />
           AI Legal Copilot
         </div>
         <span
           style={{
             fontSize: "11px",
-            background: "rgba(255,255,255,0.1)",
+            background: "#f4f4f5",
             padding: "4px 8px",
             borderRadius: "4px",
-            color: "#ffffff",
-            border: "1px solid #333333",
+            color: "#18181b",
+            border: "1px solid #e4e4e7",
+            fontWeight: 500,
           }}
         >
           Grounded Copilot
@@ -158,8 +168,8 @@ export const ChatTab = ({ documentId }) => {
           display: "flex",
           gap: "8px",
           overflowX: "auto",
-          borderBottom: "1px solid #262626",
-          background: "#000000",
+          borderBottom: "1px solid #e5e5e5",
+          background: "#fafafa",
         }}
       >
         {suggestions.map((s, idx) => (
@@ -169,13 +179,15 @@ export const ChatTab = ({ documentId }) => {
             disabled={sending}
             style={{
               whiteSpace: "nowrap",
-              padding: "6px 12px",
+              padding: "6px 14px",
               borderRadius: "20px",
-              border: "1px solid #333333",
-              background: "#171717",
-              color: "#e5e5e5",
+              border: "1px solid #d4d4d8",
+              background: "#ffffff",
+              color: "#18181b",
               fontSize: "12px",
               cursor: sending ? "not-allowed" : "pointer",
+              fontWeight: 500,
+              boxShadow: "0 1px 2px rgba(0,0,0,0.03)",
             }}
           >
             {s}
@@ -193,14 +205,14 @@ export const ChatTab = ({ documentId }) => {
           display: "flex",
           flexDirection: "column",
           gap: "16px",
-          background: "#000000",
+          background: "#fcfcfc",
         }}
       >
         {messages.length === 0 ? (
-          <div style={{ margin: "auto", textAlign: "center", color: "#a3a3a3" }}>
+          <div style={{ margin: "auto", textAlign: "center", color: "#71717a" }}>
             <div style={{ fontSize: "32px", marginBottom: "8px" }}>⚖️</div>
-            <div style={{ fontWeight: 600, color: "#ffffff" }}>How can I assist you today?</div>
-            <div style={{ fontSize: "13px", color: "#a3a3a3" }}>Ask any question or click a suggestion chip above.</div>
+            <div style={{ fontWeight: 600, color: "#000000", fontSize: "16px" }}>How can I assist you today?</div>
+            <div style={{ fontSize: "13px", color: "#71717a", marginTop: "4px" }}>Ask any question or click a suggestion chip above.</div>
           </div>
         ) : (
           messages.map((m, idx) => {
@@ -210,45 +222,52 @@ export const ChatTab = ({ documentId }) => {
                 key={m.id || idx}
                 style={{
                   alignSelf: isUser ? "flex-end" : "flex-start",
-                  maxWidth: "80%",
-                  background: isUser ? "#ffffff" : "#171717",
-                  color: isUser ? "#000000" : "#ffffff",
-                  border: isUser ? "1px solid #ffffff" : "1px solid #262626",
+                  maxWidth: "85%",
+                  background: isUser ? "#000000" : "#ffffff",
+                  color: isUser ? "#ffffff" : "#000000",
+                  border: isUser ? "1px solid #000000" : "1px solid #e5e5e5",
                   borderRadius: isUser ? "16px 16px 2px 16px" : "16px 16px 16px 2px",
-                  padding: "12px 16px",
+                  padding: "14px 18px",
                   fontSize: "14px",
-                  lineHeight: "1.5",
-                  boxShadow: "0 2px 6px rgba(0,0,0,0.4)",
+                  lineHeight: "1.6",
+                  boxShadow: isUser ? "0 2px 6px rgba(0,0,0,0.15)" : "0 2px 8px rgba(0,0,0,0.05)",
                 }}
               >
                 {!isUser && (
-                  <div style={{ marginBottom: "6px", display: "flex", alignItems: "center", gap: "6px" }}>
+                  <div style={{ marginBottom: "8px", display: "flex", alignItems: "center", gap: "6px" }}>
                     <span
                       style={{
                         fontSize: "10px",
                         textTransform: "uppercase",
-                        padding: "2px 6px",
+                        padding: "2px 8px",
                         borderRadius: "4px",
-                        background: "rgba(255,255,255,0.1)",
-                        color: "#ffffff",
-                        border: "1px solid #333333",
+                        background: "#f4f4f5",
+                        color: "#18181b",
+                        border: "1px solid #e4e4e7",
+                        fontWeight: 600,
                       }}
                     >
-                      {m.grounded ? "✓ Grounded" : "Notice"}
+                      {m.grounded ? "✓ Grounded" : "Legal Guidance"}
                     </span>
                     {typeof m.confidence === "number" && (
-                      <span style={{ fontSize: "11px", color: "#a3a3a3" }}>
+                      <span style={{ fontSize: "11px", color: "#71717a" }}>
                         ({Math.round(m.confidence * 100)}% confidence)
                       </span>
                     )}
                   </div>
                 )}
-                <div style={{ color: isUser ? "#000000" : "#ffffff" }}>{m.content}</div>
+
+                {/* Body Content */}
+                {isUser ? (
+                  <div style={{ color: "#ffffff", whiteSpace: "pre-wrap" }}>{m.content}</div>
+                ) : (
+                  <LegalMarkdown content={m.content} />
+                )}
 
                 {/* Evidence Citations */}
                 {!isUser && m.sources && m.sources.length > 0 && (
-                  <div style={{ marginTop: "10px", paddingTop: "8px", borderTop: "1px solid rgba(255,255,255,0.15)" }}>
-                    <div style={{ fontSize: "11px", fontWeight: 600, color: "#a3a3a3", marginBottom: "4px" }}>
+                  <div style={{ marginTop: "12px", paddingTop: "10px", borderTop: "1px solid #f0f0f0" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, color: "#52525b", marginBottom: "6px" }}>
                       📎 Citations:
                     </div>
                     {m.sources.map((src, sIdx) => (
@@ -256,13 +275,13 @@ export const ChatTab = ({ documentId }) => {
                         key={sIdx}
                         style={{
                           fontSize: "12px",
-                          background: "rgba(255,255,255,0.05)",
-                          padding: "6px 8px",
+                          background: "#f9fafb",
+                          padding: "8px 10px",
                           borderRadius: "4px",
                           fontStyle: "italic",
-                          color: "#d4d4d4",
-                          border: "1px solid #262626",
-                          marginTop: sIdx > 0 ? "4px" : "0",
+                          color: "#3f3f46",
+                          border: "1px solid #e5e5e5",
+                          marginTop: sIdx > 0 ? "6px" : "0",
                         }}
                       >
                         "{src.excerpt}"
@@ -278,15 +297,16 @@ export const ChatTab = ({ documentId }) => {
           <div
             style={{
               alignSelf: "flex-start",
-              background: "#171717",
-              border: "1px solid #262626",
+              background: "#ffffff",
+              border: "1px solid #e5e5e5",
               padding: "10px 16px",
               borderRadius: "16px",
               fontSize: "13px",
-              color: "#a3a3a3",
+              color: "#52525b",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.04)",
             }}
           >
-            ✦ Generating response…
+            ✦ Generating clean legal response…
           </div>
         )}
       </div>
@@ -295,8 +315,8 @@ export const ChatTab = ({ documentId }) => {
       <div
         style={{
           padding: "16px",
-          borderTop: "1px solid #262626",
-          background: "#0a0a0a",
+          borderTop: "1px solid #e5e5e5",
+          background: "#fafafa",
           display: "flex",
           gap: "10px",
         }}
@@ -312,9 +332,9 @@ export const ChatTab = ({ documentId }) => {
             flex: 1,
             padding: "12px 16px",
             borderRadius: "8px",
-            border: "1px solid #333333",
-            background: "#171717",
-            color: "#ffffff",
+            border: "1px solid #d4d4d8",
+            background: "#ffffff",
+            color: "#000000",
             fontSize: "14px",
             outline: "none",
           }}
@@ -325,9 +345,9 @@ export const ChatTab = ({ documentId }) => {
           style={{
             padding: "12px 24px",
             borderRadius: "8px",
-            border: "1px solid #ffffff",
-            background: sending || !input.trim() ? "#262626" : "#ffffff",
-            color: sending || !input.trim() ? "#737373" : "#000000",
+            border: "1px solid #000000",
+            background: sending || !input.trim() ? "#e4e4e7" : "#000000",
+            color: sending || !input.trim() ? "#a1a1aa" : "#ffffff",
             fontWeight: 600,
             cursor: sending || !input.trim() ? "not-allowed" : "pointer",
             transition: "all 0.15s ease",

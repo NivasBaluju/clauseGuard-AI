@@ -64,8 +64,8 @@ export function Login() {
         alignItems: "center",
         justifyContent: "center",
         padding: "20px",
-        background: "#000000",
-        color: "#ffffff",
+        background: "#ffffff",
+        color: "#000000",
       }}
     >
       <div
@@ -73,10 +73,10 @@ export function Login() {
           width: "100%",
           maxWidth: "420px",
           padding: "40px",
-          background: "#0a0a0a",
-          border: "1px solid #262626",
+          background: "#ffffff",
+          border: "1px solid #e5e5e5",
           borderRadius: "12px",
-          boxShadow: "0 8px 30px rgba(0,0,0,0.6)",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
         }}
       >
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
@@ -85,22 +85,22 @@ export function Login() {
               width: "48px",
               height: "48px",
               borderRadius: "10px",
-              background: "#171717",
-              border: "1px solid #333333",
+              background: "#f4f4f5",
+              border: "1px solid #e4e4e7",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#ffffff",
+              color: "#000000",
             }}
           >
             <ShieldCheck size={26} />
           </div>
         </div>
 
-        <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "8px", textAlign: "center" }}>
+        <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "8px", textAlign: "center", color: "#000000" }}>
           Sign In
         </h1>
-        <p style={{ fontSize: "13px", color: "#a3a3a3", textAlign: "center", marginBottom: "28px" }}>
+        <p style={{ fontSize: "13px", color: "#71717a", textAlign: "center", marginBottom: "28px" }}>
           Enter your credentials to access your ClauseGuard workspace
         </p>
 
@@ -108,10 +108,10 @@ export function Login() {
           <div
             style={{
               padding: "10px 14px",
-              background: "#171717",
-              border: "1px solid #525252",
+              background: "#fef2f2",
+              border: "1px solid #fecaca",
               borderRadius: "6px",
-              color: "#f5f5f5",
+              color: "#b91c1c",
               fontSize: "13px",
               marginBottom: "20px",
               display: "flex",
@@ -126,7 +126,7 @@ export function Login() {
 
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div>
-            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#d4d4d4" }}>
+            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#3f3f46", fontWeight: 500 }}>
               Email Address
             </label>
             <input
@@ -140,9 +140,9 @@ export function Login() {
                 width: "100%",
                 padding: "12px 14px",
                 borderRadius: "6px",
-                border: "1px solid #333333",
-                background: "#171717",
-                color: "#ffffff",
+                border: "1px solid #d4d4d8",
+                background: "#f9fafb",
+                color: "#000000",
                 fontSize: "14px",
                 boxSizing: "border-box",
                 outline: "none",
@@ -151,7 +151,7 @@ export function Login() {
           </div>
 
           <div>
-            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#d4d4d4" }}>
+            <label style={{ display: "block", fontSize: "13px", marginBottom: "6px", color: "#3f3f46", fontWeight: 500 }}>
               Password
             </label>
             <div style={{ position: "relative" }}>
@@ -165,9 +165,9 @@ export function Login() {
                   width: "100%",
                   padding: "12px 42px 12px 14px",
                   borderRadius: "6px",
-                  border: "1px solid #333333",
-                  background: "#171717",
-                  color: "#ffffff",
+                  border: "1px solid #d4d4d8",
+                  background: "#f9fafb",
+                  color: "#000000",
                   fontSize: "14px",
                   boxSizing: "border-box",
                   outline: "none",
@@ -183,7 +183,7 @@ export function Login() {
                   transform: "translateY(-50%)",
                   background: "transparent",
                   border: "none",
-                  color: "#a3a3a3",
+                  color: "#71717a",
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
@@ -203,9 +203,9 @@ export function Login() {
               padding: "12px",
               marginTop: "12px",
               borderRadius: "6px",
-              border: "1px solid #ffffff",
-              background: submitting ? "#262626" : "#ffffff",
-              color: submitting ? "#737373" : "#000000",
+              border: "1px solid #000000",
+              background: submitting ? "#e4e4e7" : "#000000",
+              color: submitting ? "#a1a1aa" : "#ffffff",
               fontWeight: 600,
               fontSize: "15px",
               cursor: submitting ? "not-allowed" : "pointer",
@@ -221,9 +221,9 @@ export function Login() {
           </button>
         </form>
 
-        <p style={{ marginTop: "24px", textAlign: "center", fontSize: "13px", color: "#a3a3a3" }}>
+        <p style={{ marginTop: "24px", textAlign: "center", fontSize: "13px", color: "#71717a" }}>
           Don't have an account?{" "}
-          <Link to="/register" style={{ color: "#ffffff", textDecoration: "underline", fontWeight: 500 }}>
+          <Link to="/register" style={{ color: "#000000", textDecoration: "underline", fontWeight: 600 }}>
             Create Account
           </Link>
         </p>

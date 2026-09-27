@@ -73,26 +73,26 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
   return (
     <div className="space-y-8 max-w-4xl mx-auto py-4">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-rule pb-4">
+      <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
         <div>
           <button
             onClick={() => onNavigate("landing")}
-            className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-400 hover:text-white mb-2 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-neutral-500 hover:text-black mb-2 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Overview</span>
           </button>
-          <h1 className="font-serif text-3xl font-bold text-white">
+          <h1 className="font-serif text-3xl font-bold text-black">
             Upload Agreement for AI Audit
           </h1>
-          <p className="text-xs text-zinc-400 mt-1 font-sans">
+          <p className="text-xs text-neutral-600 mt-1 font-sans">
             Specify the document type and provide your PDF, DOCX, or TXT agreement.
           </p>
         </div>
 
         <button
           onClick={() => onNavigate("documents")}
-          className="px-3.5 py-2 text-xs font-mono uppercase tracking-wider border border-rule hover:border-white text-zinc-300 hover:text-white transition-colors hidden sm:block"
+          className="px-3.5 py-2 text-xs font-mono uppercase tracking-wider border border-neutral-300 hover:border-black text-neutral-700 hover:text-black bg-white transition-colors hidden sm:block rounded font-medium shadow-sm"
         >
           View Library
         </button>
@@ -114,7 +114,7 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
                   setProcessingDocId(null);
                   setIsSubmitting(false);
                 }}
-                className="px-6 py-2.5 text-xs font-mono uppercase tracking-wider border border-white bg-white text-black hover:bg-zinc-200"
+                className="px-6 py-2.5 text-xs font-mono uppercase tracking-wider border border-black bg-black text-white hover:bg-neutral-800 rounded font-bold shadow-sm"
               >
                 Try Another Document
               </button>
@@ -137,26 +137,26 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
 
           {/* Error Message */}
           {error && (
-            <div className="border border-red-500/40 bg-red-950/20 p-4 text-xs font-mono text-red-300 flex items-start gap-2.5">
-              <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+            <div className="border border-red-200 bg-red-50 p-4 text-xs font-mono text-red-700 flex items-start gap-2.5 rounded-lg">
+              <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
 
           {/* Privacy Note */}
-          <div className="border border-rule bg-paper-dim p-4 text-xs text-zinc-400 font-sans leading-relaxed">
-            <span className="font-mono text-zinc-300 uppercase tracking-wider text-[10px] block mb-1">
+          <div className="border border-neutral-200 bg-neutral-50 p-4 text-xs text-neutral-600 font-sans leading-relaxed rounded-lg">
+            <span className="font-mono text-neutral-800 uppercase tracking-wider text-[10px] block mb-1 font-semibold">
               Privacy Architecture Note:
             </span>
             Names, phone numbers, email addresses, and residential addresses are detected and masked via Presidio immediately upon text extraction. The raw unredacted text is encrypted at rest and is never sent to any ML classifier or external model.
           </div>
 
           {/* Submit CTA */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-rule">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-neutral-200">
             <button
               type="button"
               onClick={() => onNavigate("landing")}
-              className="px-5 py-2.5 text-xs font-mono uppercase tracking-wider border border-rule hover:border-white/40 text-zinc-400 hover:text-white transition-colors"
+              className="px-5 py-2.5 text-xs font-mono uppercase tracking-wider border border-neutral-300 hover:border-black text-neutral-600 hover:text-black bg-white transition-colors rounded"
             >
               Cancel
             </button>
@@ -165,11 +165,11 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
               type="button"
               disabled={!file || !documentType || isSubmitting}
               onClick={handleUpload}
-              className="px-8 py-3 text-xs font-mono uppercase tracking-wider border border-white bg-white text-black hover:bg-zinc-200 transition-colors flex items-center gap-2 font-bold disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-8 py-3 text-xs font-mono uppercase tracking-wider border border-black bg-black text-white hover:bg-neutral-800 transition-colors flex items-center gap-2 font-bold disabled:bg-neutral-200 disabled:text-neutral-400 disabled:border-neutral-200 disabled:cursor-not-allowed rounded shadow-sm"
             >
               {isSubmitting ? (
                 <>
-                  <span className="animate-spin w-3.5 h-3.5 border-2 border-black border-t-transparent inline-block" />
+                  <span className="animate-spin w-3.5 h-3.5 border-2 border-white border-t-transparent inline-block rounded-full" />
                   <span>Uploading & Queuing...</span>
                 </>
               ) : (
@@ -185,3 +185,5 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
     </div>
   );
 }
+
+export default Upload;

@@ -10,24 +10,24 @@ export function Toast({ message, type = "info", onClose, duration = 4000 }) {
   }, [duration, onClose]);
 
   const borderColors = {
-    success: "border-green-500 bg-zinc-950 text-green-300",
-    error: "border-red-500 bg-zinc-950 text-red-300",
-    info: "border-neutral-700 bg-black text-white",
+    success: "border-green-300 bg-white text-green-950 shadow-xl",
+    error: "border-red-300 bg-white text-red-950 shadow-xl",
+    info: "border-neutral-300 bg-white text-black shadow-xl",
   };
 
   const Icon = type === "success" ? CheckCircle2 : AlertCircle;
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 border shadow-2xl ${borderColors[type] || borderColors.info} max-w-md transition-all duration-300`}
+      className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 border ${borderColors[type] || borderColors.info} max-w-md transition-all duration-300 rounded`}
       role="alert"
     >
       <Icon className="w-4 h-4 shrink-0" />
-      <span className="text-xs font-sans flex-1">{message}</span>
+      <span className="text-xs font-sans flex-1 font-medium">{message}</span>
       {onClose && (
         <button
           onClick={onClose}
-          className="text-zinc-400 hover:text-white p-1"
+          className="text-neutral-400 hover:text-black p-1 transition-colors"
           aria-label="Close"
         >
           <X className="w-3.5 h-3.5" />

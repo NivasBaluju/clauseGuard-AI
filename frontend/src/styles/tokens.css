@@ -1,14 +1,14 @@
 :root {
-  --paper: #000000;
-  --paper-dim: #0C0C10;
-  --ink: #FFFFFF;
-  --ink-soft: #D4D4D8;
-  --rule: rgba(255, 255, 255, 0.12);
-  --rule-strong: rgba(255, 255, 255, 0.28);
+  --paper: #FFFFFF;
+  --paper-dim: #F9FAFB;
+  --ink: #000000;
+  --ink-soft: #52525B;
+  --rule: rgba(0, 0, 0, 0.12);
+  --rule-strong: rgba(0, 0, 0, 0.28);
   --risk-critical: #EF4444;
   --risk-warning: #F59E0B;
   --risk-safe: #22C55E;
-  --info: #FFFFFF;
+  --info: #000000;
   --font-serif: "Fraunces", Georgia, serif;
   --font-sans: "Public Sans", -apple-system, BlinkMacSystemFont, sans-serif;
   --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);

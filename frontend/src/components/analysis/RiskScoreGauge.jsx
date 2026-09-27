@@ -20,9 +20,9 @@ export function RiskScoreGauge({ score = 0, band = "low" }) {
   ];
 
   return (
-    <div className="border border-white/20 bg-paper-dim p-6 flex flex-col justify-between">
-      <div className="flex items-center justify-between border-b border-rule pb-3 mb-2">
-        <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-400">
+    <div className="border border-neutral-200 bg-white p-6 flex flex-col justify-between shadow-sm">
+      <div className="flex items-center justify-between border-b border-neutral-200 pb-3 mb-2">
+        <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-600 font-semibold">
           Composite Risk Assessment
         </span>
         <span
@@ -49,38 +49,38 @@ export function RiskScoreGauge({ score = 0, band = "low" }) {
               stroke="none"
             >
               <Cell fill={currentColor} />
-              <Cell fill="rgba(255, 255, 255, 0.08)" />
+              <Cell fill="rgba(0, 0, 0, 0.08)" />
             </Pie>
           </PieChart>
         </ResponsiveContainer>
 
         <div className="absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-          <span className="font-serif text-4xl font-bold tracking-tight text-white block">
+          <span className="font-serif text-4xl font-bold tracking-tight text-black block">
             {normalizedScore}
           </span>
-          <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block -mt-1">
+          <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest block -mt-1 font-semibold">
             out of 100
           </span>
         </div>
       </div>
 
       {/* Risk Band Legend Scale */}
-      <div className="grid grid-cols-4 gap-1 text-[10px] font-mono text-center pt-3 border-t border-rule">
-        <div className="p-1 border border-green-500/20 bg-green-950/10 text-green-400">
-          <span>0-25</span>
-          <span className="block text-[9px] text-zinc-500">LOW</span>
+      <div className="grid grid-cols-4 gap-1 text-[10px] font-mono text-center pt-3 border-t border-neutral-200">
+        <div className="p-1 border border-green-300 bg-green-50 text-green-700">
+          <span className="font-bold">0-25</span>
+          <span className="block text-[9px] text-neutral-500">LOW</span>
         </div>
-        <div className="p-1 border border-amber-500/20 bg-amber-950/10 text-amber-400">
-          <span>26-50</span>
-          <span className="block text-[9px] text-zinc-500">MED</span>
+        <div className="p-1 border border-amber-300 bg-amber-50 text-amber-700">
+          <span className="font-bold">26-50</span>
+          <span className="block text-[9px] text-neutral-500">MED</span>
         </div>
-        <div className="p-1 border border-orange-500/20 bg-orange-950/10 text-orange-400">
-          <span>51-75</span>
-          <span className="block text-[9px] text-zinc-500">HIGH</span>
+        <div className="p-1 border border-orange-300 bg-orange-50 text-orange-700">
+          <span className="font-bold">51-75</span>
+          <span className="block text-[9px] text-neutral-500">HIGH</span>
         </div>
-        <div className="p-1 border border-red-500/20 bg-red-950/20 text-red-400">
-          <span>76-100</span>
-          <span className="block text-[9px] text-zinc-500">CRIT</span>
+        <div className="p-1 border border-red-300 bg-red-50 text-red-700">
+          <span className="font-bold">76-100</span>
+          <span className="block text-[9px] text-neutral-500">CRIT</span>
         </div>
       </div>
     </div>

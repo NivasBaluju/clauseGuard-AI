@@ -4,28 +4,28 @@ import { Badge } from "../common/Badge";
 
 export function MissingClauseList({ missingClauses = [] }) {
   const severityColors = {
-    high: "border-red-500/40 bg-red-950/20 text-red-400",
-    medium: "border-amber-500/40 bg-amber-950/20 text-amber-400",
-    low: "border-green-500/40 bg-green-950/20 text-green-400",
+    high: "border-red-300 bg-red-50 text-red-800 font-semibold",
+    medium: "border-amber-300 bg-amber-50 text-amber-800 font-semibold",
+    low: "border-green-300 bg-green-50 text-green-800 font-semibold",
   };
 
   return (
-    <div className="border border-white/20 bg-paper-dim p-6 space-y-4">
-      <div className="flex items-center justify-between border-b border-rule pb-3">
+    <div className="border border-neutral-200 bg-white p-6 space-y-4 shadow-sm">
+      <div className="flex items-center justify-between border-b border-neutral-200 pb-3">
         <div>
-          <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-400 block">
+          <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-500 block font-semibold">
             Completeness Checklist
           </span>
-          <h3 className="font-serif text-lg font-bold text-white">
+          <h3 className="font-serif text-lg font-bold text-black">
             Missing Expected Clauses ({missingClauses.length})
           </h3>
         </div>
-        <span className="text-xs font-mono text-zinc-500">
+        <span className="text-xs font-mono text-neutral-500 font-semibold">
           Set-Difference Analysis
         </span>
       </div>
 
-      <p className="text-xs text-zinc-400 leading-relaxed font-sans">
+      <p className="text-xs text-neutral-600 leading-relaxed font-sans">
         The following standard clauses are commonly expected in this document type but were absent or detected below confidence threshold. Note: This is an engineering checklist of common provisions, not a statutory compliance mandate.
       </p>
 
@@ -34,10 +34,10 @@ export function MissingClauseList({ missingClauses = [] }) {
           {missingClauses.map((m, idx) => (
             <div
               key={idx}
-              className="border border-rule bg-black/40 p-4 space-y-2 hover:border-white/30 transition-colors"
+              className="border border-neutral-200 bg-neutral-50 p-4 space-y-2 hover:border-neutral-400 transition-colors"
             >
               <div className="flex items-center justify-between">
-                <span className="font-serif font-bold text-sm text-white">
+                <span className="font-serif font-bold text-sm text-black">
                   {m.clause_type.replace(/_/g, " ").toUpperCase()}
                 </span>
                 <span
@@ -48,15 +48,15 @@ export function MissingClauseList({ missingClauses = [] }) {
                   {m.severity} Severity
                 </span>
               </div>
-              <p className="text-xs text-zinc-400 font-sans leading-relaxed">
+              <p className="text-xs text-neutral-600 font-sans leading-relaxed">
                 {m.checklist_note || "Standard protection for this document category."}
               </p>
             </div>
           ))}
         </div>
       ) : (
-        <div className="border border-green-500/30 bg-green-950/20 p-5 text-center text-xs text-green-300 font-mono flex items-center justify-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-green-400" />
+        <div className="border border-green-300 bg-green-50 p-5 text-center text-xs text-green-800 font-mono flex items-center justify-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-green-700" />
           All standard expected clauses for this document type were identified.
         </div>
       )}

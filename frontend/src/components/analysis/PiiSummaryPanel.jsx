@@ -24,10 +24,10 @@ export function PiiSummaryPanel({ documentId }) {
 
   if (loading) {
     return (
-      <div className="border border-rule bg-paper-dim p-5">
+      <div className="border border-neutral-200 bg-white p-5 shadow-sm">
         <div className="animate-pulse space-y-3">
-          <div className="h-4 bg-white/10 w-1/3"></div>
-          <div className="h-10 bg-white/5 w-full"></div>
+          <div className="h-4 bg-neutral-100 w-1/3"></div>
+          <div className="h-10 bg-neutral-50 w-full"></div>
         </div>
       </div>
     );
@@ -41,27 +41,27 @@ export function PiiSummaryPanel({ documentId }) {
   const totalFindings = summary.total_findings || 0;
 
   return (
-    <div className="border border-rule bg-paper-dim p-5">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-rule pb-3 mb-4">
+    <div className="border border-neutral-200 bg-white p-5 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200 pb-3 mb-4">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-green-400" />
-          <h3 className="font-serif font-bold text-lg text-white">
+          <ShieldCheck className="w-5 h-5 text-green-600" />
+          <h3 className="font-serif font-bold text-lg text-black">
             PII Redaction Summary
           </h3>
         </div>
-        <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
-          <Lock className="w-3.5 h-3.5 text-zinc-500" />
+        <div className="flex items-center gap-2 text-xs font-mono text-neutral-500">
+          <Lock className="w-3.5 h-3.5 text-neutral-400" />
           <span>Encrypted at rest • Zero raw leakage</span>
         </div>
       </div>
 
-      <p className="text-xs text-zinc-400 leading-relaxed mb-4">
+      <p className="text-xs text-neutral-600 leading-relaxed mb-4">
         Microsoft Presidio redacted personal identifying information before clause segmentation, model inference, or storage. Downstream models and our AI RAG engine only ever process anonymized placeholders.
       </p>
 
       {totalFindings === 0 ? (
-        <div className="border border-rule bg-white/[0.02] p-4 text-center">
-          <p className="text-xs font-mono text-zinc-400">
+        <div className="border border-neutral-200 bg-neutral-50 p-4 text-center">
+          <p className="text-xs font-mono text-neutral-600">
             No personal identifying information entities were detected in this document.
           </p>
         </div>
@@ -71,21 +71,21 @@ export function PiiSummaryPanel({ documentId }) {
             {Object.entries(entityCounts).map(([entityType, count]) => (
               <div
                 key={entityType}
-                className="border border-rule bg-white/[0.02] p-3 flex flex-col justify-between"
+                className="border border-neutral-200 bg-neutral-50 p-3 flex flex-col justify-between"
               >
-                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">
+                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block font-semibold">
                   {entityType.replace(/_/g, " ")}
                 </span>
-                <span className="font-serif text-xl font-bold text-white mt-1">
-                  {count} <span className="text-xs font-mono text-zinc-500 font-normal">redacted</span>
+                <span className="font-serif text-xl font-bold text-black mt-1">
+                  {count} <span className="text-xs font-mono text-neutral-500 font-normal">redacted</span>
                 </span>
               </div>
             ))}
           </div>
 
-          <div className="border border-neutral-700 bg-neutral-900 p-3 flex items-start gap-2.5">
-            <EyeOff className="w-4 h-4 text-white shrink-0 mt-0.5" />
-            <p className="text-xs text-neutral-300 leading-relaxed">
+          <div className="border border-neutral-300 bg-neutral-100 p-3 flex items-start gap-2.5 rounded">
+            <EyeOff className="w-4 h-4 text-black shrink-0 mt-0.5" />
+            <p className="text-xs text-neutral-800 leading-relaxed">
               <strong>Zero-Storage Guarantee:</strong> The database only records entity types and character offsets. Actual names, phone numbers, or account numbers are never retained in plaintext.
             </p>
           </div>

@@ -79,15 +79,15 @@ export function DocumentList({ onNavigate }) {
   return (
     <div className="space-y-8 py-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-rule pb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-neutral-200 pb-4">
         <div>
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">
+          <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block font-semibold">
             Workspace Repository
           </span>
-          <h1 className="font-serif text-3xl font-bold text-white">
+          <h1 className="font-serif text-3xl font-bold text-black">
             Analyzed Legal Documents
           </h1>
-          <p className="text-xs text-zinc-400 mt-1 font-sans">
+          <p className="text-xs text-neutral-600 mt-1 font-sans">
             Review past risk audits, inspect classified clauses, and retrieve grounded answers.
           </p>
         </div>
@@ -96,7 +96,7 @@ export function DocumentList({ onNavigate }) {
           <button
             onClick={fetchDocuments}
             disabled={loading}
-            className="p-2 border border-rule hover:border-white/40 text-zinc-400 hover:text-white transition-colors"
+            className="p-2 border border-neutral-300 hover:border-black text-neutral-600 hover:text-black bg-white transition-colors"
             title="Refresh documents"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
@@ -104,7 +104,7 @@ export function DocumentList({ onNavigate }) {
 
           <button
             onClick={() => onNavigate("upload")}
-            className="px-4 py-2 text-xs font-mono uppercase tracking-wider border border-white bg-white text-black hover:bg-zinc-200 transition-colors flex items-center gap-2 font-semibold"
+            className="px-4 py-2 text-xs font-mono uppercase tracking-wider border border-black bg-black text-white hover:bg-neutral-800 transition-colors flex items-center gap-2 font-semibold"
           >
             <UploadCloud className="w-4 h-4" />
             <span>Upload New</span>
@@ -115,22 +115,22 @@ export function DocumentList({ onNavigate }) {
       {/* Filter / Search Bar */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 absolute left-3 top-3 text-zinc-500" />
+          <Search className="w-4 h-4 absolute left-3 top-3 text-neutral-400" />
           <input
             type="text"
             placeholder="Search by filename or document type..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-paper-dim border border-rule pl-9 pr-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white font-sans"
+            className="w-full bg-white border border-neutral-300 pl-9 pr-4 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black font-sans"
           />
         </div>
 
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-zinc-500 hidden sm:block" />
+          <Filter className="w-4 h-4 text-neutral-500 hidden sm:block" />
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="bg-paper-dim border border-rule px-3 py-2.5 text-xs font-mono text-white focus:outline-none focus:border-white"
+            className="bg-white border border-neutral-300 px-3 py-2.5 text-xs font-mono text-black focus:outline-none focus:border-black"
           >
             <option value="all">All Document Types</option>
             <option value="rental_agreement">Rental / Lease Agreements</option>
@@ -142,29 +142,29 @@ export function DocumentList({ onNavigate }) {
 
       {/* Loading state */}
       {loading ? (
-        <div className="border border-rule bg-paper-dim p-12 text-center space-y-3 animate-pulse">
-          <div className="w-8 h-8 border border-white/20 mx-auto"></div>
-          <p className="text-xs font-mono text-zinc-400">Loading document repository...</p>
+        <div className="border border-neutral-200 bg-white p-12 text-center space-y-3 animate-pulse">
+          <div className="w-8 h-8 border border-neutral-300 mx-auto"></div>
+          <p className="text-xs font-mono text-neutral-600">Loading document repository...</p>
         </div>
       ) : error ? (
-        <div className="border border-red-500/40 bg-red-950/20 p-6 text-center space-y-3 font-mono text-xs text-red-300">
-          <AlertTriangle className="w-6 h-6 mx-auto text-red-400" />
+        <div className="border border-red-300 bg-red-50 p-6 text-center space-y-3 font-mono text-xs text-red-700">
+          <AlertTriangle className="w-6 h-6 mx-auto text-red-600" />
           <p>{error}</p>
           <button
             onClick={fetchDocuments}
-            className="px-4 py-1.5 border border-red-500/50 bg-red-900/30 text-white uppercase tracking-wider"
+            className="px-4 py-1.5 border border-red-600 bg-red-600 text-white uppercase tracking-wider"
           >
             Retry
           </button>
         </div>
       ) : filteredDocs.length === 0 ? (
-        <div className="border border-rule bg-paper-dim p-12 text-center space-y-4">
-          <FileText className="w-10 h-10 text-zinc-600 mx-auto" />
+        <div className="border border-neutral-200 bg-white p-12 text-center space-y-4 shadow-sm">
+          <FileText className="w-10 h-10 text-neutral-400 mx-auto" />
           <div>
-            <h3 className="font-serif text-lg font-bold text-white mb-1">
+            <h3 className="font-serif text-lg font-bold text-black mb-1">
               No documents found
             </h3>
-            <p className="text-xs text-zinc-400 max-w-sm mx-auto font-sans leading-relaxed">
+            <p className="text-xs text-neutral-600 max-w-sm mx-auto font-sans leading-relaxed">
               {searchQuery || typeFilter !== "all"
                 ? "No uploaded documents match your current filter criteria."
                 : "Upload your first residential lease, job offer, or insurance policy to begin automated risk analysis."}
@@ -172,7 +172,7 @@ export function DocumentList({ onNavigate }) {
           </div>
           <button
             onClick={() => onNavigate("upload")}
-            className="px-5 py-2 text-xs font-mono uppercase tracking-wider border border-white bg-white text-black hover:bg-zinc-200 transition-colors inline-flex items-center gap-2"
+            className="px-5 py-2 text-xs font-mono uppercase tracking-wider border border-black bg-black text-white hover:bg-neutral-800 transition-colors inline-flex items-center gap-2"
           >
             <UploadCloud className="w-4 h-4" />
             <span>Upload Document</span>
@@ -190,22 +190,22 @@ export function DocumentList({ onNavigate }) {
               <div
                 key={doc.id}
                 onClick={() => onNavigate("analysis", { documentId: doc.id })}
-                className="border border-rule bg-paper-dim p-5 hover:border-white/40 transition-all cursor-pointer flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                className="border border-neutral-200 bg-white p-5 hover:border-black transition-all cursor-pointer flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm"
               >
                 <div className="space-y-1.5 flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-mono text-xs text-zinc-500 uppercase border border-rule px-1.5 py-0.5">
+                    <span className="font-mono text-xs text-neutral-600 uppercase border border-neutral-300 bg-neutral-100 px-1.5 py-0.5">
                       {doc.original_format || "PDF"}
                     </span>
-                    <h3 className="font-serif text-base font-bold text-white truncate max-w-md">
+                    <h3 className="font-serif text-base font-bold text-black truncate max-w-md">
                       {doc.filename}
                     </h3>
-                    <Badge variant="default" className="text-zinc-400">
+                    <Badge variant="default" className="text-neutral-700 border-neutral-300 bg-neutral-100">
                       {getDocTypeLabel(doc.document_type)}
                     </Badge>
                   </div>
 
-                  <div className="flex items-center gap-4 text-xs font-mono text-zinc-400 flex-wrap">
+                  <div className="flex items-center gap-4 text-xs font-mono text-neutral-600 flex-wrap">
                     <span>Uploaded: {new Date(doc.uploaded_at).toLocaleDateString()}</span>
                     {doc.page_count && <span>• {doc.page_count} pages</span>}
                     {doc.model_version && <span>• Model: {doc.model_version}</span>}
@@ -213,23 +213,23 @@ export function DocumentList({ onNavigate }) {
                 </div>
 
                 {/* Status & Risk Score Section */}
-                <div className="flex items-center gap-4 sm:gap-6 self-stretch sm:self-auto justify-between sm:justify-end border-t sm:border-t-0 border-rule pt-3 sm:pt-0">
+                <div className="flex items-center gap-4 sm:gap-6 self-stretch sm:self-auto justify-between sm:justify-end border-t sm:border-t-0 border-neutral-200 pt-3 sm:pt-0">
                   {isAnalyzed ? (
                     <div className="text-right">
                       <div className="flex items-center gap-2">
-                        <span className="font-serif text-2xl font-bold text-white">
+                        <span className="font-serif text-2xl font-bold text-black">
                           {score !== null ? Math.round(score) : "—"}
                         </span>
                         <Badge variant={band}>{band}</Badge>
                       </div>
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase block">
+                      <span className="text-[10px] font-mono text-neutral-500 uppercase block">
                         Composite Risk / 100
                       </span>
                     </div>
                   ) : (
                     <div className="text-right">
                       <Badge variant="info">{doc.status}</Badge>
-                      <span className="text-[10px] font-mono text-zinc-500 block uppercase mt-0.5">
+                      <span className="text-[10px] font-mono text-neutral-500 block uppercase mt-0.5">
                         {doc.processing_stage || "Queued"}
                       </span>
                     </div>
@@ -243,7 +243,7 @@ export function DocumentList({ onNavigate }) {
                         target="_blank"
                         rel="noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="p-2 border border-rule hover:border-white/40 text-zinc-400 hover:text-white transition-colors"
+                        className="p-2 border border-neutral-300 hover:border-black text-neutral-600 hover:text-black bg-white transition-colors"
                         title="Download PDF Audit Report"
                       >
                         <Download className="w-4 h-4" />
@@ -253,7 +253,7 @@ export function DocumentList({ onNavigate }) {
                     <button
                       onClick={(e) => handleDelete(e, doc.id)}
                       disabled={deletingId === doc.id}
-                      className="p-2 border border-rule hover:border-red-500 text-zinc-400 hover:text-red-400 transition-colors disabled:opacity-40"
+                      className="p-2 border border-neutral-300 hover:border-red-600 text-neutral-500 hover:text-red-600 bg-white transition-colors disabled:opacity-40"
                       title="Delete document and analysis"
                     >
                       <Trash2 className="w-4 h-4" />

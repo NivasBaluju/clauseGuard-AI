@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { User, Bot, CheckCircle2, AlertTriangle, FileText, ChevronDown, ChevronUp } from "lucide-react";
-import { Badge } from "../common/Badge";
+import { LegalMarkdown } from "./LegalMarkdown";
 
 export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
   const isUser = message.role === "user";
@@ -8,25 +8,25 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
 
   return (
     <div
-      className={`border p-4 transition-all ${
+      className={`border p-5 transition-all rounded-lg ${
         isUser
-          ? "border-white/20 bg-white/5 ml-4 sm:ml-12"
-          : "border-rule bg-paper-dim mr-4 sm:mr-12"
+          ? "border-neutral-300 bg-neutral-100 text-black ml-4 sm:ml-12"
+          : "border-neutral-200 bg-white text-black shadow-sm mr-4 sm:mr-12"
       }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between gap-3 border-b border-rule pb-2 mb-3">
+      <div className="flex items-center justify-between gap-3 border-b border-neutral-200 pb-2.5 mb-3">
         <div className="flex items-center gap-2">
           {isUser ? (
-            <div className="w-6 h-6 border border-white/30 bg-white/10 flex items-center justify-center text-white">
+            <div className="w-6 h-6 border border-neutral-400 bg-white flex items-center justify-center text-black rounded">
               <User className="w-3.5 h-3.5" />
             </div>
           ) : (
-            <div className="w-6 h-6 border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white">
+            <div className="w-6 h-6 border border-neutral-300 bg-neutral-100 flex items-center justify-center text-black rounded">
               <Bot className="w-3.5 h-3.5" />
             </div>
           )}
-          <span className="font-mono text-xs text-neutral-400 uppercase tracking-wider">
+          <span className="font-mono text-xs font-semibold text-neutral-800 uppercase tracking-wider">
             {isUser ? "You" : "ClauseGuard AI (Grounded Legal Copilot)"}
           </span>
         </div>
@@ -34,29 +34,33 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
         {!isUser && (
           <div className="flex items-center gap-2">
             {message.grounded ? (
-              <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-white border border-neutral-700 bg-neutral-900 px-2 py-0.5">
-                <CheckCircle2 className="w-3 h-3 text-white" />
+              <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-black border border-neutral-300 bg-neutral-100 px-2 py-0.5 rounded">
+                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                 Grounded ({message.cited_clause_ids?.length || 0} citations)
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-neutral-300 border border-neutral-700 bg-neutral-900 px-2 py-0.5">
-                <AlertTriangle className="w-3 h-3 text-neutral-400" />
-                Not Grounded / General Legal Query
+              <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-neutral-700 border border-neutral-300 bg-neutral-100 px-2 py-0.5 rounded">
+                <AlertTriangle className="w-3 h-3 text-amber-600" />
+                General Legal Query
               </span>
             )}
           </div>
         )}
       </div>
 
-      {/* Message content */}
-      <div className="text-sm leading-relaxed text-zinc-200 whitespace-pre-wrap font-sans">
-        {message.content}
-      </div>
+      {/* Message content: rendered cleanly using LegalMarkdown for assistant, preserving exact formatting */}
+      {isUser ? (
+        <div className="text-sm sm:text-base leading-relaxed text-black font-sans whitespace-pre-wrap">
+          {message.content}
+        </div>
+      ) : (
+        <LegalMarkdown content={message.content} />
+      )}
 
       {/* Citations section for Assistant */}
       {!isUser && message.cited_clause_ids && message.cited_clause_ids.length > 0 && (
-        <div className="mt-4 pt-3 border-t border-rule">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 block mb-2">
+        <div className="mt-4 pt-3 border-t border-neutral-200">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-600 block mb-2 font-semibold">
             Directly Cited Clauses in Document:
           </span>
           <div className="flex flex-wrap gap-2">
@@ -66,12 +70,14 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
                 <button
                   key={clauseId}
                   onClick={() => onSelectClause && onSelectClause(clauseId)}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono border border-neutral-700 bg-neutral-900 text-white hover:border-neutral-500 hover:bg-neutral-800 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono border border-neutral-300 bg-neutral-50 text-black hover:border-black hover:bg-neutral-100 transition-colors rounded"
                   title="Click to view clause in document"
                 >
-                  <FileText className="w-3 h-3 text-white" />
+                  <FileText className="w-3 h-3 text-neutral-700" />
                   <span>
-                    {clause ? `Clause #${clause.clause_index + 1}: ${clause.clause_type?.replace(/_/g, " ").toUpperCase()}` : `Clause ${clauseId.slice(0, 8)}`}
+                    {clause
+                      ? `Clause #${clause.clause_index + 1}: ${clause.clause_type?.replace(/_/g, " ").toUpperCase()}`
+                      : `Clause ${clauseId.slice(0, 8)}`}
                   </span>
                 </button>
               );
@@ -85,12 +91,12 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
         <div className="mt-3 pt-2">
           <button
             onClick={() => setShowRetrieved(!showRetrieved)}
-            className="text-[11px] font-mono text-zinc-500 hover:text-zinc-300 flex items-center gap-1 transition-colors"
+            className="text-[11px] font-mono text-neutral-500 hover:text-black flex items-center gap-1 transition-colors"
           >
             {showRetrieved ? (
               <>
                 <ChevronUp className="w-3 h-3" />
-                <span>Hide {message.retrieved_clauses.length} pgvector retrieved clauses</span>
+                <span>Hide {message.retrieved_clauses.length} vector-retrieved clauses</span>
               </>
             ) : (
               <>
@@ -101,14 +107,14 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
           </button>
 
           {showRetrieved && (
-            <div className="mt-2 space-y-2 border-l-2 border-neutral-700 pl-3 pt-1">
+            <div className="mt-2 space-y-2 border-l-2 border-neutral-300 pl-3 pt-1">
               {message.retrieved_clauses.map((rc, idx) => (
-                <div key={idx} className="bg-black/40 border border-rule p-2.5 text-xs">
-                  <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 mb-1">
+                <div key={idx} className="bg-neutral-50 border border-neutral-200 p-2.5 text-xs rounded">
+                  <div className="flex items-center justify-between text-[10px] font-mono text-neutral-600 mb-1">
                     <span>Clause #{rc.clause_index + 1} ({rc.clause_type})</span>
                     <span>Distance: {rc.distance?.toFixed(4) || "N/A"}</span>
                   </div>
-                  <p className="text-zinc-300 text-xs italic font-serif line-clamp-3">
+                  <p className="text-neutral-800 text-xs italic font-serif line-clamp-3">
                     "{rc.redacted_text}"
                   </p>
                 </div>
@@ -120,3 +126,5 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
     </div>
   );
 }
+
+export default ChatMessage;

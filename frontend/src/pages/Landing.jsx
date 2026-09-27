@@ -79,25 +79,25 @@ export function Landing({ onNavigate }) {
   return (
     <div className="space-y-16 py-4">
       {/* Hero Section */}
-      <section className="relative border border-rule bg-paper-dim p-8 sm:p-12 lg:p-16">
+      <section className="relative border border-neutral-200 bg-neutral-50 p-8 sm:p-12 lg:p-16 rounded-xl shadow-sm">
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 text-xs font-mono border border-white/20 bg-white/5 text-zinc-300 uppercase tracking-wider mb-6">
-            <ShieldAlert className="w-3.5 h-3.5 text-white" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 text-xs font-mono border border-neutral-300 bg-white text-black uppercase tracking-wider mb-6 rounded font-semibold shadow-sm">
+            <ShieldAlert className="w-3.5 h-3.5 text-black" />
             <span>Automated Legal Risk Intelligence</span>
           </div>
 
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.1] mb-6">
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-black leading-[1.1] mb-6">
             Uncover Hidden Liabilities in Legal Agreements
           </h1>
 
-          <p className="text-base sm:text-lg text-zinc-300 font-sans leading-relaxed mb-8">
+          <p className="text-base sm:text-lg text-neutral-600 font-sans leading-relaxed mb-8">
             ClauseGuard AI segments legal contracts, classifies clause favorability with dual-model evaluation, computes transparent risk scores, detects missing protective terms, and powers grounded follow-up inquiries.
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
             <button
               onClick={() => onNavigate("upload")}
-              className="px-6 py-3.5 text-xs font-mono uppercase tracking-wider border border-white bg-white text-black hover:bg-zinc-200 transition-colors flex items-center gap-2 font-semibold"
+              className="px-6 py-3.5 text-xs font-mono uppercase tracking-wider border border-black bg-black text-white hover:bg-neutral-800 transition-colors flex items-center gap-2 font-semibold rounded shadow-sm"
             >
               <span>Upload Agreement</span>
               <ArrowRight className="w-4 h-4" />
@@ -105,7 +105,7 @@ export function Landing({ onNavigate }) {
 
             <button
               onClick={() => onNavigate("documents")}
-              className="px-6 py-3.5 text-xs font-mono uppercase tracking-wider border border-rule bg-white/5 text-white hover:border-white/40 hover:bg-white/10 transition-colors"
+              className="px-6 py-3.5 text-xs font-mono uppercase tracking-wider border border-neutral-300 bg-white text-black hover:border-black hover:bg-neutral-100 transition-colors font-medium rounded shadow-sm"
             >
               View Analyzed Documents
             </button>
@@ -113,33 +113,33 @@ export function Landing({ onNavigate }) {
         </div>
 
         {/* Technical specs pill footer */}
-        <div className="mt-12 pt-6 border-t border-rule grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono text-zinc-400">
+        <div className="mt-12 pt-6 border-t border-neutral-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono text-neutral-600">
           <div>
-            <span className="text-[10px] text-zinc-500 block uppercase">Privacy</span>
-            <span className="text-white">Presidio Redaction</span>
+            <span className="text-[10px] text-neutral-500 block uppercase font-semibold">Privacy</span>
+            <span className="text-black font-medium">Presidio Redaction</span>
           </div>
           <div>
-            <span className="text-[10px] text-zinc-500 block uppercase">Classifier</span>
-            <span className="text-white">TF-IDF + BERT</span>
+            <span className="text-[10px] text-neutral-500 block uppercase font-semibold">Classifier</span>
+            <span className="text-black font-medium">TF-IDF + BERT</span>
           </div>
           <div>
-            <span className="text-[10px] text-zinc-500 block uppercase">Vector Store</span>
-            <span className="text-white">pgvector (768-dim)</span>
+            <span className="text-[10px] text-neutral-500 block uppercase font-semibold">Vector Store</span>
+            <span className="text-black font-medium">pgvector (768-dim)</span>
           </div>
           <div>
-            <span className="text-[10px] text-zinc-500 block uppercase">RAG Engine</span>
-            <span className="text-white">Neural Legal Copilot</span>
+            <span className="text-[10px] text-neutral-500 block uppercase font-semibold">RAG Engine</span>
+            <span className="text-black font-medium">Neural Legal Copilot</span>
           </div>
         </div>
       </section>
 
       {/* Supported Document Types */}
       <section className="space-y-6">
-        <div className="border-b border-rule pb-3">
-          <span className="text-xs font-mono text-zinc-500 uppercase tracking-wider block">
+        <div className="border-b border-neutral-200 pb-3">
+          <span className="text-xs font-mono text-neutral-500 uppercase tracking-wider block font-semibold">
             Target Taxonomies
           </span>
-          <h2 className="font-serif text-2xl font-bold text-white">
+          <h2 className="font-serif text-2xl font-bold text-black">
             Supported Document Formats & Checklists
           </h2>
         </div>
@@ -150,29 +150,29 @@ export function Landing({ onNavigate }) {
             return (
               <div
                 key={dt.id}
-                className="border border-rule bg-paper-dim p-6 flex flex-col justify-between hover:border-white/40 transition-colors"
+                className="border border-neutral-200 bg-white p-6 flex flex-col justify-between hover:border-black transition-colors rounded-xl shadow-sm"
               >
                 <div>
-                  <div className="w-10 h-10 border border-white/20 bg-white/5 flex items-center justify-center text-white mb-4">
-                    <Icon className="w-5 h-5 text-zinc-300" />
+                  <div className="w-10 h-10 border border-neutral-300 bg-neutral-100 flex items-center justify-center text-black mb-4 rounded-lg">
+                    <Icon className="w-5 h-5 text-neutral-700" />
                   </div>
-                  <h3 className="font-serif font-bold text-xl text-white mb-2">
+                  <h3 className="font-serif font-bold text-xl text-black mb-2">
                     {dt.title}
                   </h3>
-                  <p className="text-xs text-zinc-400 leading-relaxed mb-6 font-sans">
+                  <p className="text-xs text-neutral-600 leading-relaxed mb-6 font-sans">
                     {dt.description}
                   </p>
                 </div>
 
                 <div>
-                  <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block mb-2">
+                  <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block mb-2 font-semibold">
                     Key Evaluated Clauses:
                   </span>
                   <div className="flex flex-wrap gap-1.5 mb-6">
                     {dt.clauses.map((c, i) => (
                       <span
                         key={i}
-                        className="text-[11px] font-mono border border-rule bg-black px-2 py-0.5 text-zinc-400"
+                        className="text-[11px] font-mono border border-neutral-200 bg-neutral-100 px-2 py-0.5 text-neutral-800 rounded"
                       >
                         {c}
                       </span>
@@ -181,7 +181,7 @@ export function Landing({ onNavigate }) {
 
                   <button
                     onClick={() => onNavigate("upload", { defaultDocType: dt.id })}
-                    className="w-full py-2 text-xs font-mono uppercase tracking-wider border border-rule hover:border-white text-zinc-300 hover:text-white transition-colors"
+                    className="w-full py-2.5 text-xs font-mono uppercase tracking-wider border border-neutral-300 hover:border-black bg-white text-black hover:bg-neutral-50 transition-colors font-semibold rounded"
                   >
                     Analyze this type →
                   </button>
@@ -194,11 +194,11 @@ export function Landing({ onNavigate }) {
 
       {/* Engineering Pillars */}
       <section className="space-y-6">
-        <div className="border-b border-rule pb-3">
-          <span className="text-xs font-mono text-zinc-500 uppercase tracking-wider block">
+        <div className="border-b border-neutral-200 pb-3">
+          <span className="text-xs font-mono text-neutral-500 uppercase tracking-wider block font-semibold">
             System Architecture
           </span>
-          <h2 className="font-serif text-2xl font-bold text-white">
+          <h2 className="font-serif text-2xl font-bold text-black">
             Built on Rigorous Engineering Principles
           </h2>
         </div>
@@ -207,14 +207,14 @@ export function Landing({ onNavigate }) {
           {corePillars.map((p, idx) => {
             const Icon = p.icon;
             return (
-              <div key={idx} className="border border-rule bg-paper-dim p-6">
-                <div className="w-8 h-8 border border-white/20 bg-white/5 flex items-center justify-center text-white mb-4">
-                  <Icon className="w-4 h-4 text-zinc-300" />
+              <div key={idx} className="border border-neutral-200 bg-white p-6 rounded-xl shadow-sm">
+                <div className="w-8 h-8 border border-neutral-300 bg-neutral-100 flex items-center justify-center text-black mb-4 rounded-lg">
+                  <Icon className="w-4 h-4 text-neutral-700" />
                 </div>
-                <h3 className="font-serif font-bold text-base text-white mb-2">
+                <h3 className="font-serif font-bold text-base text-black mb-2">
                   {p.title}
                 </h3>
-                <p className="text-xs text-zinc-400 leading-relaxed font-sans">
+                <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                   {p.text}
                 </p>
               </div>
@@ -224,40 +224,40 @@ export function Landing({ onNavigate }) {
       </section>
 
       {/* Model Benchmark Report Summary */}
-      <section className="border border-rule bg-paper-dim p-6 sm:p-8">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-rule pb-4 mb-6">
+      <section className="border border-neutral-200 bg-neutral-50 p-6 sm:p-8 rounded-xl shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4 mb-6">
           <div>
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">
+            <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block font-semibold">
               Held-Out Test Set Performance
             </span>
-            <h3 className="font-serif font-bold text-xl text-white">
+            <h3 className="font-serif font-bold text-xl text-black">
               Dual-Model Selection Benchmark (F1-Macro)
             </h3>
           </div>
-          <span className="text-xs font-mono border border-neutral-700 bg-neutral-900 text-white px-2.5 py-1">
+          <span className="text-xs font-mono border border-neutral-300 bg-white text-black px-2.5 py-1 rounded font-semibold shadow-sm">
             VERIFIED NO-HALLUCINATION DATASET
           </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
-          <div className="border border-rule p-4 bg-black/40">
-            <span className="text-zinc-500 block text-[10px] uppercase">Residential Leases</span>
-            <div className="text-white font-serif text-lg font-bold mt-1">F1: 0.7333 (Baseline)</div>
-            <p className="text-[11px] text-zinc-400 mt-2 font-sans">
+          <div className="border border-neutral-200 p-4 bg-white rounded-lg shadow-sm">
+            <span className="text-neutral-500 block text-[10px] uppercase font-semibold">Residential Leases</span>
+            <div className="text-black font-serif text-lg font-bold mt-1">F1: 0.7333 (Baseline)</div>
+            <p className="text-[11px] text-neutral-600 mt-2 font-sans leading-relaxed">
               TF-IDF + LR selected for clause typing (15 classes); BERT-no-context selected for favorability scoring (+0.041 F1 lift).
             </p>
           </div>
-          <div className="border border-rule p-4 bg-black/40">
-            <span className="text-zinc-500 block text-[10px] uppercase">Job Offer Letters</span>
-            <div className="text-white font-serif text-lg font-bold mt-1">F1: 0.6667 (Baseline)</div>
-            <p className="text-[11px] text-zinc-400 mt-2 font-sans">
+          <div className="border border-neutral-200 p-4 bg-white rounded-lg shadow-sm">
+            <span className="text-neutral-500 block text-[10px] uppercase font-semibold">Job Offer Letters</span>
+            <div className="text-black font-serif text-lg font-bold mt-1">F1: 0.6667 (Baseline)</div>
+            <p className="text-[11px] text-neutral-600 mt-2 font-sans leading-relaxed">
               TF-IDF + LR selected for clause typing (13 classes); baseline selected for favorability.
             </p>
           </div>
-          <div className="border border-rule p-4 bg-black/40">
-            <span className="text-zinc-500 block text-[10px] uppercase">Insurance Specimen (HO-4)</span>
-            <div className="text-white font-serif text-lg font-bold mt-1">F1: 0.4848 (Baseline)</div>
-            <p className="text-[11px] text-zinc-400 mt-2 font-sans">
+          <div className="border border-neutral-200 p-4 bg-white rounded-lg shadow-sm">
+            <span className="text-neutral-500 block text-[10px] uppercase font-semibold">Insurance Specimen (HO-4)</span>
+            <div className="text-black font-serif text-lg font-bold mt-1">F1: 0.4848 (Baseline)</div>
+            <p className="text-[11px] text-neutral-600 mt-2 font-sans leading-relaxed">
               TF-IDF + LR for clause typing; BERT-no-context won on favorability (0.4762 vs 0.2963, +0.18 lift).
             </p>
           </div>
@@ -266,3 +266,5 @@ export function Landing({ onNavigate }) {
     </div>
   );
 }
+
+export default Landing;

@@ -21,7 +21,8 @@ CRITICAL GROUNDING RULES:
    "The provided document does not contain information addressing this question."
    Do NOT guess, hypothesize, or introduce external legal principles.
 4. Keep answers factual, concise, and objective.
-5. Reminder: ClauseGuard AI provides automated, non-expert analysis for informational purposes only. It is not legal advice.
+5. Formatting & Structure: Respond using clean Markdown structure suitable for rendering in a professional chatbot. Use headings, paragraphs, bullet lists, numbered lists, bold emphasis, tables, and blockquotes when appropriate. Do not use decorative Markdown, excessive symbols, or unnecessary formatting. Never place asterisks around entire paragraphs. Use bold only for important labels or short phrases. Keep responses concise, structured, and readable.
+6. Reminder: ClauseGuard AI provides automated, non-expert analysis for informational purposes only. It is not legal advice.
 """
 
 def answer_document_question(document_id, question: str, session_id=None) -> dict:
@@ -117,7 +118,7 @@ def answer_document_question(document_id, question: str, session_id=None) -> dic
         answer_text = response.text.strip()
     except Exception as e:
         logger.error(f"Error calling Gemini model {chat_model}: {e}")
-        answer_text = f"An error occurred while communicating with the AI service: {str(e)}"
+        answer_text = "Unable to generate a response right now. Please try again."
 
     # 6. Verify grounding and extract citations
     # Check if answer claims no information

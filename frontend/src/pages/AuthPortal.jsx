@@ -105,43 +105,44 @@ export function AuthPortal({ onAuthSuccess }) {
       if (contentType && contentType.includes("application/json")) {
         data = await res.json();
       } else {
-        throw new Error("Server connection error during registration. Please try again.");
+        throw new Error("Server connection reset during registration. Please try again.");
       }
 
       if (!res.ok) {
-        throw new Error(data.error || "Registration failed. Please check your details.");
+        throw new Error(data.error || "Registration failed. Try using a different email address.");
       }
 
+      // Auto login upon successful registration
       login(data.user);
       if (onAuthSuccess) onAuthSuccess(data.user);
     } catch (err) {
-      setError(err.message || "Failed to create account.");
+      setError(err.message || "Failed to create account. Please check your details.");
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-white text-black flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden">
       {/* Main Container */}
       <div className="w-full max-w-md relative z-10 space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-neutral-900 border border-neutral-700 text-white mb-2 shadow-lg">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-neutral-100 border border-neutral-300 text-black mb-2 shadow-sm">
             <ShieldAlert size={26} />
           </div>
-          <h1 className="font-serif text-3xl font-bold tracking-tight text-white">
+          <h1 className="font-serif text-3xl font-bold tracking-tight text-black">
             ClauseGuard AI
           </h1>
-          <p className="text-xs font-mono text-neutral-400 tracking-wide uppercase">
+          <p className="text-xs font-mono text-neutral-500 tracking-wide uppercase">
             Enterprise Legal Risk Analyzer & Grounded Copilot
           </p>
         </div>
 
         {/* Auth Card */}
-        <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6">
+        <div className="bg-white border border-neutral-200 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
           {/* Mode Tabs */}
-          <div className="flex bg-neutral-900 p-1 rounded-lg border border-neutral-800">
+          <div className="flex bg-neutral-100 p-1 rounded-lg border border-neutral-200">
             <button
               onClick={() => {
                 setTab("login");
@@ -149,8 +150,8 @@ export function AuthPortal({ onAuthSuccess }) {
               }}
               className={`flex-1 py-2 text-xs font-mono font-medium rounded-md transition-all ${
                 tab === "login"
-                  ? "bg-white text-black font-semibold shadow-none"
-                  : "text-neutral-400 hover:text-white"
+                  ? "bg-black text-white font-semibold shadow-sm"
+                  : "text-neutral-600 hover:text-black"
               }`}
             >
               Sign In
@@ -162,8 +163,8 @@ export function AuthPortal({ onAuthSuccess }) {
               }}
               className={`flex-1 py-2 text-xs font-mono font-medium rounded-md transition-all ${
                 tab === "register"
-                  ? "bg-white text-black font-semibold shadow-none"
-                  : "text-neutral-400 hover:text-white"
+                  ? "bg-black text-white font-semibold shadow-sm"
+                  : "text-neutral-600 hover:text-black"
               }`}
             >
               Create Account
@@ -172,8 +173,8 @@ export function AuthPortal({ onAuthSuccess }) {
 
           {/* Error Banner */}
           {error && (
-            <div className="p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-xs font-mono text-neutral-200 flex items-center gap-2">
-              <AlertCircle size={15} className="shrink-0 text-white" />
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-xs font-mono text-red-700 flex items-center gap-2">
+              <AlertCircle size={15} className="shrink-0 text-red-600" />
               <span>{error}</span>
             </div>
           )}
@@ -182,41 +183,41 @@ export function AuthPortal({ onAuthSuccess }) {
           {tab === "login" ? (
             <form onSubmit={handleLoginSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-mono text-neutral-300 mb-1.5">
+                <label className="block text-xs font-mono text-neutral-700 font-medium mb-1.5">
                   Email Address / Username
                 </label>
                 <div className="relative">
-                  <Mail size={16} className="absolute left-3.5 top-3 text-neutral-500" />
+                  <Mail size={16} className="absolute left-3.5 top-3 text-neutral-400" />
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@company.com"
-                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg pl-10 pr-4 py-2.5 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-white transition-colors"
+                    className="w-full bg-neutral-50 border border-neutral-300 rounded-lg pl-10 pr-4 py-2.5 text-xs font-mono text-black placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-neutral-300 mb-1.5">
+                <label className="block text-xs font-mono text-neutral-700 font-medium mb-1.5">
                   Password
                 </label>
                 <div className="relative">
-                  <Lock size={16} className="absolute left-3.5 top-3 text-neutral-500" />
+                  <Lock size={16} className="absolute left-3.5 top-3 text-neutral-400" />
                   <input
                     type={showPassword ? "text" : "password"}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg pl-10 pr-10 py-2.5 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-white transition-colors"
+                    className="w-full bg-neutral-50 border border-neutral-300 rounded-lg pl-10 pr-10 py-2.5 text-xs font-mono text-black placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
                   />
                   {/* See Password Toggle Option */}
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-2.5 text-neutral-500 hover:text-white transition-colors"
+                    className="absolute right-3 top-2.5 text-neutral-400 hover:text-black transition-colors"
                     title={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -227,7 +228,7 @@ export function AuthPortal({ onAuthSuccess }) {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-2.5 bg-white hover:bg-neutral-200 text-black text-xs font-mono font-bold rounded-lg transition-colors flex items-center justify-center gap-2 border border-white disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed mt-2"
+                className="w-full py-2.5 bg-black hover:bg-neutral-800 text-white text-xs font-mono font-bold rounded-lg transition-colors flex items-center justify-center gap-2 border border-black disabled:bg-neutral-200 disabled:text-neutral-400 disabled:cursor-not-allowed mt-2"
               >
                 {submitting ? (
                   <span>Authenticating…</span>
@@ -243,58 +244,58 @@ export function AuthPortal({ onAuthSuccess }) {
             /* CREATE ACCOUNT FORM */
             <form onSubmit={handleRegisterSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-mono text-neutral-300 mb-1.5">
+                <label className="block text-xs font-mono text-neutral-700 font-medium mb-1.5">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User size={16} className="absolute left-3.5 top-3 text-neutral-500" />
+                  <User size={16} className="absolute left-3.5 top-3 text-neutral-400" />
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Alex Morgan"
-                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg pl-10 pr-4 py-2.5 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-white transition-colors"
+                    className="w-full bg-neutral-50 border border-neutral-300 rounded-lg pl-10 pr-4 py-2.5 text-xs font-mono text-black placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-neutral-300 mb-1.5">
+                <label className="block text-xs font-mono text-neutral-700 font-medium mb-1.5">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail size={16} className="absolute left-3.5 top-3 text-neutral-500" />
+                  <Mail size={16} className="absolute left-3.5 top-3 text-neutral-400" />
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="alex@company.com"
-                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg pl-10 pr-4 py-2.5 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-white transition-colors"
+                    className="w-full bg-neutral-50 border border-neutral-300 rounded-lg pl-10 pr-4 py-2.5 text-xs font-mono text-black placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-neutral-300 mb-1.5">
+                <label className="block text-xs font-mono text-neutral-700 font-medium mb-1.5">
                   Password (min 8 chars)
                 </label>
                 <div className="relative">
-                  <Lock size={16} className="absolute left-3.5 top-3 text-neutral-500" />
+                  <Lock size={16} className="absolute left-3.5 top-3 text-neutral-400" />
                   <input
                     type={showPassword ? "text" : "password"}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg pl-10 pr-10 py-2.5 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-white transition-colors"
+                    className="w-full bg-neutral-50 border border-neutral-300 rounded-lg pl-10 pr-10 py-2.5 text-xs font-mono text-black placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
                   />
                   {/* See Password Toggle Option */}
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-2.5 text-neutral-500 hover:text-white transition-colors"
+                    className="absolute right-3 top-2.5 text-neutral-400 hover:text-black transition-colors"
                     title={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -303,24 +304,24 @@ export function AuthPortal({ onAuthSuccess }) {
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-neutral-300 mb-1.5">
+                <label className="block text-xs font-mono text-neutral-700 font-medium mb-1.5">
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <Lock size={16} className="absolute left-3.5 top-3 text-neutral-500" />
+                  <Lock size={16} className="absolute left-3.5 top-3 text-neutral-400" />
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg pl-10 pr-10 py-2.5 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-white transition-colors"
+                    className="w-full bg-neutral-50 border border-neutral-300 rounded-lg pl-10 pr-10 py-2.5 text-xs font-mono text-black placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
                   />
                   {/* See Confirm Password Toggle Option */}
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-2.5 text-neutral-500 hover:text-white transition-colors"
+                    className="absolute right-3 top-2.5 text-neutral-400 hover:text-black transition-colors"
                     title={showConfirmPassword ? "Hide password" : "Show password"}
                   >
                     {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -331,7 +332,7 @@ export function AuthPortal({ onAuthSuccess }) {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-2.5 bg-white hover:bg-neutral-200 text-black text-xs font-mono font-bold rounded-lg transition-colors flex items-center justify-center gap-2 border border-white disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed mt-2"
+                className="w-full py-2.5 bg-black hover:bg-neutral-800 text-white text-xs font-mono font-bold rounded-lg transition-colors flex items-center justify-center gap-2 border border-black disabled:bg-neutral-200 disabled:text-neutral-400 disabled:cursor-not-allowed mt-2"
               >
                 {submitting ? (
                   <span>Creating Account…</span>
@@ -346,8 +347,8 @@ export function AuthPortal({ onAuthSuccess }) {
           )}
 
           {/* Trust Footnotes */}
-          <div className="pt-4 border-t border-neutral-800 flex items-center justify-between text-[10px] font-mono text-neutral-500">
-            <span className="flex items-center gap-1 text-neutral-400">
+          <div className="pt-4 border-t border-neutral-200 flex items-center justify-between text-[10px] font-mono text-neutral-500">
+            <span className="flex items-center gap-1 text-neutral-600 font-medium">
               <ShieldCheck size={12} />
               Bcrypt-12 Salting
             </span>

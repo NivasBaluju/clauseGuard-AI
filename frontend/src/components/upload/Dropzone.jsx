@@ -30,8 +30,8 @@ export function Dropzone({ file, onFileSelect, onClearFile, error }) {
 
   return (
     <div className="space-y-3">
-      <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400">
-        2. Upload Document File <span className="text-zinc-500">(.pdf, .docx, .txt — Max 20MB)</span>
+      <label className="block text-xs font-mono uppercase tracking-wider text-neutral-600 font-semibold">
+        2. Upload Document File <span className="text-neutral-500">(.pdf, .docx, .txt — Max 20MB)</span>
       </label>
 
       {!file ? (
@@ -42,10 +42,10 @@ export function Dropzone({ file, onFileSelect, onClearFile, error }) {
           onClick={() => inputRef.current?.click()}
           className={`border-2 border-dashed p-10 text-center cursor-pointer transition-all ${
             isDragOver
-              ? "border-white bg-white/5"
+              ? "border-black bg-neutral-100"
               : error
-              ? "border-red-500/50 bg-red-950/10"
-              : "border-rule hover:border-white/40 bg-paper-dim"
+              ? "border-red-500 bg-red-50"
+              : "border-neutral-300 hover:border-black bg-neutral-50"
           }`}
         >
           <input
@@ -55,35 +55,35 @@ export function Dropzone({ file, onFileSelect, onClearFile, error }) {
             onChange={handleFileChange}
             className="hidden"
           />
-          <div className="w-12 h-12 border border-rule mx-auto mb-4 flex items-center justify-center text-zinc-400">
+          <div className="w-12 h-12 border border-neutral-300 bg-white mx-auto mb-4 flex items-center justify-center text-black shadow-sm">
             <Upload className="w-5 h-5" />
           </div>
-          <p className="font-serif text-lg text-white mb-1">
+          <p className="font-serif text-lg text-black font-bold mb-1">
             Drag & drop legal document here
           </p>
-          <p className="text-xs text-zinc-400 font-sans mb-4">
+          <p className="text-xs text-neutral-600 font-sans mb-4">
             or click to browse your computer
           </p>
-          <span className="inline-block text-[11px] font-mono text-zinc-500 border border-rule px-3 py-1">
+          <span className="inline-block text-[11px] font-mono text-neutral-600 border border-neutral-300 bg-white px-3 py-1">
             DIGITAL OR SCANNED PDF • WORD DOCX • PLAIN TXT
           </span>
 
           {error && (
-            <p className="text-xs text-red-400 mt-3 flex items-center justify-center gap-1.5 font-mono">
+            <p className="text-xs text-red-600 mt-3 flex items-center justify-center gap-1.5 font-mono">
               <AlertCircle className="w-3.5 h-3.5" />
               {error}
             </p>
           )}
         </div>
       ) : (
-        <div className="border border-white/20 bg-paper-dim p-4 flex items-center justify-between">
+        <div className="border border-neutral-300 bg-white p-4 flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 border border-white/20 bg-white/5 flex items-center justify-center text-white">
+            <div className="w-10 h-10 border border-neutral-300 bg-neutral-100 flex items-center justify-center text-black">
               <FileText className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-sm font-bold text-white font-mono">{file.name}</p>
-              <p className="text-xs text-zinc-400 font-mono">
+              <p className="text-sm font-bold text-black font-mono">{file.name}</p>
+              <p className="text-xs text-neutral-600 font-mono">
                 {(file.size / (1024 * 1024)).toFixed(2)} MB • {file.name.split(".").pop().toUpperCase()}
               </p>
             </div>
@@ -91,7 +91,7 @@ export function Dropzone({ file, onFileSelect, onClearFile, error }) {
           <button
             type="button"
             onClick={onClearFile}
-            className="p-1.5 border border-rule hover:border-white/40 text-zinc-400 hover:text-white"
+            className="p-1.5 border border-neutral-300 hover:border-black text-neutral-600 hover:text-black transition-colors"
             aria-label="Remove file"
           >
             <X className="w-4 h-4" />

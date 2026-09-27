@@ -20,26 +20,26 @@ export function ClauseCard({ clause, isSelected, onSelect }) {
 
   const riskColor =
     clause.risk_score >= 70
-      ? "text-red-400 border-red-500/40 bg-red-950/20"
+      ? "text-red-800 border-red-300 bg-red-50"
       : clause.risk_score >= 40
-      ? "text-amber-400 border-amber-500/40 bg-amber-950/20"
-      : "text-green-400 border-green-500/40 bg-green-950/20";
+      ? "text-amber-800 border-amber-300 bg-amber-50"
+      : "text-green-800 border-green-300 bg-green-50";
 
   return (
     <div
       onClick={onSelect}
-      className={`border p-5 transition-all cursor-pointer ${
+      className={`border p-5 transition-all cursor-pointer shadow-sm ${
         isSelected
-          ? "border-white bg-white/10"
-          : "border-rule bg-paper-dim hover:border-white/30"
+          ? "border-black bg-neutral-100"
+          : "border-neutral-200 bg-white hover:border-neutral-400"
       }`}
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-rule pb-3 mb-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200 pb-3 mb-3">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-mono text-xs text-zinc-500">
+          <span className="font-mono text-xs text-neutral-500 font-semibold">
             #{clause.clause_index + 1}
           </span>
-          <span className="font-serif font-bold text-base text-white">
+          <span className="font-serif font-bold text-base text-black">
             {clause.clause_type ? clause.clause_type.replace(/_/g, " ").toUpperCase() : "UNCLASSIFIED"}
           </span>
           <Badge variant={clause.favorability_label || "fair"}>
@@ -47,8 +47,8 @@ export function ClauseCard({ clause, isSelected, onSelect }) {
           </Badge>
 
           {clause.favorability_label === "needs_review" && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-mono text-amber-400 border border-amber-500/40 bg-amber-950/30 px-2 py-0.5">
-              <AlertCircle className="w-3 h-3" />
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono text-amber-800 border border-amber-300 bg-amber-50 px-2 py-0.5 font-semibold">
+              <AlertCircle className="w-3 h-3 text-amber-600" />
               HUMAN REVIEW FLAGGED
             </span>
           )}
@@ -56,7 +56,7 @@ export function ClauseCard({ clause, isSelected, onSelect }) {
 
         <div className="flex items-center gap-3">
           <div className="text-right">
-            <span className="text-[10px] font-mono text-zinc-500 block uppercase">
+            <span className="text-[10px] font-mono text-neutral-500 block uppercase font-semibold">
               Clause Risk
             </span>
             <span className={`text-xs font-mono font-bold px-2 py-0.5 border ${riskColor}`}>
@@ -66,15 +66,15 @@ export function ClauseCard({ clause, isSelected, onSelect }) {
 
           <button
             onClick={copyToClipboard}
-            className="p-1.5 border border-rule hover:border-white/40 text-zinc-400 hover:text-white"
+            className="p-1.5 border border-neutral-300 hover:border-black text-neutral-600 hover:text-black bg-white transition-colors"
             title="Copy redacted text"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
           </button>
         </div>
       </div>
 
-      <p className="text-xs text-zinc-300 font-sans leading-relaxed whitespace-pre-wrap">
+      <p className="text-xs text-neutral-800 font-sans leading-relaxed whitespace-pre-wrap">
         {displayText}
       </p>
 
@@ -84,7 +84,7 @@ export function ClauseCard({ clause, isSelected, onSelect }) {
             e.stopPropagation();
             setIsExpanded(!isExpanded);
           }}
-          className="mt-3 text-[11px] font-mono text-zinc-400 hover:text-white flex items-center gap-1"
+          className="mt-3 text-[11px] font-mono text-neutral-600 hover:text-black flex items-center gap-1 font-semibold"
         >
           {isExpanded ? (
             <>
