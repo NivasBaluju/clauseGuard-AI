@@ -4,7 +4,10 @@ import logging
 from typing import Dict, Any, Optional
 import numpy as np
 from PIL import Image, ImageOps, ImageFilter
-import cv2
+try:
+    import cv2
+except Exception as _cv_err:
+    cv2 = None
 import pytesseract
 from flask import current_app
 
