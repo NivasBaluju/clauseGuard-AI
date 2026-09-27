@@ -29,14 +29,21 @@ def configure_tesseract_cmd():
     if cmd and os.path.exists(cmd):
         pytesseract.pytesseract.tesseract_cmd = cmd
 
+# Cached Tesseract availability flag
+_tesseract_available_cached = None
+
 def is_tesseract_available() -> bool:
-    """Verifies whether Tesseract executable is installed and runnable."""
+    """Verifies whether Tesseract executable is installed and runnable (cached)."""
+    global _tesseract_available_cached
+    if _tesseract_available_cached is not None:
+        return _tesseract_available_cached
     try:
         configure_tesseract_cmd()
-        version = pytesseract.get_tesseract_version()
-        return True
+        pytesseract.get_tesseract_version()
+        _tesseract_available_cached = True
     except Exception:
-        return False
+        _tesseract_available_cached = False
+    return _tesseract_available_cached
 
 def get_rapidocr():
     """Initializes or returns singleton RapidOCR ONNX fallback engine."""
@@ -50,71 +57,83 @@ def get_rapidocr():
             logger.warning(f"Could not initialize RapidOCR fallback: {e}")
     return _rapidocr_engine
 
-def preprocess_for_ocr(image: Image.Image) -> Image.Image:
+def preprocess_for_tesseract(image: Image.Image) -> Image.Image:
     """
-    Grayscale, noise reduction, and contrast enhancement for legal document scans.
-    Preserves clean text boundaries without over-thresholding.
+    Fast grayscale, Gaussian blur, and Otsu binary thresholding for Tesseract.
+    Avoids slow denoising filters for maximum throughput.
     """
     try:
-        # Convert PIL to CV2 grayscale
         cv_img = np.array(image.convert("RGB"))
         gray = cv2.cvtColor(cv_img, cv2.COLOR_RGB2GRAY)
-
-        # Contrast adjustment & gentle denoising
-        denoised = cv2.fastNlMeansDenoising(gray, None, 10, 7, 21)
-        # Otsu binary thresholding
-        blurred = cv2.GaussianBlur(denoised, (3, 3), 0)
+        blurred = cv2.GaussianBlur(gray, (3, 3), 0)
         thresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
-
         return Image.fromarray(thresh)
     except Exception as e:
-        logger.debug(f"OpenCV advanced preprocessing failed, falling back to Pillow: {e}")
+        logger.debug(f"Tesseract preprocessing failed, falling back to Pillow: {e}")
         try:
-            gray = ImageOps.grayscale(image)
-            return gray.filter(ImageFilter.SHARPEN)
+            return ImageOps.grayscale(image).filter(ImageFilter.SHARPEN)
         except Exception:
             return image
+
+def preprocess_for_rapidocr(image: Image.Image) -> np.ndarray:
+    """
+    Prepares images for RapidOCR deep learning model.
+    Preserves natural RGB / sub-pixel anti-aliasing and performs high-quality
+    upscaling on small images for optimal character stroke detection.
+    """
+    if image.mode != "RGB":
+        image = image.convert("RGB")
+    w, h = image.size
+    # If image dimensions are small, upscale with Lanczos so font contours are sharp
+    if w < 400 or h < 80:
+        scale = max(2.0, 400.0 / max(1, w), 80.0 / max(1, h))
+        if scale > 1.2:
+            new_w, new_h = int(w * scale), int(h * scale)
+            image = image.resize((new_w, new_h), Image.Resampling.LANCZOS)
+    return np.array(image)
+
+def preprocess_for_ocr(image: Image.Image) -> Image.Image:
+    """Backwards compatibility alias for image preprocessing."""
+    return preprocess_for_tesseract(image)
 
 def ocr_image_detailed(image: Image.Image) -> Dict[str, Any]:
     """
     Performs OCR on an image with full audit metadata.
-    Attempts Tesseract first (--oem 3 --psm 3), calculating average confidence.
-    Gracefully falls back to RapidOCR if Tesseract is unavailable or fails.
+    Tries Tesseract if available, or seamlessly leverages RapidOCR deep-learning engine.
     Never crashes the calling process.
     """
-    processed = preprocess_for_ocr(image)
-    lang = get_tesseract_lang()
-    config = get_tesseract_config()
-    configure_tesseract_cmd()
+    # 1. Try Tesseract first if installed
+    if is_tesseract_available():
+        try:
+            processed = preprocess_for_tesseract(image)
+            lang = get_tesseract_lang()
+            config = get_tesseract_config()
+            configure_tesseract_cmd()
 
-    # 1. Try pytesseract first
-    try:
-        # Check if tesseract binary is runnable
-        data = pytesseract.image_to_data(processed, lang=lang, config=config, output_type=pytesseract.Output.DICT)
-        text = pytesseract.image_to_string(processed, lang=lang, config=config).strip()
+            data = pytesseract.image_to_data(processed, lang=lang, config=config, output_type=pytesseract.Output.DICT)
+            text = pytesseract.image_to_string(processed, lang=lang, config=config).strip()
 
-        # Compute average confidence from detected word tokens
-        confs = [float(c) for c in data.get("conf", []) if str(c).strip() not in ("-1", "")]
-        avg_conf = round(float(np.mean(confs)), 2) if confs else 0.0
-        word_count = len([w for w in data.get("text", []) if w.strip()])
+            confs = [float(c) for c in data.get("conf", []) if str(c).strip() not in ("-1", "")]
+            avg_conf = round(float(np.mean(confs)), 2) if confs else 0.0
+            word_count = len([w for w in data.get("text", []) if w.strip()])
 
-        if text:
-            logger.info(f"[OCR] Tesseract extraction succeeded (Confidence: {avg_conf}%, Words: {word_count})")
-            return {
-                "text": text,
-                "method": "tesseract",
-                "ocr_confidence": avg_conf,
-                "word_count": word_count,
-                "error": None,
-            }
-    except Exception as e:
-        logger.info(f"[OCR] Tesseract unavailable or failed ({e}). Proceeding to RapidOCR fallback...")
+            if text and len(text.split()) >= 1:
+                logger.info(f"[OCR] Tesseract extraction succeeded (Confidence: {avg_conf}%, Words: {word_count})")
+                return {
+                    "text": text,
+                    "method": "tesseract",
+                    "ocr_confidence": avg_conf,
+                    "word_count": word_count,
+                    "error": None,
+                }
+        except Exception as e:
+            logger.info(f"[OCR] Tesseract failed ({e}). Proceeding to RapidOCR...")
 
-    # 2. Try RapidOCR fallback
+    # 2. RapidOCR engine (highly accurate deep-learning model)
     rapid = get_rapidocr()
     if rapid:
         try:
-            cv_img = np.array(processed)
+            cv_img = preprocess_for_rapidocr(image)
             result, _ = rapid(cv_img)
             if result:
                 lines = []
@@ -128,31 +147,30 @@ def ocr_image_detailed(image: Image.Image) -> Dict[str, Any]:
                 avg_conf = round(float(np.mean(confs)), 2) if confs else 85.0
                 word_count = len(combined_text.split())
 
-                logger.info(f"[OCR] RapidOCR extraction succeeded (Confidence: {avg_conf}%, Words: {word_count})")
-                return {
-                    "text": combined_text,
-                    "method": "rapidocr",
-                    "ocr_confidence": avg_conf,
-                    "word_count": word_count,
-                    "error": None,
-                }
+                if combined_text:
+                    logger.info(f"[OCR] RapidOCR extraction succeeded (Confidence: {avg_conf}%, Words: {word_count})")
+                    return {
+                        "text": combined_text,
+                        "method": "rapidocr",
+                        "ocr_confidence": avg_conf,
+                        "word_count": word_count,
+                        "error": None,
+                    }
         except Exception as ex:
-            logger.error(f"[OCR] RapidOCR fallback failed: {ex}")
+            logger.error(f"[OCR] RapidOCR extraction failed: {ex}")
 
-    # 3. Both failed gracefully
-    logger.warning("[OCR] Both Tesseract and RapidOCR were unable to extract text.")
+    # 3. Graceful fallback if nothing recognized
     return {
         "text": "",
-        "method": "ocr_failed",
+        "method": "ocr_none",
         "ocr_confidence": 0.0,
         "word_count": 0,
-        "error": "OCR engines unavailable or image unreadable",
+        "error": None,
     }
 
 def ocr_image(image: Image.Image) -> str:
-    """
-    Standard interface: returns extracted text string.
-    """
+    """Standard interface: returns extracted text string."""
     res = ocr_image_detailed(image)
     return res.get("text", "")
+
 

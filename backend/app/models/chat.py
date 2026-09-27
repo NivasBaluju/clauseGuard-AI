@@ -59,7 +59,7 @@ class ChatMessage(db.Model):
 
     session = db.relationship("ChatSession", back_populates="messages")
     user = db.relationship("User", back_populates="chat_messages")
-    document = db.relationship("Document")
+    document = db.relationship("Document", back_populates="chat_messages")
 
     def to_dict(self):
         srcs = self.sources

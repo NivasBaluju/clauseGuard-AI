@@ -128,24 +128,48 @@ def get_document_status(doc_id):
 @documents_bp.route("/documents/<uuid:doc_id>", methods=["DELETE"])
 @optional_auth
 def delete_document(doc_id):
-    doc = Document.query.get_or_404(doc_id)
+    doc = Document.query.get(doc_id)
+    if not doc:
+        return jsonify({"message": f"Document {doc_id} already deleted."}), 200
+
     user = getattr(g, "user", None)
     if user and doc.user_id and doc.user_id != user.id:
         return jsonify({"error": "Unauthorized. You can only delete your own documents."}), 403
 
-    filename = doc.filename
-    doc_id_str = str(doc.id)
-    db.session.delete(doc)
-    db.session.commit()
+    try:
+        from app.models.chat import ChatMessage, ChatSession
+        from app.models.clause import Clause
+        from app.models.missing_clause import MissingClause
+        from app.models.deadline import Deadline
+        from app.models.pii_finding import PIIFinding
 
-    log_audit_event(
-        action="DOC_DELETED",
-        user_id=user.id if user else None,
-        user_email=user.email if user else None,
-        resource_type="document",
-        resource_id=doc_id_str,
-        details={"filename": filename}
-    )
+        filename = doc.filename
+        doc_id_str = str(doc.id)
 
-    return jsonify({"message": f"Document {doc_id} deleted successfully."}), 200
+        # Explicitly clean up all child records in dependency order
+        ChatMessage.query.filter_by(document_id=doc.id).delete(synchronize_session=False)
+        ChatSession.query.filter_by(document_id=doc.id).delete(synchronize_session=False)
+        Clause.query.filter_by(document_id=doc.id).delete(synchronize_session=False)
+        MissingClause.query.filter_by(document_id=doc.id).delete(synchronize_session=False)
+        Deadline.query.filter_by(document_id=doc.id).delete(synchronize_session=False)
+        PIIFinding.query.filter_by(document_id=doc.id).delete(synchronize_session=False)
+
+        db.session.delete(doc)
+        db.session.commit()
+
+        log_audit_event(
+            action="DOC_DELETED",
+            user_id=user.id if user else None,
+            user_email=user.email if user else None,
+            resource_type="document",
+            resource_id=doc_id_str,
+            details={"filename": filename}
+        )
+
+        return jsonify({"message": f"Document {doc_id} deleted successfully."}), 200
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Failed to delete document {doc_id}: {e}", exc_info=True)
+        return jsonify({"error": f"Failed to delete document: {str(e)}"}), 500
+
 

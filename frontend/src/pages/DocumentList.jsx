@@ -20,6 +20,8 @@ export function DocumentList({ onNavigate }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [deletingId, setDeletingId] = useState(null);
+  const [confirmDeleteDoc, setConfirmDeleteDoc] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   const fetchDocuments = async () => {
     setLoading(true);
@@ -38,18 +40,36 @@ export function DocumentList({ onNavigate }) {
     fetchDocuments();
   }, []);
 
-  const handleDelete = async (e, id) => {
+  const promptDelete = (e, doc) => {
     e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this document and all its derived analysis?")) {
-      return;
-    }
+    setConfirmDeleteDoc({ id: doc.id, filename: doc.filename });
+  };
 
-    setDeletingId(id);
+  const handleConfirmDelete = async () => {
+    if (!confirmDeleteDoc) return;
+    const targetDoc = confirmDeleteDoc;
+    const previousDocs = [...documents];
+
+    // Optimistically remove from view for instant responsiveness
+    setDocuments((prev) => prev.filter((d) => d.id !== targetDoc.id));
+    setDeletingId(targetDoc.id);
+    setConfirmDeleteDoc(null);
+
     try {
-      await api.deleteDocument(id);
-      setDocuments((prev) => prev.filter((d) => d.id !== id));
+      await api.deleteDocument(targetDoc.id);
+      setNotification({
+        type: "success",
+        message: `Document "${targetDoc.filename}" and its analysis were permanently deleted.`,
+      });
+      setTimeout(() => setNotification(null), 4000);
     } catch (err) {
-      alert("Failed to delete document: " + err.message);
+      // Revert optimistic update on failure
+      setDocuments(previousDocs);
+      setNotification({
+        type: "error",
+        message: `Could not delete document: ${err.message || "Network or permission error"}`,
+      });
+      setTimeout(() => setNotification(null), 6000);
     } finally {
       setDeletingId(null);
     }
@@ -111,6 +131,26 @@ export function DocumentList({ onNavigate }) {
           </button>
         </div>
       </div>
+
+      {/* Notification Toast Banner */}
+      {notification && (
+        <div
+          className={`p-3 text-xs font-mono border flex items-center justify-between transition-all ${
+            notification.type === "success"
+              ? "bg-neutral-50 text-neutral-900 border-neutral-300"
+              : "bg-red-50 text-red-800 border-red-300"
+          }`}
+        >
+          <span>{notification.message}</span>
+          <button
+            type="button"
+            onClick={() => setNotification(null)}
+            className="text-neutral-500 hover:text-black font-bold text-sm ml-4"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Filter / Search Bar */}
       <div className="flex flex-col sm:flex-row gap-3">
@@ -251,9 +291,9 @@ export function DocumentList({ onNavigate }) {
                     )}
 
                     <button
-                      onClick={(e) => handleDelete(e, doc.id)}
+                      onClick={(e) => promptDelete(e, doc)}
                       disabled={deletingId === doc.id}
-                      className="p-2 border border-neutral-300 hover:border-red-600 text-neutral-500 hover:text-red-600 bg-white transition-colors disabled:opacity-40"
+                      className="p-2 border border-neutral-300 hover:border-black text-neutral-500 hover:text-black bg-white transition-colors disabled:opacity-40"
                       title="Delete document and analysis"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -263,6 +303,55 @@ export function DocumentList({ onNavigate }) {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Inline Delete Confirmation Modal */}
+      {confirmDeleteDoc && (
+        <div
+          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150"
+          onClick={() => setConfirmDeleteDoc(null)}
+        >
+          <div
+            className="bg-white border-2 border-black max-w-md w-full p-6 space-y-4 shadow-xl text-black"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 border-b border-neutral-200 pb-3">
+              <div className="p-2 border border-black bg-neutral-100 text-black">
+                <Trash2 className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-serif text-lg font-bold text-black">
+                  Confirm Deletion
+                </h3>
+                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block">
+                  Irreversible Action
+                </span>
+              </div>
+            </div>
+
+            <p className="text-xs text-neutral-700 leading-relaxed font-sans">
+              Are you sure you want to delete <strong className="text-black font-semibold font-mono">{confirmDeleteDoc.filename}</strong>? All extracted clauses, risk audits, deadlines, and associated records will be permanently removed.
+            </p>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setConfirmDeleteDoc(null)}
+                className="px-4 py-2 border border-neutral-300 text-xs font-mono uppercase tracking-wider text-black bg-white hover:border-black transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                className="px-4 py-2 border border-black text-xs font-mono uppercase tracking-wider text-white bg-black hover:bg-neutral-800 transition-colors flex items-center gap-2 font-semibold"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete Document</span>
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

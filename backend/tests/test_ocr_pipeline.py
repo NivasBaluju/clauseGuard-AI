@@ -73,7 +73,7 @@ class TestRobustPdfOcr(unittest.TestCase):
         self.assertIn("[PAGE 1]", full_text)
         self.assertTrue(metadata[0]["ocr_used"])
         # Should have detected and extracted through OCR engine (Tesseract or RapidOCR fallback)
-        self.assertIn(metadata[0]["extraction_method"], ["tesseract", "rapidocr"])
+        self.assertIn(metadata[0]["extraction_method"], ["tesseract", "rapidocr", "embedded_image_ocr"])
         self.assertTrue(len(full_text) > 10)
         os.remove(pdf_path)
 
@@ -105,10 +105,55 @@ class TestRobustPdfOcr(unittest.TestCase):
         self.assertFalse(metadata[0]["ocr_used"])
         # Page 2 must be OCR
         self.assertTrue(metadata[1]["ocr_used"])
-        self.assertIn(metadata[1]["extraction_method"], ["tesseract", "rapidocr"])
+        self.assertIn(metadata[1]["extraction_method"], ["tesseract", "rapidocr", "embedded_image_ocr"])
         self.assertIn("[PAGE 1]", full_text)
         self.assertIn("[PAGE 2]", full_text)
         os.remove(pdf_path)
 
+    def test_embedded_image_inside_text_page(self):
+        """
+        Verifies that when a PDF page has digital text AND an embedded image containing text,
+        both the native digital text and the embedded image text are extracted cleanly.
+        """
+        pdf_path = os.path.join(self.temp_dir, "test_embedded_inside_text.pdf")
+        doc = fitz.open()
+        page = doc.new_page(width=612, height=792)
+
+        # 1. Native text on page
+        page.insert_text((50, 50), "COMMERCIAL LEASE AGREEMENT SECTION 1: PREMISES\nLandlord leases to Tenant the commercial property.")
+
+        # 2. Embedded image on page with addendum clause
+        img = Image.new("RGB", (600, 150), color="white")
+        d = ImageDraw.Draw(img)
+        d.text((20, 20), "ADDENDUM CLAUSE: RENT ESCALATION", fill="black")
+        d.text((20, 60), "Base rent shall escalate by five percent annually on lease anniversary.", fill="black")
+        img_bytes = io.BytesIO()
+        img.save(img_bytes, format="PNG")
+        img_bytes.seek(0)
+
+        rect = fitz.Rect(50, 150, 550, 280)
+        page.insert_image(rect, stream=img_bytes.read())
+        page.insert_text((50, 320), "SECTION 2: DEFAULT REMEDIES\nFailure to cure within ten days constitutes default.")
+
+        doc.save(pdf_path)
+        doc.close()
+
+        full_text, page_count, metadata = extract_pdf_with_metadata(pdf_path)
+        self.assertEqual(page_count, 1)
+        self.assertIn("[PAGE 1]", full_text)
+        self.assertIn("COMMERCIAL LEASE AGREEMENT", full_text)
+        self.assertIn("SECTION 2: DEFAULT REMEDIES", full_text)
+        self.assertTrue(metadata[0]["ocr_used"])
+        self.assertGreaterEqual(metadata[0]["embedded_images_found"], 1)
+        self.assertGreaterEqual(metadata[0]["embedded_images_extracted"], 1)
+        # Verify text from embedded image was captured
+        full_lower = full_text.lower()
+        self.assertTrue(
+            "escalat" in full_lower or "rent" in full_lower or "addendum" in full_lower,
+            f"Expected image text in extraction, got: {full_text}"
+        )
+        os.remove(pdf_path)
+
 if __name__ == "__main__":
     unittest.main()
+

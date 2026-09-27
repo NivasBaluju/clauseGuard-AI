@@ -32,6 +32,7 @@ class Document(db.Model):
     deadlines = db.relationship("Deadline", back_populates="document", cascade="all, delete-orphan")
     pii_findings = db.relationship("PIIFinding", back_populates="document", cascade="all, delete-orphan")
     chat_sessions = db.relationship("ChatSession", back_populates="document", cascade="all, delete-orphan")
+    chat_messages = db.relationship("ChatMessage", back_populates="document", cascade="all, delete-orphan")
 
     def to_dict(self, include_text=False):
         data = {

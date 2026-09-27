@@ -2,7 +2,25 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
 
 async function request(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
-  const response = await fetch(url, options);
+  const headers = { ...(options.headers || {}) };
+  
+  // Attach token from localStorage if present
+  try {
+    const token = localStorage.getItem("cg_token") || localStorage.getItem("token");
+    if (token && !headers["Authorization"]) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+  } catch (e) {
+    // ignore in environments without localStorage
+  }
+
+  const fetchOptions = {
+    ...options,
+    credentials: "include",
+    headers,
+  };
+
+  const response = await fetch(url, fetchOptions);
 
   if (!response.ok) {
     let errMsg = `Request failed: ${response.status} ${response.statusText}`;
