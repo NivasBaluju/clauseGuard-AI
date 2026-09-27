@@ -18,6 +18,7 @@ import { StandaloneChat } from "./pages/StandaloneChat";
 import { AuditTrail } from "./pages/AuditTrail";
 import { PlatformGuide } from "./pages/PlatformGuide";
 import { AuthPortal } from "./pages/AuthPortal";
+import { ErrorBoundary } from "./components/common/ErrorBoundary";
 import { ShieldAlert } from "lucide-react";
 
 // Wrapper for DocumentAnalysis reading route params
@@ -88,17 +89,19 @@ function AuthenticatedApp() {
 
   return (
     <PageShell currentView={currentView} onNavigate={handleNavigate}>
-      <Routes>
-        <Route path="/" element={<Landing onNavigate={handleNavigate} />} />
-        <Route path="/upload" element={<UploadWrapper onNavigate={handleNavigate} />} />
-        <Route path="/documents" element={<DocumentList onNavigate={handleNavigate} />} />
-        <Route path="/documents/:id" element={<DocumentAnalysisWrapper onNavigate={handleNavigate} />} />
-        <Route path="/chat" element={<StandaloneChat onNavigate={handleNavigate} />} />
-        <Route path="/audit" element={<AuditTrail onNavigate={handleNavigate} />} />
-        <Route path="/guide" element={<PlatformGuide onNavigate={handleNavigate} />} />
-        <Route path="/dashboard" element={<Navigate to="/documents" replace />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<Landing onNavigate={handleNavigate} />} />
+          <Route path="/upload" element={<UploadWrapper onNavigate={handleNavigate} />} />
+          <Route path="/documents" element={<DocumentList onNavigate={handleNavigate} />} />
+          <Route path="/documents/:id" element={<DocumentAnalysisWrapper onNavigate={handleNavigate} />} />
+          <Route path="/chat" element={<StandaloneChat onNavigate={handleNavigate} />} />
+          <Route path="/audit" element={<AuditTrail onNavigate={handleNavigate} />} />
+          <Route path="/guide" element={<PlatformGuide onNavigate={handleNavigate} />} />
+          <Route path="/dashboard" element={<Navigate to="/documents" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </ErrorBoundary>
     </PageShell>
   );
 }

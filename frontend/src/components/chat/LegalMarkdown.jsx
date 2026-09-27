@@ -118,12 +118,13 @@ function cleanVisibleAsterisks(val) {
 export function LegalMarkdown({ content = "", className = "" }) {
   if (!content) return null;
 
-  const sanitized = sanitizeLegalMarkdown(content);
+  try {
+    const sanitized = sanitizeLegalMarkdown(content);
 
-  return (
-    <div className={`legal-markdown text-neutral-900 leading-relaxed font-sans ${className}`}>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+    return (
+      <div className={`legal-markdown text-neutral-900 leading-relaxed font-sans ${className}`}>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
         components={{
           // Headings hierarchy
           h1: ({ node, children, ...props }) => (
@@ -286,10 +287,18 @@ export function LegalMarkdown({ content = "", className = "" }) {
           ),
         }}
       >
-        {normalized}
+        {sanitized}
       </ReactMarkdown>
     </div>
   );
+  } catch (err) {
+    console.error("LegalMarkdown render fallback:", err);
+    return (
+      <div className={`legal-markdown text-neutral-900 leading-relaxed font-sans whitespace-pre-wrap ${className}`}>
+        {content}
+      </div>
+    );
+  }
 }
 
 export default LegalMarkdown;
