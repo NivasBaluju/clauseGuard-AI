@@ -71,6 +71,45 @@ function renderRiskBadge(text) {
 }
 
 /**
+ * Pre-processes and sanitizes markdown before ReactMarkdown parsing.
+ * Eliminates unclosed bold tags, fixes asterisk spacing, and strips malformed tokens.
+ */
+function sanitizeLegalMarkdown(rawText) {
+  if (!rawText) return "";
+  let text = rawText;
+
+  // 1. Normalize line endings & collapse excessive newlines
+  text = text.replace(/\r\n/g, "\n").replace(/\n{3,}/g, "\n\n");
+
+  // 2. Fix unclosed bold: lines like "**Key Risk:" -> "**Key Risk:**"
+  text = text.replace(/^(\s*[\*\-\d\.]*\s*)\*\*([^*\n:]+):?(\s*)$/gm, "$1**$2:**$3");
+
+  // 3. Fix triple asterisks or stray asterisks
+  text = text.replace(/\*{3,}([^*]+)\*{3,}/g, "**$1**");
+
+  // 4. Normalize asterisk bullets lacking space: "*Clause" -> "* Clause"
+  text = text.replace(/^(\s*)\*([^\s\*])/gm, "$1* $2");
+
+  // 5. Remove empty bold/italic: **** or ** **
+  text = text.replace(/\*\*\s*\*\*/g, "");
+
+  // 6. Ensure headings have space after hash: "###Title" -> "### Title"
+  text = text.replace(/^(#{1,6})([^\s#])/gm, "$1 $2");
+
+  return text.trim();
+}
+
+/**
+ * Removes any accidental unparsed stray asterisks from text nodes
+ * and renders risk level badges.
+ */
+function cleanVisibleAsterisks(val) {
+  if (typeof val !== "string") return val;
+  const noAsterisks = val.replace(/\*{1,3}/g, "");
+  return renderRiskBadge(noAsterisks);
+}
+
+/**
  * LegalMarkdown Component
  * Parses and renders Gemini / Legal AI responses as clean, professional, readable JSX.
  * Eliminates visible raw asterisks, supports headings, bullets, numbered lists,
@@ -79,8 +118,7 @@ function renderRiskBadge(text) {
 export function LegalMarkdown({ content = "", className = "" }) {
   if (!content) return null;
 
-  // Normalize excessive vertical whitespace (3+ newlines to 2)
-  const normalized = content.replace(/\n{3,}/g, "\n\n").trim();
+  const sanitized = sanitizeLegalMarkdown(content);
 
   return (
     <div className={`legal-markdown text-neutral-900 leading-relaxed font-sans ${className}`}>
@@ -125,7 +163,7 @@ export function LegalMarkdown({ content = "", className = "" }) {
           p: ({ node, children, ...props }) => (
             <p className="mb-3 last:mb-0 text-sm sm:text-base leading-relaxed text-neutral-800" {...props}>
               {React.Children.map(children, (child) =>
-                typeof child === "string" ? renderRiskBadge(child) : child
+                typeof child === "string" ? cleanVisibleAsterisks(child) : child
               )}
             </p>
           ),
@@ -161,7 +199,7 @@ export function LegalMarkdown({ content = "", className = "" }) {
           li: ({ node, children, ...props }) => (
             <li className="leading-relaxed pl-1" {...props}>
               {React.Children.map(children, (child) =>
-                typeof child === "string" ? renderRiskBadge(child) : child
+                typeof child === "string" ? cleanVisibleAsterisks(child) : child
               )}
             </li>
           ),

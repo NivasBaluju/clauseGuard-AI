@@ -163,7 +163,7 @@ def local_heuristic_search(question: str, doc_text: str = "") -> dict:
     # 1. Greetings / Capabilities
     if re.search(r"^(hi|hello|hey|greetings|who are you|what can you do|help)\b", q_lower, re.IGNORECASE):
         return {
-            "answer": "### Welcome to Deciva AI Copilot\n\nI am your intelligent legal and document assistant. Here is what I can do for you:\n\n- **Document Deep-Dive:** Audit clauses, verify notice periods, analyze fee structures, and check compliance.\n- **Legal Rights & Protections:** Answer questions on residential leases, employment offer letters, and insurance policies.\n- **Risk & Obligation Warnings:** Identify unfair indemnification, aggressive non-competes, and hidden penalties.\n- **Negotiation Strategy:** Provide recommended counter-proposals and standard clause modifications.\n\n*Feel free to ask any question about your document or legal principles!*",
+            "answer": "### Welcome to ClauseGuard AI Copilot\n\nI am your intelligent legal and document assistant. Here is what I can do for you:\n\n- **Document Deep-Dive:** Audit clauses, verify notice periods, analyze fee structures, and check compliance.\n- **Legal Rights & Protections:** Answer questions on residential leases, employment offer letters, and insurance policies.\n- **Risk & Obligation Warnings:** Identify unfair indemnification, aggressive non-competes, and hidden penalties.\n- **Negotiation Strategy:** Provide recommended counter-proposals and standard clause modifications.\n\n*Feel free to ask any question about your document or legal principles!*",
             "engine": "deterministic-legal-kb",
             "grounded": True,
             "confidence": 1.0,

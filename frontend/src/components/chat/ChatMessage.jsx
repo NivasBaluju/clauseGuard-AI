@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { User, Bot, CheckCircle2, AlertTriangle, FileText, ChevronDown, ChevronUp } from "lucide-react";
+import { User, Bot, CheckCircle2, AlertTriangle, FileText, ChevronDown, ChevronUp, Copy, Check } from "lucide-react";
 import { LegalMarkdown } from "./LegalMarkdown";
 
 export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
   const isUser = message.role === "user";
   const [showRetrieved, setShowRetrieved] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    if (!message.content) return;
+    navigator.clipboard.writeText(message.content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div
@@ -15,7 +23,7 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
       }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between gap-3 border-b border-neutral-200 pb-2.5 mb-3">
+      <div className="flex items-center justify-between gap-3 border-b border-neutral-200 pb-2.5 mb-3 flex-wrap">
         <div className="flex items-center gap-2">
           {isUser ? (
             <div className="w-6 h-6 border border-neutral-400 bg-white flex items-center justify-center text-black rounded">
@@ -33,6 +41,24 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
 
         {!isUser && (
           <div className="flex items-center gap-2">
+            <button
+              onClick={handleCopy}
+              className="inline-flex items-center gap-1 text-[11px] font-mono text-neutral-600 hover:text-black border border-neutral-300 hover:border-black bg-white px-2 py-0.5 rounded transition-colors"
+              title="Copy response to clipboard"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-3 h-3 text-emerald-600" />
+                  <span className="text-emerald-700 font-semibold">Copied</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3 h-3 text-neutral-500" />
+                  <span>Copy</span>
+                </>
+              )}
+            </button>
+
             {message.grounded ? (
               <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-black border border-neutral-300 bg-neutral-100 px-2 py-0.5 rounded">
                 <CheckCircle2 className="w-3 h-3 text-emerald-600" />

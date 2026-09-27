@@ -147,6 +147,11 @@ def delete_document(doc_id):
         doc_id_str = str(doc.id)
 
         # Explicitly clean up all child records in dependency order
+        sessions = ChatSession.query.filter_by(document_id=doc.id).all()
+        session_ids = [s.id for s in sessions]
+        if session_ids:
+            ChatMessage.query.filter(ChatMessage.session_id.in_(session_ids)).delete(synchronize_session=False)
+
         ChatMessage.query.filter_by(document_id=doc.id).delete(synchronize_session=False)
         ChatSession.query.filter_by(document_id=doc.id).delete(synchronize_session=False)
         Clause.query.filter_by(document_id=doc.id).delete(synchronize_session=False)

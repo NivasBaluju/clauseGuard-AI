@@ -78,15 +78,22 @@ def preprocess_for_tesseract(image: Image.Image) -> Image.Image:
 def preprocess_for_rapidocr(image: Image.Image) -> np.ndarray:
     """
     Prepares images for RapidOCR deep learning model.
-    Preserves natural RGB / sub-pixel anti-aliasing and performs high-quality
-    upscaling on small images for optimal character stroke detection.
+    Handles transparency by compositing onto pure white background.
+    Preserves natural RGB and performs high-quality upscaling on small images
+    for optimal character stroke detection.
     """
-    if image.mode != "RGB":
+    if image.mode in ("RGBA", "LA") or (image.mode == "P" and "transparency" in image.info):
+        alpha = image.convert("RGBA").split()[-1]
+        bg = Image.new("RGB", image.size, (255, 255, 255))
+        bg.paste(image, mask=alpha)
+        image = bg
+    elif image.mode != "RGB":
         image = image.convert("RGB")
+
     w, h = image.size
     # If image dimensions are small, upscale with Lanczos so font contours are sharp
-    if w < 400 or h < 80:
-        scale = max(2.0, 400.0 / max(1, w), 80.0 / max(1, h))
+    if w < 450 or h < 90:
+        scale = max(2.0, 450.0 / max(1, w), 90.0 / max(1, h))
         if scale > 1.2:
             new_w, new_h = int(w * scale), int(h * scale)
             image = image.resize((new_w, new_h), Image.Resampling.LANCZOS)
@@ -100,6 +107,7 @@ def ocr_image_detailed(image: Image.Image) -> Dict[str, Any]:
     """
     Performs OCR on an image with full audit metadata.
     Tries Tesseract if available, or seamlessly leverages RapidOCR deep-learning engine.
+    Includes inverted-color retry for white-on-dark text and transparency handling.
     Never crashes the calling process.
     """
     # 1. Try Tesseract first if installed
@@ -135,6 +143,17 @@ def ocr_image_detailed(image: Image.Image) -> Dict[str, Any]:
         try:
             cv_img = preprocess_for_rapidocr(image)
             result, _ = rapid(cv_img)
+
+            # Retry with color inversion if initial pass yields no text (e.g. white text on dark background)
+            if not result:
+                try:
+                    rgb_img = image.convert("RGB")
+                    inv_img = ImageOps.invert(rgb_img)
+                    cv_img_inv = preprocess_for_rapidocr(inv_img)
+                    result, _ = rapid(cv_img_inv)
+                except Exception:
+                    pass
+
             if result:
                 lines = []
                 confs = []

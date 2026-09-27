@@ -162,8 +162,8 @@ def extract_pdf_with_metadata(file_path: str) -> Tuple[str, int, List[Dict[str, 
                     base_image = doc.extract_image(xref)
                     w = base_image.get("width", 0)
                     h = base_image.get("height", 0)
-                    # Filter out tiny decorative icons, dividers, bullets (<1600 px area or <25px dim)
-                    if w < 50 or h < 25 or (w * h < 1600):
+                    # Filter out tiny decorative icons, dividers, bullets (<300 px area or <15px dim)
+                    if w < 20 or h < 15 or (w * h < 300):
                         continue
 
                     img_bytes = base_image.get("image")

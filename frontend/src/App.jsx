@@ -111,11 +111,11 @@ function RootController() {
   // Loading state while verifying session token
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#07090e] text-white flex flex-col items-center justify-center space-y-4">
-        <div className="w-12 h-12 rounded-xl bg-[#0f1420] border border-red-500/40 flex items-center justify-center text-red-500 animate-pulse">
+      <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center space-y-4">
+        <div className="w-12 h-12 rounded-xl bg-neutral-100 border border-neutral-300 flex items-center justify-center text-black animate-pulse">
           <ShieldAlert size={26} />
         </div>
-        <div className="text-xs font-mono text-zinc-400">
+        <div className="text-xs font-mono text-neutral-600">
           Verifying security session credentials…
         </div>
       </div>
