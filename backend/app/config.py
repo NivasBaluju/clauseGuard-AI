@@ -34,6 +34,7 @@ class Config:
     TESSERACT_CMD = os.environ.get("TESSERACT_CMD", "")
     
     # Configurable CORS origins with support for FRONTEND_URL (Vercel)
+    import re
     frontend_env = os.environ.get("FRONTEND_URL", "")
     cors_env = os.environ.get("CORS_ORIGINS", "")
     allowed_origins = set()
@@ -42,7 +43,13 @@ class Config:
         if s:
             allowed_origins.add(s)
     if not allowed_origins:
-        allowed_origins = {"http://localhost:5173", "http://127.0.0.1:5173"}
+        allowed_origins = {
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "https://localhost:5173",
+        }
+    # Always allow Vercel production and preview domains
+    allowed_origins.add(re.compile(r"https://.*\.vercel\.app"))
     CORS_ORIGINS = list(allowed_origins)
     
     MAX_UPLOAD_MB = int(os.environ.get("MAX_UPLOAD_MB", 20))
