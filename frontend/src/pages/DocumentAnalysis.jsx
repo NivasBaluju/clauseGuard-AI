@@ -30,6 +30,7 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("overview"); // overview | clauses | deadlines | text | chat
   const [selectedClauseId, setSelectedClauseId] = useState(null);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
 
   const fetchAnalysisData = async () => {
     if (!documentId) return;
@@ -64,6 +65,20 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
     // Switch to clauses tab if currently on text or chat
     if (activeTab === "chat" || activeTab === "overview") {
       setActiveTab("clauses");
+    }
+  };
+
+  const handleDownloadPdf = async (e) => {
+    e.preventDefault();
+    if (downloadingPdf || !doc) return;
+    setDownloadingPdf(true);
+    try {
+      await api.downloadReportPdf(doc.id, doc.filename);
+    } catch (err) {
+      console.warn("Direct PDF download blob failed, attempting URL open fallback:", err);
+      window.open(api.getReportPdfUrl(doc.id), "_blank");
+    } finally {
+      setDownloadingPdf(false);
     }
   };
 
@@ -157,15 +172,24 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
             <RefreshCw className="w-4 h-4" />
           </button>
 
-          <a
-            href={api.getReportPdfUrl(doc.id)}
-            target="_blank"
-            rel="noreferrer"
-            className="px-4 py-2 text-xs font-mono uppercase tracking-wider border border-black bg-black text-white hover:bg-neutral-800 transition-colors flex items-center gap-2 font-bold"
+          <button
+            onClick={handleDownloadPdf}
+            disabled={downloadingPdf}
+            className="px-4 py-2 text-xs font-mono uppercase tracking-wider border border-black bg-black text-white hover:bg-neutral-800 transition-colors flex items-center gap-2 font-bold cursor-pointer disabled:opacity-50"
+            title="Download PDF Audit Report"
           >
-            <Download className="w-4 h-4" />
-            <span>Download PDF Report</span>
-          </a>
+            {downloadingPdf ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin" />
+                <span>Downloading...</span>
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4" />
+                <span>Download PDF Report</span>
+              </>
+            )}
+          </button>
         </div>
       </div>
 

@@ -18,6 +18,10 @@ def require_auth(f):
             token = auth_header[7:].strip()
         elif request.cookies.get("token"):
             token = request.cookies.get("token")
+        elif request.args.get("token"):
+            token = request.args.get("token")
+        elif request.args.get("auth_token"):
+            token = request.args.get("auth_token")
 
         if not token:
             return jsonify({"error": "Authentication required. No token provided."}), 401
@@ -33,23 +37,24 @@ def require_auth(f):
         session_id = payload.get("sessionId")
         user_id = payload.get("userId")
 
-        if not session_id or not user_id:
+        if not user_id:
             resp = jsonify({"error": "Invalid token payload."})
             resp.set_cookie("token", "", expires=0, path="/", httponly=True)
             return resp, 401
 
-        session_obj = db.session.get(Session, session_id)
-        if not session_obj or session_obj.revoked:
-            resp = jsonify({"error": "Session has been revoked or expired."})
-            resp.set_cookie("token", "", expires=0, path="/", httponly=True)
-            return resp, 401
+        if session_id:
+            session_obj = db.session.get(Session, session_id)
+            if session_obj and session_obj.revoked:
+                resp = jsonify({"error": "Session has been revoked or expired."})
+                resp.set_cookie("token", "", expires=0, path="/", httponly=True)
+                return resp, 401
+            g.session = session_obj
 
         user_obj = db.session.get(User, user_id)
         if not user_obj:
             return jsonify({"error": "User no longer exists."}), 401
 
         g.user = user_obj
-        g.session = session_obj
         return f(*args, **kwargs)
     return decorated_function
 
@@ -65,6 +70,10 @@ def optional_auth(f):
             token = auth_header[7:].strip()
         elif request.cookies.get("token"):
             token = request.cookies.get("token")
+        elif request.args.get("token"):
+            token = request.args.get("token")
+        elif request.args.get("auth_token"):
+            token = request.args.get("auth_token")
 
         if token:
             jwt_secret = get_jwt_secret()
@@ -72,13 +81,18 @@ def optional_auth(f):
                 payload = jwt.decode(token, jwt_secret, algorithms=["HS256"])
                 session_id = payload.get("sessionId")
                 user_id = payload.get("userId")
-                if session_id and user_id:
-                    session_obj = db.session.get(Session, session_id)
-                    if session_obj and not session_obj.revoked:
-                        user_obj = db.session.get(User, user_id)
-                        if user_obj:
+                if user_id:
+                    user_obj = db.session.get(User, user_id)
+                    if user_obj:
+                        if session_id:
+                            session_obj = db.session.get(Session, session_id)
+                            if session_obj and not session_obj.revoked:
+                                g.session = session_obj
+                                g.user = user_obj
+                            elif not session_obj:
+                                g.user = user_obj
+                        else:
                             g.user = user_obj
-                            g.session = session_obj
             except Exception:
                 pass
         return f(*args, **kwargs)

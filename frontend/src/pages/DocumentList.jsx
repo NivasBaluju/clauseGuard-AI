@@ -20,6 +20,7 @@ export function DocumentList({ onNavigate }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [deletingId, setDeletingId] = useState(null);
+  const [downloadingId, setDownloadingId] = useState(null);
   const [confirmDeleteDoc, setConfirmDeleteDoc] = useState(null);
   const [notification, setNotification] = useState(null);
 
@@ -72,6 +73,21 @@ export function DocumentList({ onNavigate }) {
       setTimeout(() => setNotification(null), 6000);
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleDownloadPdf = async (e, d) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (downloadingId === d.id) return;
+    setDownloadingId(d.id);
+    try {
+      await api.downloadReportPdf(d.id, d.filename);
+    } catch (err) {
+      console.warn("Direct PDF download blob failed, attempting URL open fallback:", err);
+      window.open(api.getReportPdfUrl(d.id), "_blank");
+    } finally {
+      setDownloadingId(null);
     }
   };
 
@@ -278,16 +294,18 @@ export function DocumentList({ onNavigate }) {
                   {/* Actions */}
                   <div className="flex items-center gap-2">
                     {isAnalyzed && (
-                      <a
-                        href={api.getReportPdfUrl(doc.id)}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-2 border border-neutral-300 hover:border-black text-neutral-600 hover:text-black bg-white transition-colors"
+                      <button
+                        onClick={(e) => handleDownloadPdf(e, doc)}
+                        disabled={downloadingId === doc.id}
+                        className="p-2 border border-neutral-300 hover:border-black text-neutral-600 hover:text-black bg-white transition-colors cursor-pointer disabled:opacity-50"
                         title="Download PDF Audit Report"
                       >
-                        <Download className="w-4 h-4" />
-                      </a>
+                        {downloadingId === doc.id ? (
+                          <RefreshCw className="w-4 h-4 animate-spin text-black" />
+                        ) : (
+                          <Download className="w-4 h-4" />
+                        )}
+                      </button>
                     )}
 
                     <button

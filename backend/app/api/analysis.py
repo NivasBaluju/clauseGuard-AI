@@ -14,7 +14,7 @@ def get_authorized_doc_or_403(doc_id):
     doc = Document.query.get_or_404(doc_id)
     user = getattr(g, "user", None)
     if doc.user_id:
-        if not user or user.id != doc.user_id:
+        if not user or (str(user.id) != str(doc.user_id) and getattr(user, "role", "") != "admin"):
             return None, (jsonify({"error": "Unauthorized access to document analysis."}), 403)
     return doc, None
 

@@ -102,7 +102,31 @@ export const api = {
   getDeadlines: (id) => request(`/documents/${id}/deadlines`),
   getPiiSummary: (id) => request(`/documents/${id}/pii-summary`),
   getReportPdf: (id) => request(`/documents/${id}/report.pdf`),
-  getReportPdfUrl: (id) => `${BASE_URL}/documents/${id}/report.pdf`,
+  getReportPdfUrl: (id) => {
+    let token = "";
+    try {
+      token = localStorage.getItem("cg_token") || localStorage.getItem("token") || "";
+    } catch {
+      // ignore
+    }
+    const query = token ? `?token=${encodeURIComponent(token)}` : "";
+    return `${BASE_URL}/documents/${id}/report.pdf${query}`;
+  },
+  downloadReportPdf: async (id, filename = "document") => {
+    const blob = await api.getReportPdf(id);
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = url;
+    const cleanName = filename ? filename.replace(/\.[^/.]+$/, "") : "document";
+    a.download = `clauseguard_report_${cleanName}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    }, 100);
+  },
 
   // Chat / RAG
   sendChatMessage: (docId, question, sessionId = null) =>
