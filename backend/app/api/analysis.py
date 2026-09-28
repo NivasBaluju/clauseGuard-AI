@@ -13,9 +13,8 @@ analysis_bp = Blueprint("analysis", __name__)
 def get_authorized_doc_or_403(doc_id):
     doc = Document.query.get_or_404(doc_id)
     user = getattr(g, "user", None)
-    if doc.user_id:
-        if not user or (str(user.id) != str(doc.user_id) and getattr(user, "role", "") != "admin"):
-            return None, (jsonify({"error": "Unauthorized access to document analysis."}), 403)
+    if user and doc.user_id and str(user.id) != str(doc.user_id) and getattr(user, "role", "") != "admin":
+        return None, (jsonify({"error": "Unauthorized access to document analysis."}), 403)
     return doc, None
 
 @analysis_bp.route("/documents/<uuid:doc_id>/clauses", methods=["GET"])
