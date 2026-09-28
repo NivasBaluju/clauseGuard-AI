@@ -15,7 +15,6 @@ def analyze_splits(sources, n_train, n_val, n_test, name):
     print(f"Optimizing Document Split for {name} ({len(sources)} docs)")
     print(f"Target: {n_train} train, {n_val} val, {n_test} test")
     
-    # Clause types per document
     doc_types = {d["doc_id"]: set(c[1] for c in d["clauses"]) for d in sources}
     all_types = sorted(list(set(c[1] for d in sources for c in d["clauses"])))
     

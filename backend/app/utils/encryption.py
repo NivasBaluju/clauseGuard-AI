@@ -12,7 +12,6 @@ def get_fernet():
 
     key = current_app.config.get("FIELD_ENCRYPTION_KEY") if current_app else os.environ.get("FIELD_ENCRYPTION_KEY")
     if not key:
-        # Fallback to deterministic key or generate if none provided
         key = Fernet.generate_key()
     elif isinstance(key, str):
         key = key.encode()

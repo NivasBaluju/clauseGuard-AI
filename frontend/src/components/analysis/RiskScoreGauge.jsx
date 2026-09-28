@@ -13,7 +13,6 @@ export function RiskScoreGauge({ score = 0, band = "low" }) {
 
   const currentColor = bandColors[band.toLowerCase()] || bandColors.medium;
 
-  // Gauge data: completed score vs remaining
   const data = [
     { name: "Score", value: normalizedScore },
     { name: "Remaining", value: 100 - normalizedScore },
@@ -64,7 +63,6 @@ export function RiskScoreGauge({ score = 0, band = "low" }) {
         </div>
       </div>
 
-      {/* Risk Band Legend Scale */}
       <div className="grid grid-cols-4 gap-1 text-[10px] font-mono text-center pt-3 border-t border-neutral-200">
         <div className="p-1 border border-green-300 bg-green-50 text-green-700">
           <span className="font-bold">0-25</span>

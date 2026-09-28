@@ -2,9 +2,6 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-/**
- * Sanitizes URLs to prevent XSS (blocks javascript:, data:, vbscript: protocols)
- */
 function sanitizeUrl(url) {
   if (!url) return "#";
   const trimmed = url.trim();
@@ -19,9 +16,6 @@ function sanitizeUrl(url) {
   return "#";
 }
 
-/**
- * Formats known risk levels (LOW, MEDIUM, HIGH, CRITICAL) into visual badges
- */
 function renderRiskBadge(text) {
   if (typeof text !== "string") return text;
 
@@ -70,51 +64,31 @@ function renderRiskBadge(text) {
   return parts;
 }
 
-/**
- * Pre-processes and sanitizes markdown before ReactMarkdown parsing.
- * Eliminates unclosed bold tags, fixes asterisk spacing, and strips malformed tokens.
- */
 function sanitizeLegalMarkdown(rawText) {
   if (!rawText) return "";
   let text = rawText;
 
-  // 1. Normalize line endings & collapse excessive newlines
   text = text.replace(/\r\n/g, "\n").replace(/\n{3,}/g, "\n\n");
 
-  // 2. Fix unclosed bold: lines like "**Key Risk:" -> "**Key Risk:**"
   text = text.replace(/^(\s*[\*\-\d\.]*\s*)\*\*([^*\n:]+):?(\s*)$/gm, "$1**$2:**$3");
 
-  // 3. Fix triple asterisks or stray asterisks
   text = text.replace(/\*{3,}([^*]+)\*{3,}/g, "**$1**");
 
-  // 4. Normalize asterisk bullets lacking space: "*Clause" -> "* Clause"
   text = text.replace(/^(\s*)\*([^\s\*])/gm, "$1* $2");
 
-  // 5. Remove empty bold/italic: **** or ** **
   text = text.replace(/\*\*\s*\*\*/g, "");
 
-  // 6. Ensure headings have space after hash: "###Title" -> "### Title"
   text = text.replace(/^(#{1,6})([^\s#])/gm, "$1 $2");
 
   return text.trim();
 }
 
-/**
- * Removes any accidental unparsed stray asterisks from text nodes
- * and renders risk level badges.
- */
 function cleanVisibleAsterisks(val) {
   if (typeof val !== "string") return val;
   const noAsterisks = val.replace(/\*{1,3}/g, "");
   return renderRiskBadge(noAsterisks);
 }
 
-/**
- * LegalMarkdown Component
- * Parses and renders Gemini / Legal AI responses as clean, professional, readable JSX.
- * Eliminates visible raw asterisks, supports headings, bullets, numbered lists,
- * bold/italic emphasis, tables, quotations, code, and links.
- */
 export function LegalMarkdown({ content = "", className = "" }) {
   if (!content) return null;
 
@@ -126,7 +100,7 @@ export function LegalMarkdown({ content = "", className = "" }) {
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
         components={{
-          // Headings hierarchy
+
           h1: ({ node, children, ...props }) => (
             <h1
               className="font-serif text-xl sm:text-2xl font-bold text-black mt-4 mb-2 pb-1 border-b border-neutral-200 tracking-tight"
@@ -160,7 +134,6 @@ export function LegalMarkdown({ content = "", className = "" }) {
             </h4>
           ),
 
-          // Paragraphs with comfortable line height and spacing
           p: ({ node, children, ...props }) => (
             <p className="mb-3 last:mb-0 text-sm sm:text-base leading-relaxed text-neutral-800" {...props}>
               {React.Children.map(children, (child) =>
@@ -169,28 +142,24 @@ export function LegalMarkdown({ content = "", className = "" }) {
             </p>
           ),
 
-          // Bold text rendered without visible asterisks
           strong: ({ node, children, ...props }) => (
             <strong className="font-bold text-black" {...props}>
               {children}
             </strong>
           ),
 
-          // Italic text rendered cleanly
           em: ({ node, children, ...props }) => (
             <em className="italic text-neutral-900" {...props}>
               {children}
             </em>
           ),
 
-          // Bullet points rendered with clean visual bullets, never raw * or -
           ul: ({ node, children, ...props }) => (
             <ul className="list-disc pl-5 my-2.5 space-y-1.5 text-sm sm:text-base text-neutral-800" {...props}>
               {children}
             </ul>
           ),
 
-          // Numbered lists rendered with proper indentation and numbers
           ol: ({ node, children, ...props }) => (
             <ol className="list-decimal pl-5 my-2.5 space-y-1.5 text-sm sm:text-base text-neutral-800" {...props}>
               {children}
@@ -205,7 +174,6 @@ export function LegalMarkdown({ content = "", className = "" }) {
             </li>
           ),
 
-          // Quotations / Blockquotes (for quoted legal clauses or extracts)
           blockquote: ({ node, children, ...props }) => (
             <blockquote
               className="border-l-4 border-black bg-neutral-50 px-4 py-2 my-3 italic text-neutral-700 rounded-r text-sm sm:text-base"
@@ -215,7 +183,6 @@ export function LegalMarkdown({ content = "", className = "" }) {
             </blockquote>
           ),
 
-          // Tables rendered as real HTML tables, not raw pipe characters
           table: ({ node, children, ...props }) => (
             <div className="overflow-x-auto my-4 border border-neutral-300 rounded shadow-sm">
               <table className="min-w-full divide-y divide-neutral-200 text-xs sm:text-sm text-left font-sans" {...props}>
@@ -249,7 +216,6 @@ export function LegalMarkdown({ content = "", className = "" }) {
             </td>
           ),
 
-          // Code blocks & inline code
           code: ({ node, inline, className, children, ...props }) => {
             if (inline) {
               return (
@@ -268,7 +234,6 @@ export function LegalMarkdown({ content = "", className = "" }) {
             );
           },
 
-          // Safe clickable links
           a: ({ node, href, children, ...props }) => (
             <a
               href={sanitizeUrl(href)}
@@ -281,7 +246,6 @@ export function LegalMarkdown({ content = "", className = "" }) {
             </a>
           ),
 
-          // Horizontal rule
           hr: ({ node, ...props }) => (
             <hr className="my-4 border-t border-neutral-200" {...props} />
           ),

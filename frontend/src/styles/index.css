@@ -23,13 +23,11 @@
     letter-spacing: -0.025em;
   }
 
-  /* Exclude circular buttons from 0 border-radius if explicitly marked */
   .rounded-full {
     border-radius: 9999px !important;
   }
 }
 
-/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -44,7 +42,6 @@
   background: rgba(0, 0, 0, 0.35);
 }
 
-/* Shimmer animation for skeleton loader */
 @keyframes shimmer {
   0% {
     background-position: -200% 0;

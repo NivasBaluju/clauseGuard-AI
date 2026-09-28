@@ -6,7 +6,6 @@ from pathlib import Path
 logging.basicConfig(level=logging.INFO, format="[%(asctime)s] %(levelname)s: %(message)s")
 logger = logging.getLogger("clauseguard.wsgi")
 
-# Add backend directory to sys.path
 backend_dir = Path(__file__).resolve().parent
 sys.path.insert(0, str(backend_dir))
 

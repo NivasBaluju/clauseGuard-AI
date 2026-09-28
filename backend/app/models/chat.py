@@ -49,7 +49,7 @@ class ChatMessage(db.Model):
         nullable=True,
         index=True,
     )
-    role = db.Column(db.String(20), nullable=False)  # USER | ASSISTANT
+    role = db.Column(db.String(20), nullable=False)
     content = db.Column(db.Text, nullable=False)
     confidence = db.Column(db.Float, nullable=True)
     grounded = db.Column(db.Boolean, default=True)

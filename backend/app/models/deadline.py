@@ -17,11 +17,11 @@ class Deadline(db.Model):
         db.ForeignKey("clauses.id", ondelete="SET NULL"),
         nullable=True,
     )
-    deadline_type = db.Column(db.String(64))  # notice_period | renewal | termination | payment_due | other
+    deadline_type = db.Column(db.String(64))
     raw_text = db.Column(db.Text, nullable=False)
     parsed_date = db.Column(db.Date)
     relative_days = db.Column(db.Integer)
-    confidence = db.Column(db.String(16), nullable=False, default="needs_review")  # confident | needs_review
+    confidence = db.Column(db.String(16), nullable=False, default="needs_review")
 
     document = db.relationship("Document", back_populates="deadlines")
     clause = db.relationship("Clause", back_populates="deadlines")

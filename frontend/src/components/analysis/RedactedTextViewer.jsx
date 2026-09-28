@@ -43,7 +43,6 @@ export function RedactedTextViewer({ redactedText = "", clauses = [], selectedCl
         This is the sole version of the document text processed downstream by machine learning models and displayed in the interface. Raw text is encrypted at rest for audit-only purposes.
       </p>
 
-      {/* Text Container */}
       <div className="border border-neutral-300 bg-neutral-50 p-5 max-h-[550px] overflow-y-auto font-mono text-xs leading-relaxed space-y-4 text-black">
         {clauses.length > 0 ? (
           clauses.map((c) => {

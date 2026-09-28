@@ -11,7 +11,6 @@ with open("ml/ddg_page.html", "w", encoding="utf-8") as f:
     f.write(data)
 
 print(f"Saved {len(data)} bytes to ml/ddg_page.html")
-# Print all hrefs in the page
 hrefs = re.findall(r'href="([^"]+)"', data)
 print(f"Total hrefs: {len(hrefs)}")
 for h in hrefs[:15]:

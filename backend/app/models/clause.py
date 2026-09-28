@@ -17,7 +17,7 @@ class Clause(db.Model):
     clause_index = db.Column(db.Integer, nullable=False)
     clause_type = db.Column(db.String(64))
     clause_type_confidence = db.Column(db.Float)
-    favorability_label = db.Column(db.String(16))  # fair | needs_review | unfavorable
+    favorability_label = db.Column(db.String(16))
     favorability_confidence = db.Column(db.Float)
     risk_score = db.Column(db.Float)
     redacted_text = db.Column(db.Text, nullable=False)

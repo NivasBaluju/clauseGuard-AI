@@ -8,19 +8,19 @@ class Document(db.Model):
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     filename = db.Column(db.String(255), nullable=False)
-    original_format = db.Column(db.String(10), nullable=False)  # pdf | docx | txt
+    original_format = db.Column(db.String(10), nullable=False)
     document_type = db.Column(
         db.String(32),
         nullable=False,
-    )  # rental_agreement | job_offer_letter | insurance_policy
-    status = db.Column(db.String(20), nullable=False, default="uploaded")  # uploaded | processing | analyzed | failed
-    processing_stage = db.Column(db.String(64))  # e.g. ocr, redaction, classification
+    )
+    status = db.Column(db.String(20), nullable=False, default="uploaded")
+    processing_stage = db.Column(db.String(64))
     error_message = db.Column(db.Text)
     page_count = db.Column(db.Integer)
-    raw_text_encrypted = db.Column(db.LargeBinary)  # audit-only, never sent downstream
+    raw_text_encrypted = db.Column(db.LargeBinary)
     redacted_text = db.Column(db.Text)
     overall_risk_score = db.Column(db.Float)
-    risk_band = db.Column(db.String(16))  # low | medium | high | critical
+    risk_band = db.Column(db.String(16))
     model_version = db.Column(db.String(64))
     uploaded_at = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
     analyzed_at = db.Column(db.DateTime(timezone=True))

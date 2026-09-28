@@ -25,23 +25,15 @@ WORD_NUMBERS = {
     "one hundred eighty": 180, "one-hundred eighty": 180, "365": 365,
 }
 
-# Rich regex patterns for catching all types of legal durations
 DURATION_PATTERNS = [
-    # "thirty (30) days", "at least 30 days", "within 60 calendar days", "15 business days"
     r"(?i)\b(?:at\s+least|not\s+less\s+than|within|giving|upon|prior\s+to|no\s+later\s+than)?\s*\(?(\d{1,3})\)?[\s-]*(?:calendar|business|working)?\s*days?\b",
-    # Spelled out numbers: "thirty days", "twenty-one days", "seven business days"
     r"(?i)\b(?:at\s+least|not\s+less\s+than|within|giving|upon|prior\s+to)?\s*(one|two|three|four|five|six|seven|eight|nine|ten|fourteen|fifteen|twenty|twenty-one|thirty|forty-five|sixty|ninety)\s*\(?\d{1,3}\)?[\s-]*(?:calendar|business|working)?\s*days?\b",
-    # Weeks: "two (2) weeks", "within 4 weeks"
     r"(?i)\b(?:within|giving|at\s+least)?\s*\(?(\d{1,2})\)?\s*weeks?\b",
     r"(?i)\b(one|two|three|four)\s*weeks?\b",
-    # Months: "6 months", "within 12 months", "1 year"
     r"(?i)\b(?:within|at\s+least)?\s*\(?(\d{1,2})\)?\s*months?\b",
     r"(?i)\b(one|two|three|six|twelve)\s*months?\b",
-    # Hours notice: "24 hours", "48 hours advance written notice"
     r"(?i)\b\(?(\d{1,2})\)?[\s-]*(?:hours?|hrs?)\s*(?:written\s+)?notice\b",
-    # Hyphenated modifiers: "30-day notice", "60-day period"
     r"(?i)\b(\d{1,3})-day\b",
-    # Specific payment days: "on or before the 1st day", "due on the 5th of each month"
     r"(?i)\b(?:on\s+or\s+before\s+the|due\s+on\s+the|payable\s+on\s+the)\s+(\d{1,2})(?:st|nd|rd|th)?\s+(?:day\s+of\s+(?:each\s+)?month|of\s+each\s+month)\b",
 ]
 
@@ -103,23 +95,19 @@ def classify_deadline_type(sentence_text: str) -> str:
 def parse_relative_days(text: str) -> int | None:
     text_clean = text.lower().strip()
 
-    # Hours check (24h -> 1 day, 48h -> 2 days)
     m_h = re.search(r"\(?(\d{1,2})\)?[\s-]*(?:hours?|hrs?)", text_clean)
     if m_h:
         hours = int(m_h.group(1))
         return max(1, hours // 24)
 
-    # Digits with optional parens: "30 days", "thirty (30) days"
     m_d = re.search(r"\(?(\d{1,3})\)?[\s-]*(?:calendar|business|working)?\s*days?", text_clean)
     if m_d:
         return int(m_d.group(1))
 
-    # Spelled out words: "thirty days"
     for word, val in WORD_NUMBERS.items():
         if re.search(rf"\b{word}\b", text_clean):
             return val
 
-    # Weeks
     m_w = re.search(r"\(?(\d{1,2})\)?\s*weeks?", text_clean)
     if m_w:
         return int(m_w.group(1)) * 7
@@ -128,7 +116,6 @@ def parse_relative_days(text: str) -> int | None:
         if re.search(rf"\b{w_word}\s+weeks?", text_clean):
             return WORD_NUMBERS[w_word] * 7
 
-    # Months
     m_m = re.search(r"\(?(\d{1,2})\)?\s*months?", text_clean)
     if m_m:
         return int(m_m.group(1)) * 30
@@ -138,12 +125,10 @@ def parse_relative_days(text: str) -> int | None:
 def clean_deadline_phrase(phrase: str) -> str:
     """Cleans punctuation, dangling parens, and extracts clean duration phrasing."""
     cleaned = phrase.strip(" ()-\t\n\r")
-    # Fix phrases like "21) days" or "10) days" -> "21 days"
     cleaned = re.sub(r"^(\d+)\)\s*", r"\1 ", cleaned)
     if "(" not in cleaned and ")" in cleaned:
         cleaned = cleaned.replace(")", "")
     return cleaned.strip()
-
 
 def extract_deadlines_from_clause(clause_text: str, clause_id=None) -> list[dict]:
     """
@@ -163,7 +148,6 @@ def extract_deadlines_from_clause(clause_text: str, clause_id=None) -> list[dict
         if len(sent_str) < 10:
             continue
 
-        # 1. Regex duration pattern matching (e.g. 5 days, 21 days, 30 days)
         for p in DURATION_PATTERNS:
             for match in re.finditer(p, sent_str):
                 matched_phrase = match.group(0).strip()
@@ -172,7 +156,6 @@ def extract_deadlines_from_clause(clause_text: str, clause_id=None) -> list[dict
                     continue
 
                 d_type = classify_deadline_type(sent_str)
-                # Deduplicate by days within this clause
                 key = f"{clause_id}_{d_type}_{days}"
                 if key in seen_keys:
                     continue
@@ -191,18 +174,15 @@ def extract_deadlines_from_clause(clause_text: str, clause_id=None) -> list[dict
                     "confidence": confidence,
                 })
 
-        # 2. Check absolute calendar dates via spaCy NER (e.g. "January 15, 2026")
         for ent in sent.ents:
             if ent.label_ == "DATE":
                 phrase = ent.text.strip()
                 if len(phrase) < 5:
                     continue
 
-                # Skip if this is a relative duration phrase (already captured in step 1)
                 if re.search(r"\b(?:days?|weeks?|months?|hours?|calendar|business)\b", phrase, re.I):
                     continue
 
-                # Only treat as genuine calendar date if containing month name or explicit date/year format
                 is_calendar_candidate = bool(
                     re.search(r"\b(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b", phrase, re.I)
                     or re.search(r"\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b", phrase)
@@ -244,7 +224,6 @@ def extract_deadlines_from_clause(clause_text: str, clause_id=None) -> list[dict
 
     return deadlines
 
-
 def extract_all_deadlines(clauses: list[dict]) -> list[dict]:
     """
     Extracts deadlines across all clauses in a document, deduplicating
@@ -263,6 +242,5 @@ def extract_all_deadlines(clauses: list[dict]) -> list[dict]:
                 seen.add(sig)
                 all_deadlines.append(d)
 
-    # Sort deadlines by relative_days ascending (most immediate first)
     all_deadlines.sort(key=lambda x: (x.get("relative_days") or 9999))
     return all_deadlines

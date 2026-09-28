@@ -9,7 +9,6 @@ export const ChatTab = ({ documentId }) => {
   const [sending, setSending] = useState(false);
   const chatWindowRef = useRef(null);
 
-  // Suggestions for rapid query testing
   const suggestions = [
     "What are the termination conditions?",
     "Is there an automatic renewal clause?",
@@ -17,7 +16,6 @@ export const ChatTab = ({ documentId }) => {
     "Summarize the main liabilities & risks",
   ];
 
-  // Fetch chronological chat history
   useEffect(() => {
     let isMounted = true;
     const fetchHistory = async () => {
@@ -51,7 +49,6 @@ export const ChatTab = ({ documentId }) => {
     };
   }, [documentId]);
 
-  // Scroll to bottom on new message
   useEffect(() => {
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
@@ -62,7 +59,6 @@ export const ChatTab = ({ documentId }) => {
     const q = (customText || input).trim();
     if (!q || sending) return;
 
-    // Optimistically append user message
     const userMsg = {
       id: `temp-${Date.now()}`,
       role: "USER",
@@ -143,7 +139,6 @@ export const ChatTab = ({ documentId }) => {
         overflow: "hidden",
       }}
     >
-      {/* Header */}
       <div
         style={{
           padding: "16px 20px",
@@ -173,7 +168,6 @@ export const ChatTab = ({ documentId }) => {
         </span>
       </div>
 
-      {/* Suggested Questions */}
       <div
         style={{
           padding: "12px 16px",
@@ -207,7 +201,6 @@ export const ChatTab = ({ documentId }) => {
         ))}
       </div>
 
-      {/* Messages Scroll Area */}
       <div
         ref={chatWindowRef}
         style={{
@@ -269,14 +262,12 @@ export const ChatTab = ({ documentId }) => {
                   </div>
                 )}
 
-                {/* Body Content */}
                 {isUser ? (
                   <div style={{ color: "#ffffff", whiteSpace: "pre-wrap" }}>{m.content}</div>
                 ) : (
                   <LegalMarkdown content={m.content} />
                 )}
 
-                {/* Evidence Citations */}
                 {!isUser && m.sources && m.sources.length > 0 && (
                   <div style={{ marginTop: "12px", paddingTop: "10px", borderTop: "1px solid #f0f0f0" }}>
                     <div style={{ fontSize: "11px", fontWeight: 700, color: "#52525b", marginBottom: "6px" }}>
@@ -323,7 +314,6 @@ export const ChatTab = ({ documentId }) => {
         )}
       </div>
 
-      {/* Input Row */}
       <div
         style={{
           padding: "16px",

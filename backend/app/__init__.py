@@ -6,12 +6,10 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
     cors.init_app(app, resources={r"/*": {"origins": app.config.get("CORS_ORIGINS", "*")}}, supports_credentials=True)
 
-    # Register API blueprints
     from app.api.health import health_bp
     from app.api.auth import auth_bp
     from app.api.documents import documents_bp
@@ -26,13 +24,11 @@ def create_app(config_class=Config):
     app.register_blueprint(chat_bp, url_prefix="/api")
     app.register_blueprint(audit_bp, url_prefix="/api")
 
-    # Root-level health endpoint for Cloud platforms (Render / AWS / GCP)
     @app.route("/health", methods=["GET"])
     def root_health():
         from app.api.health import health_check
         return health_check()
 
-    # Global JSON error handling for API routes
     from werkzeug.exceptions import HTTPException
 
     @app.errorhandler(HTTPException)

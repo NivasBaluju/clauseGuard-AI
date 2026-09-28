@@ -34,12 +34,10 @@ def answer_document_question(document_id, question: str, session_id=None) -> dic
     4. Generate grounded answer via Gemini API.
     5. Track citations and verify grounding.
     """
-    # 1. Defend against prompt injection
     sanitized_question, was_flagged, patterns = sanitize_chat_input(question)
     if was_flagged:
         logger.warning(f"Sanitized injection patterns {patterns} in user question")
 
-    # 2. Get or create chat session
     if session_id:
         session = db.session.get(ChatSession, session_id)
     else:
@@ -50,7 +48,6 @@ def answer_document_question(document_id, question: str, session_id=None) -> dic
         db.session.add(session)
         db.session.commit()
 
-    # Save user message
     user_msg = ChatMessage(
         session_id=session.id,
         role="user",
@@ -61,7 +58,6 @@ def answer_document_question(document_id, question: str, session_id=None) -> dic
     db.session.add(user_msg)
     db.session.commit()
 
-    # 3. Embed query and retrieve relevant clauses
     query_vector = embed_query(sanitized_question)
     retrieved_clauses = retrieve_relevant_clauses(document_id, query_vector, top_k=5)
 
@@ -85,7 +81,6 @@ def answer_document_question(document_id, question: str, session_id=None) -> dic
             "retrieved_clauses": [],
         }
 
-    # 4. Construct context with clause references
     context_blocks = []
     index_to_id = {}
     for c in retrieved_clauses:
@@ -106,7 +101,6 @@ def answer_document_question(document_id, question: str, session_id=None) -> dic
         f"ANSWER (cite [Clause X] or declare ungrounded):"
     )
 
-    # 5. Call Gemini API
     client = get_genai_client()
     chat_model = current_app.config.get("GEMINI_CHAT_MODEL", "gemini-3.8-flash") if current_app else "gemini-3.8-flash"
 
@@ -120,8 +114,6 @@ def answer_document_question(document_id, question: str, session_id=None) -> dic
         logger.error(f"Error calling Gemini model {chat_model}: {e}")
         answer_text = "Unable to generate a response right now. Please try again."
 
-    # 6. Verify grounding and extract citations
-    # Check if answer claims no information
     ungrounded_phrases = [
         "does not contain information",
         "no information addressing",
@@ -131,7 +123,6 @@ def answer_document_question(document_id, question: str, session_id=None) -> dic
     ]
     is_unsupported = any(phrase in answer_text.lower() for phrase in ungrounded_phrases)
 
-    # Extract cited clause indices like [Clause 3]
     cited_indices = re.findall(r"\[Clause\s+(\d+)\]", answer_text, re.IGNORECASE)
     cited_clause_ids = []
     for idx_str in cited_indices:
@@ -141,11 +132,9 @@ def answer_document_question(document_id, question: str, session_id=None) -> dic
 
     grounded = (not is_unsupported) and (len(cited_clause_ids) > 0)
 
-    # If the model didn't cite an explicit [Clause X] but answered from retrieved clauses, check overlap
     if not cited_clause_ids and not is_unsupported:
         grounded = False
 
-    # 7. Save assistant message to database
     asst_msg = ChatMessage(
         session_id=session.id,
         role="assistant",

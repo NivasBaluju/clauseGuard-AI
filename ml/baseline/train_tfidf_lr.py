@@ -9,7 +9,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 
-# Add project root to sys.path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -26,7 +25,6 @@ def train_baseline(document_type: str, task: str = "clause_type"):
     val_records = load_jsonl_dataset(data_dir / "val.jsonl")
     test_records = load_jsonl_dataset(data_dir / "test.jsonl")
 
-    # Combine train and val for training, test for evaluation
     train_val_records = train_records + val_records
 
     X_train = [r["clause_text"] for r in train_val_records]
@@ -47,7 +45,6 @@ def train_baseline(document_type: str, task: str = "clause_type"):
         "clf__C": [0.1, 1.0, 5.0, 10.0],
     }
 
-    # If small sample size, cv=min(3, min_class_count)
     from collections import Counter
     min_class_count = min(Counter(y_train).values()) if y_train else 2
     cv = min(3, len(X_train) // max(1, len(unique_labels)), min_class_count)
@@ -58,11 +55,9 @@ def train_baseline(document_type: str, task: str = "clause_type"):
 
     best_model = search.best_estimator_
 
-    # Evaluate on held-out test split
     y_pred = best_model.predict(X_test)
     eval_results = evaluate_predictions(y_test, y_pred, labels=unique_labels, target_names=unique_labels)
 
-    # Save artifact
     artifact_dir = project_root / "ml" / "artifacts" / document_type
     artifact_dir.mkdir(parents=True, exist_ok=True)
     model_filename = f"baseline_tfidf_lr_{task}.joblib"

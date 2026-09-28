@@ -32,13 +32,10 @@ sys.path.insert(0, str(backend_dir))
 DOWNLOADS_DIR   = Path(r"C:\Users\DELL\Downloads\documents")
 DATASET_ROOT    = project_root / "ml" / "datasets"
 ARTIFACTS_DIR   = project_root / "ml" / "artifacts"
-TARGET_PER_TYPE = 3334   # ~10,002 total across 3 types
+TARGET_PER_TYPE = 3334
 
 random.seed(42)
 
-# ---------------------------------------------------------------------------
-# STEP 1: Text extraction
-# ---------------------------------------------------------------------------
 def extract_text_docx(path: Path) -> str:
     try:
         import docx as docx_lib
@@ -65,9 +62,6 @@ def extract_text_pdf(path: Path) -> str:
 def extract_text(path: Path) -> str:
     return extract_text_docx(path) if path.suffix.lower() == ".docx" else extract_text_pdf(path)
 
-# ---------------------------------------------------------------------------
-# STEP 2: Document type classifier
-# ---------------------------------------------------------------------------
 RENTAL_KW    = ["rental agreement","rent agreement","lease agreement","landlord",
                  "tenant","security deposit","monthly rent","premises","tenancy"]
 OFFER_KW     = ["offer letter","job offer","employment offer","position of","salary",
@@ -80,7 +74,6 @@ INSURANCE_KW = ["insurance policy","policy document","coverage","premium","insur
 def classify_document(text: str, filename: str) -> str:
     fl = filename.lower()
     tl = text.lower()[:4000]
-    # Filename override
     if any(k in fl for k in ["rental","rent","lease","tenancy","agreement"]):
         return "rental_agreement"
     if any(k in fl for k in ["offer","job","employment","tcs","google","aliens",
@@ -98,9 +91,6 @@ def classify_document(text: str, filename: str) -> str:
     best = max(scores, key=scores.get)
     return best if scores[best] > 0 else "rental_agreement"
 
-# ---------------------------------------------------------------------------
-# STEP 3: PII Redaction (reuse backend; fallback to regex)
-# ---------------------------------------------------------------------------
 def redact_text(text: str) -> str:
     try:
         from services.pii_redaction import redact_pii
@@ -113,9 +103,6 @@ def redact_text(text: str) -> str:
         text = re.sub(r'\b(?:Rs\.?|INR|USD|\$|€)\s*[\d,]+', '<MONEY>', text)
         return text
 
-# ---------------------------------------------------------------------------
-# STEP 4: Clause segmentation
-# ---------------------------------------------------------------------------
 SPLIT_RE = re.compile(
     r'\n(?=\s*(?:\d+[\.\)]\s|\([a-zA-Z0-9]+\)|[A-Z]{2,}[\s:]|(?:SECTION|CLAUSE|ARTICLE|SCHEDULE|PART|WHEREAS|NOW THEREFORE)\s))',
     re.MULTILINE
@@ -137,7 +124,6 @@ def segment_clauses(text: str) -> list:
             clauses.append(p)
     if buf:
         clauses.append(buf)
-    # Break very long paragraphs
     final = []
     for c in clauses:
         if len(c) > 2500:
@@ -150,9 +136,6 @@ def segment_clauses(text: str) -> list:
                 final.append(c)
     return final
 
-# ---------------------------------------------------------------------------
-# STEP 5: Heuristic labelers (import existing; fallback inline)
-# ---------------------------------------------------------------------------
 def _load_heuristics():
     try:
         from ml.dataset_corpus_data     import heuristic_rental_clause_type  as h_r
@@ -217,9 +200,6 @@ HEURISTIC_FN = {
     "insurance_policy": heuristic_insurance,
 }
 
-# ---------------------------------------------------------------------------
-# STEP 6: Favorability assessment
-# ---------------------------------------------------------------------------
 UNFAV = {
     "rental_agreement": ["shall not","tenant shall pay","forfeit","penalty","landlord may",
                           "at landlord's sole discretion","non-refundable","tenant is responsible",
@@ -249,9 +229,6 @@ def assess_favorability(doc_type: str, text: str) -> str:
         return "needs_review"
     return "fair"
 
-# ---------------------------------------------------------------------------
-# STEP 7: Deduplication
-# ---------------------------------------------------------------------------
 def normalize(text: str) -> str:
     return re.sub(r'\s+', ' ', text.lower().strip())
 
@@ -269,13 +246,9 @@ def is_duplicate(text: str, seen: list, threshold: float = 0.85) -> bool:
             return True
     return False
 
-# ---------------------------------------------------------------------------
-# STEP 8: Synthetic scenario clause pools
-# ---------------------------------------------------------------------------
 SYNTHETIC_POOLS = {
 
 "rental_agreement": [
-    # security_deposit
     ("The Tenant shall pay a security deposit equal to two months' rent prior to move-in. This deposit is refundable within 21 days of lease termination.", "security_deposit","fair"),
     ("A non-refundable security deposit of three months' rent is required. Tenant forfeits the entire amount if vacating before the lease end date.", "security_deposit","unfavorable"),
     ("The security deposit of two thousand five hundred dollars shall be held in a non-interest-bearing escrow account. Landlord shall provide itemized deductions within 30 days.", "security_deposit","fair"),
@@ -286,7 +259,6 @@ SYNTHETIC_POOLS = {
     ("Landlord shall keep the security deposit in a separate trust account and provide Tenant with written notice of the bank's name within 30 days of lease commencement.", "security_deposit","fair"),
     ("If Tenant causes damage exceeding the security deposit, Tenant remains liable for the excess amount.", "security_deposit","needs_review"),
     ("The security deposit may not be used as last month's rent without prior written consent from Landlord.", "security_deposit","needs_review"),
-    # rent_payment
     ("Rent is due on the 1st day of each calendar month. A late fee of seventy-five dollars shall be assessed for payments received after the 5th.", "rent_payment","needs_review"),
     ("Tenant shall pay monthly rent by electronic transfer on the first of each month. Landlord shall provide a receipt within 3 business days.", "rent_payment","fair"),
     ("Failure to pay rent within 3 days of the due date shall constitute an event of default. Landlord may immediately begin eviction proceedings.", "rent_payment","unfavorable"),
@@ -297,7 +269,6 @@ SYNTHETIC_POOLS = {
     ("Landlord agrees to accept rent by personal check, money order, or electronic transfer.", "rent_payment","fair"),
     ("A grace period of five days is provided for rent payment before any late fee is applied.", "rent_payment","fair"),
     ("Consistent late payment in three or more consecutive months shall constitute grounds for lease termination.", "rent_payment","needs_review"),
-    # termination
     ("Either party may terminate this agreement with 30 days' written notice. Tenant shall be responsible for rent through the end of the notice period.", "termination","fair"),
     ("Landlord may terminate this lease immediately and without notice if Tenant engages in illegal activity on the premises.", "termination","needs_review"),
     ("In the event of early termination by Tenant, a fee equal to two months' rent shall be due and payable immediately.", "termination","unfavorable"),
@@ -308,7 +279,6 @@ SYNTHETIC_POOLS = {
     ("Force majeure events including natural disasters, government orders, or declared emergencies shall excuse Tenant from early termination penalties.", "termination","fair"),
     ("Landlord may terminate this lease with 30 days' notice if Landlord intends to occupy the premises personally.", "termination","needs_review"),
     ("Tenant who terminates without proper notice forfeits the security deposit in full.", "termination","unfavorable"),
-    # maintenance_repairs
     ("Tenant shall maintain the premises in a clean and sanitary condition and report any maintenance issues to Landlord within 24 hours.", "maintenance_repairs","fair"),
     ("All repairs costing less than one hundred fifty dollars shall be the sole responsibility of the Tenant.", "maintenance_repairs","needs_review"),
     ("Landlord shall make all structural repairs within a reasonable time, not to exceed 30 days of written notice from Tenant.", "maintenance_repairs","fair"),
@@ -319,7 +289,6 @@ SYNTHETIC_POOLS = {
     ("Plumbing, electrical, and HVAC maintenance shall be Landlord's responsibility except where caused by Tenant negligence.", "maintenance_repairs","fair"),
     ("Emergency repairs required to prevent further damage may be authorized by Tenant up to two hundred dollars without prior approval.", "maintenance_repairs","fair"),
     ("Landlord shall inspect the premises no more than twice per year for maintenance assessment.", "maintenance_repairs","fair"),
-    # pet_policy
     ("No pets of any kind are permitted on the premises without prior written consent from Landlord.", "pet_policy","unfavorable"),
     ("Tenant may keep up to two domestic pets with a non-refundable pet deposit of five hundred dollars per animal.", "pet_policy","needs_review"),
     ("Pets are welcome on the premises subject to a refundable pet deposit and monthly pet rent of fifty dollars.", "pet_policy","fair"),
@@ -330,7 +299,6 @@ SYNTHETIC_POOLS = {
     ("Emotional support animals are subject to Landlord approval and may require an additional deposit.", "pet_policy","needs_review"),
     ("Tenant must notify Landlord of any new pet within 48 hours of bringing the animal onto the premises.", "pet_policy","needs_review"),
     ("Landlord may revoke pet permission with 30 days' notice if the pet causes repeated disturbances to neighbors.", "pet_policy","needs_review"),
-    # subletting_assignment
     ("Tenant shall not sublet or assign any portion of the premises without Landlord's express prior written consent.", "subletting_assignment","needs_review"),
     ("Landlord shall not unreasonably withhold consent for subletting. Decision shall be communicated within 15 days.", "subletting_assignment","fair"),
     ("Any unauthorized assignment or subletting shall constitute a material breach and grounds for immediate eviction.", "subletting_assignment","unfavorable"),
@@ -339,7 +307,6 @@ SYNTHETIC_POOLS = {
     ("In the event Tenant assigns this lease, all original obligations remain in full force.", "subletting_assignment","unfavorable"),
     ("Short-term rental of the premises through any platform is strictly prohibited.", "subletting_assignment","unfavorable"),
     ("Landlord's consent to subletting may be conditioned upon background and credit screening of the proposed subtenant.", "subletting_assignment","needs_review"),
-    # utilities
     ("Tenant is responsible for all utility costs including electricity, gas, water, and internet.", "utilities","needs_review"),
     ("Landlord shall pay for water and trash collection. Tenant is responsible for electricity and internet.", "utilities","fair"),
     ("All utilities are included in the monthly rent. Landlord reserves the right to implement a utility cap if usage exceeds reasonable limits.", "utilities","needs_review"),
@@ -348,7 +315,6 @@ SYNTHETIC_POOLS = {
     ("Landlord warrants that the premises is serviced by a functioning water heater, HVAC system, and electrical panel.", "utilities","fair"),
     ("Tenant shall pay any reconnection fees resulting from Tenant's failure to maintain timely utility payments.", "utilities","unfavorable"),
     ("Solar energy credits generated by building-mounted panels shall accrue to Landlord, not to Tenant.", "utilities","unfavorable"),
-    # entry_notice_access
     ("Landlord shall provide at least 24 hours' written notice before entering the premises except in emergency.", "entry_notice_access","fair"),
     ("Landlord may enter the premises at any time without prior notice for inspection or repair purposes.", "entry_notice_access","unfavorable"),
     ("Entry for non-emergency maintenance shall occur only during business hours with 48 hours' advance notice.", "entry_notice_access","fair"),
@@ -357,45 +323,38 @@ SYNTHETIC_POOLS = {
     ("Tenant may not change locks or add additional security devices without Landlord's written consent.", "entry_notice_access","needs_review"),
     ("Entry for property inspections shall be limited to no more than four times per year.", "entry_notice_access","fair"),
     ("Tenant may deny entry if proper advance notice was not provided, except in genuine emergencies.", "entry_notice_access","fair"),
-    # governing_law_jurisdiction
     ("This lease shall be governed by the laws of the applicable state. Any disputes shall be resolved in local courts.", "governing_law_jurisdiction","fair"),
     ("All disputes arising under this lease shall be subject to binding arbitration.", "governing_law_jurisdiction","needs_review"),
     ("The parties agree that this agreement is enforceable under the applicable Residential Tenancy Act.", "governing_law_jurisdiction","fair"),
     ("Any legal action related to this lease must be filed within one year of the event giving rise to the claim.", "governing_law_jurisdiction","unfavorable"),
     ("This agreement shall be construed under applicable state law. Tenant consents to personal jurisdiction in the local county.", "governing_law_jurisdiction","fair"),
     ("Landlord reserves the right to file legal action in any court of competent jurisdiction at Landlord's sole discretion.", "governing_law_jurisdiction","unfavorable"),
-    # indemnification
     ("Tenant agrees to indemnify, defend, and hold harmless Landlord from any claims arising from Tenant's use of the premises.", "indemnification","unfavorable"),
     ("Each party shall indemnify the other against losses caused by their own negligence or willful misconduct.", "indemnification","fair"),
     ("Landlord shall not be liable for any injury or damage occurring on the premises except where caused by Landlord's gross negligence.", "indemnification","unfavorable"),
     ("Tenant waives any claims against Landlord for losses resulting from third-party criminal activity near the premises.", "indemnification","unfavorable"),
     ("Tenant shall carry renter's insurance with minimum liability coverage and provide proof of coverage within 7 days of lease start.", "indemnification","fair"),
     ("Landlord shall maintain adequate property insurance on the building structure throughout the lease term.", "indemnification","fair"),
-    # renewal_options
     ("This lease shall automatically renew on a month-to-month basis unless either party provides 30 days' written notice.", "renewal_options","fair"),
     ("Tenant has the option to renew for one additional year at a rent increase not to exceed 5%, subject to Landlord's approval.", "renewal_options","fair"),
     ("Landlord may elect not to renew this lease for any reason with 60 days' notice prior to expiration.", "renewal_options","needs_review"),
     ("Renewal is at the sole discretion of the Landlord and may be conditioned on a satisfactory unit inspection.", "renewal_options","unfavorable"),
     ("Fixed-term leases not renewed in writing shall convert to month-to-month with 30 days' notice required to terminate.", "renewal_options","fair"),
-    # alterations_improvements
     ("Tenant shall make no structural alterations to the premises without prior written consent from Landlord.", "alterations_improvements","needs_review"),
     ("Any improvements made by Tenant shall become the property of Landlord at lease end unless Landlord elects in writing to have them removed.", "alterations_improvements","unfavorable"),
     ("Tenant may hang pictures and install curtain rods without requiring Landlord approval.", "alterations_improvements","fair"),
     ("All alterations requiring permits must be coordinated by Landlord. Unpermitted work shall be corrected at Tenant's expense.", "alterations_improvements","unfavorable"),
     ("Tenant-installed appliances remain Tenant's property and must be removed at move-out, with original fixtures restored.", "alterations_improvements","needs_review"),
-    # insurance_liability
     ("Tenant shall maintain renter's insurance with personal property coverage throughout the lease term.", "insurance_liability","fair"),
     ("Landlord shall not be responsible for damage to Tenant's personal property caused by leaks, flooding, or fire.", "insurance_liability","unfavorable"),
     ("Tenant's insurance shall name Landlord as an additional insured and Tenant shall provide proof upon request.", "insurance_liability","needs_review"),
     ("Landlord maintains property insurance on the building structure only. Tenant's belongings are not covered.", "insurance_liability","needs_review"),
     ("If Tenant fails to maintain required insurance, Landlord may purchase coverage at Tenant's expense.", "insurance_liability","unfavorable"),
-    # dispute_resolution
     ("Any dispute arising from this lease shall first be submitted to mediation before any court action is initiated.", "dispute_resolution","fair"),
     ("The prevailing party in any legal action shall be entitled to recover reasonable attorney's fees.", "dispute_resolution","fair"),
     ("Tenant waives the right to a jury trial for any dispute arising under this lease agreement.", "dispute_resolution","unfavorable"),
     ("All disputes shall be resolved through binding arbitration. The arbitrator's decision shall be final and non-appealable.", "dispute_resolution","unfavorable"),
     ("Small claims arising from this lease may be filed in small claims court without arbitration.", "dispute_resolution","fair"),
-    # general_terms
     ("This lease constitutes the entire agreement between the parties. No oral representations shall modify its terms.", "general_terms","fair"),
     ("If any provision of this lease is found unenforceable, the remaining provisions shall continue in full force.", "general_terms","fair"),
     ("This lease may be executed in counterparts, each of which shall be deemed an original.", "general_terms","fair"),
@@ -406,7 +365,6 @@ SYNTHETIC_POOLS = {
 ],
 
 "job_offer_letter": [
-    # compensation_salary
     ("Your base salary will be ninety-five thousand dollars per annum, paid bi-weekly. Salary reviews occur annually at management's discretion.", "compensation_salary","fair"),
     ("The offered CTC is inclusive of all components including gratuity and provident fund. Gross take-home will vary based on tax bracket.", "compensation_salary","fair"),
     ("Base pay of seventy-two thousand dollars per year is offered. Changes to compensation structure are at the Company's sole discretion.", "compensation_salary","needs_review"),
@@ -417,7 +375,6 @@ SYNTHETIC_POOLS = {
     ("Your total fixed compensation includes an annual bonus of up to fifteen percent of base salary based on performance.", "compensation_salary","fair"),
     ("Cost-of-living adjustments may be applied annually based on geographic market benchmarks.", "compensation_salary","fair"),
     ("Compensation is set in local currency and shall not be adjusted for exchange rate fluctuations.", "compensation_salary","needs_review"),
-    # bonus_incentive
     ("You will be eligible for an annual performance bonus of up to twenty percent of base salary, subject to achievement of agreed KPIs.", "bonus_incentive","fair"),
     ("The Company may award discretionary bonuses. No bonus is guaranteed and payment does not create a future obligation.", "bonus_incentive","unfavorable"),
     ("A signing bonus will be paid on your first paycheck, subject to clawback if you resign within 12 months of joining.", "bonus_incentive","needs_review"),
@@ -426,21 +383,18 @@ SYNTHETIC_POOLS = {
     ("Quarterly variable pay is linked to team performance metrics and project delivery scores.", "bonus_incentive","fair"),
     ("No bonus shall be paid if employment is terminated before the bonus payment date, regardless of pro-rata entitlement.", "bonus_incentive","unfavorable"),
     ("Bonus targets and thresholds will be communicated within the first 30 days of each performance year.", "bonus_incentive","fair"),
-    # start_date
     ("Your expected start date is communicated separately. Please confirm acceptance of this offer within 5 business days.", "start_date","fair"),
     ("This offer is contingent on your ability to join by the communicated date. Delays may result in offer withdrawal.", "start_date","needs_review"),
     ("Employment shall commence on a mutually agreed date, provided background verification is completed satisfactorily.", "start_date","fair"),
     ("The Company reserves the right to defer the start date by up to 90 days based on project requirements without compensation.", "start_date","unfavorable"),
     ("You are expected to report to the HR department on your first day. Your access credentials will be ready within 48 hours.", "start_date","fair"),
     ("If you are unable to join on the agreed start date, you must notify the Company at least 5 business days in advance.", "start_date","needs_review"),
-    # job_title_role
     ("You are offered the position of Senior Software Engineer, reporting to the Director of Engineering.", "job_title_role","fair"),
     ("Your job title and role may be changed at the Company's discretion based on organizational needs without additional compensation.", "job_title_role","unfavorable"),
     ("You are appointed as Associate Consultant and will be expected to contribute to client-facing engagements from Day 1.", "job_title_role","fair"),
     ("This offer is for the role of Data Analyst. Actual responsibilities may differ from those described in the job posting.", "job_title_role","needs_review"),
     ("Your designation shall be Product Manager and you will lead the consumer applications portfolio.", "job_title_role","fair"),
     ("Reporting lines and team assignments may change based on the Company's evolving structure.", "job_title_role","needs_review"),
-    # termination_conditions
     ("Either party may terminate employment at any time for any reason with 30 days' written notice.", "termination_conditions","fair"),
     ("Employment is at-will. The Company may terminate your employment without cause, notice, or severance at any time.", "termination_conditions","unfavorable"),
     ("In the event of termination for cause, no notice period or severance shall be payable.", "termination_conditions","unfavorable"),
@@ -449,28 +403,24 @@ SYNTHETIC_POOLS = {
     ("The Company reserves the right to place you on garden leave during the notice period.", "termination_conditions","needs_review"),
     ("Upon mutual agreement, notice periods may be waived in full or in part.", "termination_conditions","fair"),
     ("Termination for gross misconduct shall be immediate and without any severance entitlement.", "termination_conditions","needs_review"),
-    # confidentiality_nda
     ("You agree to maintain strict confidentiality of all proprietary information and trade secrets during and indefinitely after employment.", "confidentiality_nda","needs_review"),
     ("Non-disclosure obligations shall survive the termination of employment for a period of three years.", "confidentiality_nda","fair"),
     ("You shall not disclose client information, pricing data, or internal business processes to any third party without prior written consent.", "confidentiality_nda","fair"),
     ("Breach of confidentiality obligations may result in immediate termination and legal action for damages.", "confidentiality_nda","needs_review"),
     ("All work product, code, designs, and research produced during employment are considered confidential company information.", "confidentiality_nda","needs_review"),
     ("Confidentiality obligations extend to information shared with you in interviews, assessments, and onboarding.", "confidentiality_nda","needs_review"),
-    # non_compete
     ("For 12 months following termination, you agree not to work for or consult with any direct competitor in the defined market.", "non_compete","unfavorable"),
     ("You agree not to solicit the Company's clients or employees for 18 months following your departure.", "non_compete","unfavorable"),
     ("The non-compete obligation is limited to the specific geographic territory and product lines you are directly responsible for.", "non_compete","needs_review"),
     ("This non-compete clause is enforceable only in jurisdictions where such clauses are permitted by applicable law.", "non_compete","fair"),
     ("Upon departure, you agree to provide a list of all competitors you have engaged with in the past 12 months.", "non_compete","unfavorable"),
     ("The Company will provide compensation equal to 50% of base salary for each month the non-compete is enforced.", "non_compete","fair"),
-    # intellectual_property
     ("All inventions, software, designs, and work product created during employment, whether on company time or not, belong exclusively to the Company.", "intellectual_property","unfavorable"),
     ("You hereby assign all intellectual property rights in work created within the scope of your employment to the Company.", "intellectual_property","unfavorable"),
     ("IP created using company resources or related to company business is owned by the Company. Personal projects on personal time are excluded.", "intellectual_property","fair"),
     ("You are required to disclose all inventions made during employment. The Company has 60 days to claim ownership.", "intellectual_property","needs_review"),
     ("Open-source contributions must be pre-approved by the legal team to ensure no conflict with company IP rights.", "intellectual_property","needs_review"),
     ("Prior inventions listed in the attached schedule are expressly excluded from this IP assignment.", "intellectual_property","fair"),
-    # benefits
     ("You are eligible for comprehensive health insurance effective from your first day of employment.", "benefits","fair"),
     ("Benefits are subject to eligibility and may change at the Company's discretion. Continued employment does not guarantee benefit continuation.", "benefits","unfavorable"),
     ("You are entitled to earned leave, sick leave, and public holidays as per company policy.", "benefits","fair"),
@@ -479,20 +429,17 @@ SYNTHETIC_POOLS = {
     ("Employee stock options will be granted subject to a standard vesting schedule with a one-year cliff.", "benefits","fair"),
     ("Company-sponsored training programs are subject to a training bond. Leaving within 24 months requires pro-rata repayment.", "benefits","needs_review"),
     ("Benefits are not contractually guaranteed and may be amended at the Company's discretion with 30 days' notice.", "benefits","unfavorable"),
-    # relocation
     ("The Company will provide a one-time relocation allowance to assist with your move to the new location.", "relocation","fair"),
     ("You may be required to relocate to any of the Company's offices as per business needs, with 30 days' notice.", "relocation","unfavorable"),
     ("Relocation expenses are reimbursable upon submission of original receipts within 60 days of joining.", "relocation","fair"),
     ("Refusal to relocate when required may be treated as voluntary resignation.", "relocation","unfavorable"),
     ("Temporary accommodation will be arranged by the Company for the first 30 days at a new location.", "relocation","fair"),
-    # probation_period
     ("Your employment will commence with a six-month probation period. During probation, either party may terminate with seven days' notice.", "probation_period","needs_review"),
     ("Successful completion of probation is not automatic; it requires a formal performance review and manager approval.", "probation_period","unfavorable"),
     ("During the probation period, you will not be entitled to company benefits other than statutory requirements.", "probation_period","needs_review"),
     ("Probation may be extended at the Company's discretion without additional notice.", "probation_period","unfavorable"),
     ("Upon successful completion of probation, you will be confirmed as a permanent employee with full benefit entitlements.", "probation_period","fair"),
     ("Performance expectations during probation will be communicated by your manager within the first week.", "probation_period","fair"),
-    # general_terms
     ("This offer letter supersedes all prior discussions. Any amendments must be in writing and signed by both parties.", "general_terms","fair"),
     ("Your employment is subject to satisfactory completion of background verification.", "general_terms","fair"),
     ("This offer is conditional upon providing proof of eligibility to work in the applicable jurisdiction.", "general_terms","fair"),
@@ -503,7 +450,6 @@ SYNTHETIC_POOLS = {
 ],
 
 "insurance_policy": [
-    # coverage_scope
     ("This policy provides coverage for direct physical loss of or damage to covered property caused by a covered peril.", "coverage_scope","fair"),
     ("Coverage under Section A includes dwelling replacement cost for losses from fire, windstorm, hail, lightning, and vandalism.", "coverage_scope","fair"),
     ("Personal property is covered for its actual cash value at the time of loss, not replacement cost.", "coverage_scope","needs_review"),
@@ -514,7 +460,6 @@ SYNTHETIC_POOLS = {
     ("Business property kept at the insured location is covered only up to the sub-limit shown in the declarations.", "coverage_scope","needs_review"),
     ("Inland transit coverage is included for personal property temporarily moved to another location.", "coverage_scope","fair"),
     ("Identity theft expense reimbursement up to the stated limit is included as a coverage extension.", "coverage_scope","fair"),
-    # exclusions
     ("This policy does not cover losses resulting from flood, surface water, sewer backup, or groundwater seepage.", "exclusions","unfavorable"),
     ("Earthquake damage is specifically excluded from coverage under this policy. A separate endorsement is available.", "exclusions","unfavorable"),
     ("Losses caused by the insured's intentional acts are excluded and not payable under any circumstances.", "exclusions","fair"),
@@ -525,7 +470,6 @@ SYNTHETIC_POOLS = {
     ("Windstorm and hail in designated coastal areas may be subject to separate deductibles outside the base policy.", "exclusions","unfavorable"),
     ("Loss of data, software, or digital assets is not covered under the standard policy form.", "exclusions","unfavorable"),
     ("Animals, birds, fish, and insects are excluded from personal property coverage.", "exclusions","needs_review"),
-    # premium_payment
     ("The annual premium is due on the policy effective date. It may be paid in monthly installments subject to a service fee.", "premium_payment","fair"),
     ("Failure to pay the premium within the 30-day grace period shall result in automatic policy cancellation.", "premium_payment","unfavorable"),
     ("Premium is subject to adjustment at renewal based on loss history, credit score, and market conditions.", "premium_payment","needs_review"),
@@ -534,7 +478,6 @@ SYNTHETIC_POOLS = {
     ("Non-sufficient funds from a failed premium payment will result in a returned payment fee and immediate cancellation risk.", "premium_payment","unfavorable"),
     ("Electronic funds transfer payment is encouraged and qualifies for a small discount on annual premium.", "premium_payment","fair"),
     ("Prepayment of the full annual premium entitles the insured to a three percent premium discount.", "premium_payment","fair"),
-    # claims_procedure
     ("Insured must report any loss to the Company within 72 hours of the occurrence or as soon as reasonably practicable.", "claims_procedure","fair"),
     ("Failure to cooperate fully in the investigation of a claim may result in denial of coverage under this policy.", "claims_procedure","needs_review"),
     ("The Company shall acknowledge receipt of a claim within 10 business days and make a coverage determination within 30 days.", "claims_procedure","fair"),
@@ -545,14 +488,12 @@ SYNTHETIC_POOLS = {
     ("Insured must document all losses with photographs, receipts, or other evidence prior to filing a claim.", "claims_procedure","fair"),
     ("A dedicated claims representative will be assigned within 2 business days of claim acknowledgment.", "claims_procedure","fair"),
     ("Payment of undisputed claim amounts shall be made within 15 business days of coverage determination.", "claims_procedure","fair"),
-    # deductibles_excess
     ("A deductible per occurrence applies for all covered losses under personal property and dwelling sections.", "deductibles_excess","needs_review"),
     ("A separate windstorm deductible of 2 percent of the insured dwelling value applies in coastal counties.", "deductibles_excess","unfavorable"),
     ("The policy deductible shall be waived for losses exceeding a stated threshold amount.", "deductibles_excess","fair"),
     ("No deductible applies to covered liability claims under the personal liability section of this policy.", "deductibles_excess","fair"),
     ("The deductible shall be applied separately for each occurrence, not per policy period.", "deductibles_excess","needs_review"),
     ("Insured may elect a higher deductible in exchange for a reduced annual premium.", "deductibles_excess","fair"),
-    # limits_of_liability
     ("Coverage A is provided up to the replacement cost value stated on the declarations page with no depreciation.", "limits_of_liability","fair"),
     ("Personal property coverage is limited to the amount shown in the declarations. Sub-limits apply to high-value items.", "limits_of_liability","needs_review"),
     ("Personal liability coverage is limited to the per-occurrence limit stated in the declarations.", "limits_of_liability","fair"),
@@ -560,20 +501,17 @@ SYNTHETIC_POOLS = {
     ("Additional living expenses are limited to thirty percent of Coverage A or twelve months, whichever is less.", "limits_of_liability","needs_review"),
     ("The Company's total liability for all claims from a single occurrence shall not exceed the per-occurrence policy limit.", "limits_of_liability","needs_review"),
     ("Aggregate limits apply across all occurrences within the policy period for certain coverage types.", "limits_of_liability","unfavorable"),
-    # policy_renewal
     ("This policy shall automatically renew for successive annual terms unless either party provides written notice of non-renewal.", "policy_renewal","fair"),
     ("At renewal, premium and coverage terms may be adjusted. Insured will receive notice at least 45 days prior to expiration.", "policy_renewal","fair"),
     ("Insurer may choose not to renew this policy for any underwriting reason with 60 days' written notice.", "policy_renewal","needs_review"),
     ("Renewal is contingent on the insured's continued eligibility based on updated claims history and credit review.", "policy_renewal","unfavorable"),
     ("A multi-year renewal discount of five percent is available for policyholders who maintain continuous coverage.", "policy_renewal","fair"),
-    # cancellation_terms
     ("The insured may cancel this policy at any time by providing written notice. A pro-rata refund of unearned premium will be issued.", "cancellation_terms","fair"),
     ("The Company may cancel mid-term for non-payment, material misrepresentation, or substantial increase in hazard.", "cancellation_terms","needs_review"),
     ("Cancellation by the Company mid-term requires 30 days' written notice, except non-payment which requires only 10 days.", "cancellation_terms","needs_review"),
     ("No refund of premium is due if the policy is cancelled due to fraud or misrepresentation by the insured.", "cancellation_terms","unfavorable"),
     ("If the Company cancels this policy, the reason shall be provided in the written cancellation notice.", "cancellation_terms","fair"),
     ("Short-rate cancellation penalties may apply if the insured cancels within the first 90 days of the policy term.", "cancellation_terms","needs_review"),
-    # definitions
     ("'Occurrence' means an accident, including continuous or repeated exposure to substantially the same harmful conditions.", "definitions","fair"),
     ("'Covered property' means the dwelling described in the declarations and all structures attached to the dwelling.", "definitions","fair"),
     ("'Replacement cost' means the cost to replace damaged property with new property of like kind and quality without depreciation.", "definitions","fair"),
@@ -581,21 +519,18 @@ SYNTHETIC_POOLS = {
     ("'Insured' means the named insured and, while residents of the insured's household, spouse and relatives.", "definitions","fair"),
     ("'Peril' means the direct cause of loss specified in this policy as a covered event.", "definitions","fair"),
     ("'Premises' means the insured location described in the declarations page of this policy.", "definitions","fair"),
-    # dispute_resolution
     ("If the insured and Company disagree on the amount of loss, either may demand an appraisal in writing.", "dispute_resolution","fair"),
     ("Each party shall select an impartial appraiser. An umpire shall be selected if they cannot agree.", "dispute_resolution","fair"),
     ("No suit may be brought against the Company unless the insured has fully complied with all policy conditions.", "dispute_resolution","needs_review"),
     ("Legal action against the Company must be commenced within two years of the date of loss.", "dispute_resolution","unfavorable"),
     ("Any dispute arising from this policy shall be governed by the law of the state shown in the declarations.", "dispute_resolution","fair"),
     ("Mediation is available as an alternative to the appraisal process and may be requested by either party.", "dispute_resolution","fair"),
-    # subrogation
     ("The Company may require the insured to assign rights of recovery against third parties to the extent of the Company's payment.", "subrogation","fair"),
     ("If the insured has already recovered damages from a third party, the Company's payment shall be reduced accordingly.", "subrogation","fair"),
     ("The insured shall cooperate with the Company in pursuing subrogation rights and shall not prejudice those rights.", "subrogation","needs_review"),
     ("Waiver of subrogation endorsement is available where the insured has contracted to waive recovery rights.", "subrogation","fair"),
     ("The Company waives subrogation rights against household members except in cases of intentional acts.", "subrogation","fair"),
     ("Subrogation rights are preserved against the insured's contractors if negligent work caused the insured loss.", "subrogation","fair"),
-    # general_terms
     ("This policy is a legal contract. Please read it carefully and contact your agent with any questions.", "general_terms","fair"),
     ("The declarations page, this policy form, and any endorsements constitute the entire contract of insurance.", "general_terms","fair"),
     ("Concealment or fraud by any insured shall void this policy as to the insuring party involved.", "general_terms","unfavorable"),
@@ -609,7 +544,6 @@ SYNTHETIC_POOLS = {
 
 def get_pool(doc_type: str) -> list:
     base = SYNTHETIC_POOLS[doc_type]
-    # Build 8 textual variants per clause to create a large diverse pool
     prefixes = ["", "Furthermore, ", "It is agreed that ", "As per this agreement, ",
                 "The parties acknowledge that ", "For the avoidance of doubt, ",
                 "Subject to the terms herein, ", "In accordance with applicable law, "]
@@ -622,14 +556,11 @@ def get_pool(doc_type: str) -> list:
     pool = []
     for (text, ct, fav) in base:
         for pre in prefixes:
-            for suf in suffixes[:2]:   # keep pool manageable
+            for suf in suffixes[:2]:
                 pool.append((pre + text + suf, ct, fav))
     random.shuffle(pool)
     return pool
 
-# ---------------------------------------------------------------------------
-# STEP 9: Cohen's Kappa
-# ---------------------------------------------------------------------------
 def cohen_kappa(l1, l2):
     if not l1 or len(l1) != len(l2):
         return 0.0
@@ -642,9 +573,6 @@ def cohen_kappa(l1, l2):
     exp = sum((c1[c]/n)*(c2[c]/n) for c in classes)
     return round((obs - exp)/(1 - exp), 4) if exp < 1.0 else 1.0
 
-# ---------------------------------------------------------------------------
-# MAIN PIPELINE
-# ---------------------------------------------------------------------------
 def run_pipeline():
     print("\n" + "="*70)
     print(" ClauseGuard AI — User Document Ingestion + 10,000-Row Builder")
@@ -655,7 +583,6 @@ def run_pipeline():
                        if f.suffix.lower() in supported_exts)
     print(f"\nFound {len(all_files)} documents in {DOWNLOADS_DIR}")
 
-    # Classify files into doc type buckets
     doc_buckets = defaultdict(list)
     for fpath in all_files:
         text = extract_text(fpath)
@@ -684,7 +611,6 @@ def run_pipeline():
         print(f"  Building: {doc_type.upper()}")
         print(f"{'='*70}")
 
-        # -- Load existing public real clauses --------------------------------
         all_records = []
         seen_norms  = []
         existing    = type_dir / "labeled_clauses.jsonl"
@@ -696,7 +622,6 @@ def run_pipeline():
                     all_records.append(r)
             print(f"  Loaded {len(all_records)} existing public real clauses.")
 
-        # -- Ingest user documents --------------------------------------------
         new_doc_ids = []
         for doc in doc_buckets[doc_type]:
             doc_id = doc["id"]
@@ -739,7 +664,6 @@ def run_pipeline():
         real_count = len(all_records)
         print(f"\n  Real clauses total: {real_count}")
 
-        # -- Synthetic augmentation to balance and reach TARGET_PER_TYPE ------
         pool = get_pool(doc_type)
         synth_added = 0
         p_idx = 0
@@ -770,14 +694,12 @@ def run_pipeline():
         print(f"  Synthetic clauses added: {synth_count}")
         print(f"  Total clauses: {len(all_records)}")
 
-        # -- Print clause-type distribution -----------------------------------
         tg = defaultdict(int)
         for r in all_records: tg[r["clause_type"]] += 1
         print("  Clause-type distribution:")
         for ct, cnt in sorted(tg.items()):
             print(f"    {ct:35s}: {cnt}")
 
-        # -- Document-isolated 70/15/15 split ---------------------------------
         all_doc_ids = sorted(set(r["doc_id"] for r in all_records))
         random.shuffle(all_doc_ids)
         n = len(all_doc_ids)
@@ -792,7 +714,6 @@ def run_pipeline():
         te = [r for r in all_records if r["split"]=="test"]
         print(f"\n  Splits -> Train: {len(tr)}  Val: {len(va)}  Test: {len(te)}")
 
-        # -- 20% stratified double-annotation -> Cohen's Kappa -----------------
         tg2 = defaultdict(list)
         for r in all_records: tg2[r["clause_type"]].append(r)
         sample = []
@@ -812,7 +733,6 @@ def run_pipeline():
         kt = cohen_kappa(a1t, a2t); kf = cohen_kappa(a1f, a2f)
         print(f"  Cohen's Kappa -> Type: {kt:.4f}  Favorability: {kf:.4f}")
 
-        # -- Write outputs ----------------------------------------------------
         with open(type_dir/"labeled_clauses.jsonl","w",encoding="utf-8") as fh:
             for r in all_records: fh.write(json.dumps(r, ensure_ascii=False)+"\n")
         with open(splits_dir/"train.jsonl","w",encoding="utf-8") as fh:
@@ -866,7 +786,6 @@ def run_pipeline():
     print(json.dumps(overall, indent=2))
     return summary
 
-
 def run_training():
     print("\n" + "="*70)
     print("  Retraining models on new dataset ...")
@@ -905,7 +824,6 @@ def run_training():
     with open(report,"w") as fh: json.dump(results, fh, indent=2)
     print(f"\n  Report written -> {report}")
     return results
-
 
 if __name__ == "__main__":
     import argparse

@@ -3,7 +3,6 @@ import sys
 import json
 from pathlib import Path
 
-# Add project root to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -28,26 +27,21 @@ def run_comprehensive_evaluation(doc_types=None, epochs: int = 2):
             print(f"Comparing Models for {dt} -> Task: {t}")
             print(f"=======================================================")
 
-            # 1. Baseline (TF-IDF + LR)
             print("Running 1/3: Baseline (TF-IDF + LR)...")
             base_meta = train_baseline(dt, t)
 
-            # 2. BERT Ablation (No Context)
             print(f"Running 2/3: BERT (No Context Ablation, {epochs} epochs)...")
             bert_no_ctx = train_bert_model(dt, task=t, use_context=False, epochs=epochs)
 
-            # 3. BERT Primary (Context Windowed)
             print(f"Running 3/3: BERT (Context Windowed, {epochs} epochs)...")
             bert_win = train_bert_model(dt, task=t, use_context=True, epochs=epochs)
 
-            # Record metrics
             task_comp = {
                 "baseline_tfidf_lr": base_meta["test_metrics"],
                 "bert_no_context": bert_no_ctx["test_metrics"],
                 "bert_windowed": bert_win["test_metrics"],
             }
 
-            # Determine winner
             models = ["baseline_tfidf_lr", "bert_no_context", "bert_windowed"]
             f1_scores = {m: task_comp[m]["f1_macro"] for m in models}
             winner = max(f1_scores, key=f1_scores.get)

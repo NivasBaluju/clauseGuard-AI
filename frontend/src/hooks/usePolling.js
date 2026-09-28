@@ -42,7 +42,7 @@ export function usePolling(documentId, options = {}) {
         setErrorMessage(data.error_message || "Document processing failed.");
         if (onError) onError(data.error_message);
       } else {
-        // Keep polling
+
         if (!isCancelledRef.current) {
           timerRef.current = setTimeout(poll, interval);
         }

@@ -45,16 +45,13 @@ def upload_document():
     filename = secure_filename(file.filename)
     ext = filename.rsplit(".", 1)[1].lower()
 
-    # Save to temp file
     temp_dir = tempfile.gettempdir()
     temp_path = os.path.join(temp_dir, f"cg_{filename}")
     file.save(temp_path)
 
-    # Associate with currently logged-in user
     user = getattr(g, "user", None)
     user_id = user.id if user else None
 
-    # Create document record
     doc = Document(
         filename=filename,
         original_format=ext,
@@ -66,7 +63,6 @@ def upload_document():
     db.session.add(doc)
     db.session.commit()
 
-    # Launch pipeline in background thread with application context
     app = current_app._get_current_object()
     thread = threading.Thread(target=run_pipeline_async, args=(app, str(doc.id), temp_path, ext))
     thread.daemon = True
@@ -146,7 +142,6 @@ def delete_document(doc_id):
         filename = doc.filename
         doc_id_str = str(doc.id)
 
-        # Explicitly clean up all child records in dependency order
         sessions = ChatSession.query.filter_by(document_id=doc.id).all()
         session_ids = [s.id for s in sessions]
         if session_ids:
@@ -176,5 +171,4 @@ def delete_document(doc_id):
         db.session.rollback()
         logger.error(f"Failed to delete document {doc_id}: {e}", exc_info=True)
         return jsonify({"error": f"Failed to delete document: {str(e)}"}), 500
-
 

@@ -66,7 +66,6 @@ export function PlatformGuide({ onNavigate }) {
 
   return (
     <div className="space-y-8">
-      {/* Top Banner */}
       <div className="border border-neutral-200 bg-white p-6 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-neutral-100 border border-neutral-300 flex items-center justify-center text-black shrink-0">
@@ -105,9 +104,7 @@ export function PlatformGuide({ onNavigate }) {
         </div>
       </div>
 
-      {/* Guide Content: Sidebar Tabs + Detailed Explanation */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
-        {/* Navigation list */}
         <div className="lg:col-span-1 space-y-1.5 bg-white p-3 rounded-lg border border-neutral-200 shadow-sm">
           <div className="text-[10px] font-mono text-neutral-500 uppercase px-3 py-1 tracking-wider font-semibold">
             Table of Contents
@@ -134,9 +131,7 @@ export function PlatformGuide({ onNavigate }) {
           })}
         </div>
 
-        {/* Content Panel */}
         <div className="lg:col-span-3 bg-white border border-neutral-200 rounded-xl p-6 sm:p-8 space-y-6 shadow-sm">
-          {/* 1. Quickstart */}
           {activeSection === "quickstart" && (
             <div className="space-y-6">
               <div className="border-b border-neutral-200 pb-4">
@@ -198,7 +193,6 @@ export function PlatformGuide({ onNavigate }) {
             </div>
           )}
 
-          {/* 2. PII Redaction */}
           {activeSection === "pii" && (
             <div className="space-y-6">
               <div className="border-b border-neutral-200 pb-4">
@@ -234,7 +228,6 @@ export function PlatformGuide({ onNavigate }) {
             </div>
           )}
 
-          {/* 3. ML Models */}
           {activeSection === "classification" && (
             <div className="space-y-6">
               <div className="border-b border-neutral-200 pb-4">
@@ -274,7 +267,6 @@ export function PlatformGuide({ onNavigate }) {
             </div>
           )}
 
-          {/* 4. Risk Engine */}
           {activeSection === "risk" && (
             <div className="space-y-6">
               <div className="border-b border-neutral-200 pb-4">
@@ -318,7 +310,6 @@ export function PlatformGuide({ onNavigate }) {
             </div>
           )}
 
-          {/* 5. Deadlines */}
           {activeSection === "deadlines" && (
             <div className="space-y-6">
               <div className="border-b border-neutral-200 pb-4">
@@ -374,7 +365,6 @@ export function PlatformGuide({ onNavigate }) {
             </div>
           )}
 
-          {/* 6. AI Copilot */}
           {activeSection === "copilot" && (
             <div className="space-y-6">
               <div className="border-b border-neutral-200 pb-4">
@@ -411,7 +401,6 @@ export function PlatformGuide({ onNavigate }) {
             </div>
           )}
 
-          {/* 7. Audit Trail */}
           {activeSection === "audit" && (
             <div className="space-y-6">
               <div className="border-b border-neutral-200 pb-4">

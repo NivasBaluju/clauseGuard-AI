@@ -28,7 +28,6 @@ def get_baseline_model(document_type: str, task: str = "clause_type"):
     model_path = ml_dir / f"baseline_tfidf_lr_{task}.joblib"
 
     if not model_path.exists():
-        # Fallback to general baseline if document-specific not found
         model_path = ml_dir.parent / f"baseline_tfidf_lr.joblib"
 
     if not model_path.exists():

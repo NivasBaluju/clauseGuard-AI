@@ -78,7 +78,6 @@ export function Landing({ onNavigate }) {
 
   return (
     <div className="space-y-16 py-4">
-      {/* Hero Section */}
       <section className="relative border border-neutral-200 bg-neutral-50 p-8 sm:p-12 lg:p-16 rounded-xl shadow-sm">
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 text-xs font-mono border border-neutral-300 bg-white text-black uppercase tracking-wider mb-6 rounded font-semibold shadow-sm">
@@ -112,7 +111,6 @@ export function Landing({ onNavigate }) {
           </div>
         </div>
 
-        {/* Technical specs pill footer */}
         <div className="mt-12 pt-6 border-t border-neutral-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono text-neutral-600">
           <div>
             <span className="text-[10px] text-neutral-500 block uppercase font-semibold">Privacy</span>
@@ -133,7 +131,6 @@ export function Landing({ onNavigate }) {
         </div>
       </section>
 
-      {/* Supported Document Types */}
       <section className="space-y-6">
         <div className="border-b border-neutral-200 pb-3">
           <span className="text-xs font-mono text-neutral-500 uppercase tracking-wider block font-semibold">
@@ -192,7 +189,6 @@ export function Landing({ onNavigate }) {
         </div>
       </section>
 
-      {/* Engineering Pillars */}
       <section className="space-y-6">
         <div className="border-b border-neutral-200 pb-3">
           <span className="text-xs font-mono text-neutral-500 uppercase tracking-wider block font-semibold">
@@ -223,7 +219,6 @@ export function Landing({ onNavigate }) {
         </div>
       </section>
 
-      {/* Model Benchmark Report Summary */}
       <section className="border border-neutral-200 bg-neutral-50 p-6 sm:p-8 rounded-xl shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4 mb-6">
           <div>

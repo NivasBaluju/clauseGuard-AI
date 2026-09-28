@@ -15,7 +15,6 @@ export function Navbar({ currentView, onNavigate }) {
   return (
     <header className="border-b border-neutral-200 bg-white sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand */}
         <button
           onClick={() => onNavigate("landing")}
           className="flex items-center gap-3 text-left group"
@@ -33,7 +32,6 @@ export function Navbar({ currentView, onNavigate }) {
           </div>
         </button>
 
-        {/* Navigation items & Auth */}
         <nav className="flex items-center gap-1 sm:gap-2">
           <button
             onClick={() => onNavigate("landing")}
@@ -78,10 +76,8 @@ export function Navbar({ currentView, onNavigate }) {
             <span className="sm:hidden">Upload</span>
           </button>
 
-          {/* Divider */}
           <div className="h-6 w-px bg-neutral-200 mx-1 hidden sm:block" />
 
-          {/* Authentication State */}
           {isAuthenticated && user ? (
             <div className="flex items-center gap-2">
               <div className="hidden md:flex items-center gap-2 px-2.5 py-1.5 border border-neutral-200 bg-neutral-50 text-xs font-mono rounded">

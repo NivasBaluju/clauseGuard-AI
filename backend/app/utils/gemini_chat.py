@@ -5,7 +5,6 @@ from google import genai
 
 logger = logging.getLogger(__name__)
 
-# List of models to try in descending order of availability and speed
 GEMINI_CANDIDATE_MODELS = [
     "gemini-3.5-flash",
     "gemini-3.8-flash",
@@ -32,7 +31,6 @@ def ask_gemini_or_fallback(question: str, context_text: str = "") -> dict:
     api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     client = get_genai_client() if api_key else None
 
-    # Construct expert legal prompt
     clean_markdown_rule = (
         "Respond using clean Markdown structure suitable for rendering in a professional chatbot. "
         "Use headings, paragraphs, bullet lists, numbered lists, bold emphasis, tables, and blockquotes when appropriate. "
@@ -76,7 +74,6 @@ INSTRUCTIONS:
 """
 
     if client:
-        # Cascade through models in case of temporary 429 quota exhaustion or regional model rollout
         for model_name in GEMINI_CANDIDATE_MODELS:
             try:
                 logger.info(f"[AI Chat] Attempting Gemini inference with model: {model_name}")
@@ -88,10 +85,8 @@ INSTRUCTIONS:
                     answer_text = response.text.strip()
                     is_grounded = has_doc and ("not mentioned in the provided text" not in answer_text.lower())
                     
-                    # Extract citation snippets from context if document provided
                     sources = []
                     if has_doc:
-                        # Extract 1-2 most relevant sentences as citations
                         q_words = [w.lower() for w in re.split(r"\W+", question) if len(w) > 3]
                         sentences = [s.strip() for s in re.split(r"[.!?\n]+", context_text) if len(s.strip()) > 20]
                         matched_sents = [s for s in sentences if any(w in s.lower() for w in q_words)]
@@ -117,11 +112,9 @@ INSTRUCTIONS:
                 logger.warning(f"[Gemini API Model {model_name} failed]: {e}")
                 continue
 
-    # Fallback to rich local heuristic legal knowledge base
     logger.info("[AI Chat] Using enhanced local legal knowledge engine.")
     return local_heuristic_search(question, context_text)
 
-# Local legal domain knowledge bank for offline/rate-limited queries
 LEGAL_KNOWLEDGE_BASE = [
     {
         "keywords": ["termination", "cancel", "vacate", "break lease", "quit"],
@@ -160,7 +153,6 @@ def local_heuristic_search(question: str, doc_text: str = "") -> dict:
     """
     q_lower = (question or "").lower().strip()
 
-    # 1. Greetings / Capabilities
     if re.search(r"^(hi|hello|hey|greetings|who are you|what can you do|help)\b", q_lower, re.IGNORECASE):
         return {
             "answer": "### Welcome to ClauseGuard AI Copilot\n\nI am your intelligent legal and document assistant. Here is what I can do for you:\n\n- **Document Deep-Dive:** Audit clauses, verify notice periods, analyze fee structures, and check compliance.\n- **Legal Rights & Protections:** Answer questions on residential leases, employment offer letters, and insurance policies.\n- **Risk & Obligation Warnings:** Identify unfair indemnification, aggressive non-competes, and hidden penalties.\n- **Negotiation Strategy:** Provide recommended counter-proposals and standard clause modifications.\n\n*Feel free to ask any question about your document or legal principles!*",
@@ -170,7 +162,6 @@ def local_heuristic_search(question: str, doc_text: str = "") -> dict:
             "sources": []
         }
 
-    # 2. Check document context first if text is present
     if doc_text and doc_text.strip():
         words = [w for w in re.split(r"\W+", q_lower) if len(w) > 3]
         sentences = [s.strip() for s in re.split(r"[.!?\n]+", doc_text) if len(s.strip()) > 15]
@@ -182,7 +173,6 @@ def local_heuristic_search(question: str, doc_text: str = "") -> dict:
             for idx, m in enumerate(top_matches, 1):
                 answer += f"{idx}. *\"{m}\"*\n\n"
             
-            # Add contextual guidance based on the topic
             for item in LEGAL_KNOWLEDGE_BASE:
                 if any(kw in q_lower for kw in item["keywords"]):
                     answer += f"\n---\n{item['answer']}"
@@ -199,7 +189,6 @@ def local_heuristic_search(question: str, doc_text: str = "") -> dict:
                 ]
             }
 
-    # 3. Check legal knowledge base
     for item in LEGAL_KNOWLEDGE_BASE:
         if any(kw in q_lower for kw in item["keywords"]):
             return {
@@ -210,7 +199,6 @@ def local_heuristic_search(question: str, doc_text: str = "") -> dict:
                 "sources": []
             }
 
-    # 4. Comprehensive General Legal Guidance fallback
     return {
         "answer": f"### Legal Copilot Analysis: '{question.strip()}'\n\n"
                   f"While your uploaded document does not contain an explicit exact clause matching this phrase, here is the standard legal framework:\n\n"

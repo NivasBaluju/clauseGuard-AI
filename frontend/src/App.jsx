@@ -21,25 +21,21 @@ import { AuthPortal } from "./pages/AuthPortal";
 import { ErrorBoundary } from "./components/common/ErrorBoundary";
 import { ShieldAlert } from "lucide-react";
 
-// Wrapper for DocumentAnalysis reading route params
 function DocumentAnalysisWrapper({ onNavigate }) {
   const { id } = useParams();
   return <DocumentAnalysis documentId={id} onNavigate={onNavigate} />;
 }
 
-// Wrapper for Upload reading optional location state
 function UploadWrapper({ onNavigate }) {
   const location = useLocation();
   const initialDocType = location.state?.defaultDocType || "rental_agreement";
   return <Upload onNavigate={onNavigate} initialDocType={initialDocType} />;
 }
 
-// Main authenticated application shell with sidebar routing
 function AuthenticatedApp() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Active view mapping for sidebar
   const getCurrentView = () => {
     const path = location.pathname;
     if (path === "/") return "landing";
@@ -106,12 +102,10 @@ function AuthenticatedApp() {
   );
 }
 
-// Root Controller: Gatekeeper checks authentication first
 function RootController() {
   const { isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
 
-  // Loading state while verifying session token
   if (loading) {
     return (
       <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center space-y-4">
@@ -125,12 +119,10 @@ function RootController() {
     );
   }
 
-  // Gatekeeper: If unauthenticated, render the full AuthPortal directly
   if (!isAuthenticated) {
     return <AuthPortal onAuthSuccess={() => navigate("/")} />;
   }
 
-  // Once authenticated, render the full workspace with the Sidebar
   return <AuthenticatedApp />;
 }
 

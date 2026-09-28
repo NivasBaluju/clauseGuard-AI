@@ -8,7 +8,6 @@ from torch.utils.data import DataLoader, Dataset
 import numpy as np
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-# Add project root to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -74,7 +73,6 @@ def train_bert_model(document_type: str, task: str = "clause_type", use_context:
     train_texts, train_labels = prepare_data(train_records + val_records)
     test_texts, test_labels = prepare_data(test_records)
 
-    # CPU optimization: if running on CPU with large dataset, sample a balanced subset for fast fine-tuning
     if not torch.cuda.is_available() and len(train_texts) > 500:
         import random
         by_class = {}
@@ -113,7 +111,6 @@ def train_bert_model(document_type: str, task: str = "clause_type", use_context:
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5, weight_decay=0.01)
 
-    # Native PyTorch training loop
     model.train()
     for epoch in range(epochs):
         epoch_loss = 0.0
@@ -130,7 +127,6 @@ def train_bert_model(document_type: str, task: str = "clause_type", use_context:
             epoch_loss += loss.item()
         print(f"      Epoch {epoch+1}/{epochs} - loss: {epoch_loss/max(1, len(train_loader)):.4f}")
 
-    # Evaluation on held-out test split
     model.eval()
     all_preds = []
     all_trues = []
@@ -147,7 +143,6 @@ def train_bert_model(document_type: str, task: str = "clause_type", use_context:
 
     eval_results = evaluate_predictions(all_trues, all_preds, labels=list(range(num_labels)), target_names=labels_list)
 
-    # Save artifact
     context_tag = "windowed" if use_context else "nocontext"
     output_dir = project_root / "ml" / "artifacts" / document_type / f"bert_{task}_{context_tag}"
     final_save_path = output_dir / "final"

@@ -14,7 +14,6 @@ def get_checklist(document_type: str) -> dict:
     checklist_dir = Path(__file__).resolve().parent / "checklists"
     file_path = checklist_dir / f"{document_type}.json"
     if not file_path.exists():
-        # Fallback to rental_agreement if unknown
         file_path = checklist_dir / "rental_agreement.json"
 
     with open(file_path, "r", encoding="utf-8") as f:
@@ -36,7 +35,6 @@ def detect_missing_clauses(
         item["type"]: item for item in checklist.get("expected_clause_types", [])
     }
 
-    # Gather confident clause types
     confident_types = set()
     for clause in classified_clauses:
         c_type = clause.get("clause_type")
@@ -53,7 +51,6 @@ def detect_missing_clauses(
                 "checklist_note": item.get("note", "Expected standard clause type not identified."),
             })
 
-    # Sort high severity first
     severity_order = {"high": 0, "medium": 1, "low": 2}
     missing.sort(key=lambda m: severity_order.get(m["severity"], 3))
     return missing

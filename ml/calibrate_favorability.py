@@ -61,15 +61,15 @@ def calibrate_clause_favorability(doc_type: str, text: str, initial_fav: str, ct
         if ctype == "at_will_employment":
             if any(k in t for k in ["sole discretion", "modify your title, compensation"]):
                 return "unfavorable"
-            return "needs_review"  # Standard at-will means termination without cause/notice
+            return "needs_review"
         elif ctype == "non_compete_non_solicit":
             if any(k in t for k in ["24 months", "aggressive", "competitive business"]):
                 return "unfavorable"
-            return "needs_review"  # Restrictions on outside activities / soliciting colleagues
+            return "needs_review"
         elif ctype == "arbitration_dispute_resolution":
             if any(k in t for k in ["binding aaa arbitration", "waive right to participate in any class action", "binding arbitration"]):
                 return "unfavorable"
-            return "needs_review"  # Mandatory internal grievance process
+            return "needs_review"
         elif ctype == "termination_conditions":
             if any(k in t for k in ["probationary period", "forfeited immediately", "without severance", "without administrative appeal"]):
                 return "unfavorable"
@@ -127,7 +127,6 @@ def calibrate_clause_favorability(doc_type: str, text: str, initial_fav: str, ct
             return "fair"
         return initial_fav
 
-# Apply calibration
 for doc_type, sources in [("rental_agreement", RENTAL_SOURCES), ("job_offer_letter", OFFER_SOURCES), ("insurance_policy", INSURANCE_SOURCES)]:
     for d in sources:
         new_clauses = []

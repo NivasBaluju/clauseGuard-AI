@@ -16,18 +16,16 @@ from app.services.audit_service import log_audit_event
 
 auth_bp = Blueprint("auth", __name__)
 
-
 def get_cookie_kwargs():
     is_prod = os.environ.get("FLASK_ENV") == "production"
     return {
         "httponly": True,
         "secure": is_prod,
         "samesite": "Lax",
-        "max_age": 7 * 24 * 60 * 60,  # 7 days in seconds
+        "max_age": 7 * 24 * 60 * 60,
         "path": "/",
     }
 
-# 1. REGISTER
 @auth_bp.route("/auth/register", methods=["POST"])
 def register():
     data = request.get_json() or {}
@@ -45,17 +43,14 @@ def register():
 
     clean_name = name.strip() if name and isinstance(name, str) else clean_email.split("@")[0]
 
-    # Validate password rules
     pw_check = validate_password(password, confirm_password)
     if not pw_check["valid"]:
         return jsonify({"error": pw_check["reason"], "field": "password"}), 400
 
-    # Check if user already exists
     existing = User.query.filter_by(email=clean_email).first()
     if existing:
         return jsonify({"error": "An account with this email already exists", "field": "email"}), 400
 
-    # Hash password & save user
     password_hash = hash_password(password)
     user = User(
         name=clean_name,
@@ -66,7 +61,6 @@ def register():
     db.session.add(user)
     db.session.commit()
 
-    # Create session
     session_obj = Session(
         user_id=user.id,
         ip=request.remote_addr,
@@ -76,7 +70,6 @@ def register():
     db.session.add(session_obj)
     db.session.commit()
 
-    # Sign JWT (valid for 7 days)
     jwt_secret = get_jwt_secret()
     payload = {
         "sessionId": str(session_obj.id),
@@ -85,7 +78,6 @@ def register():
     }
     token = jwt.encode(payload, jwt_secret, algorithm="HS256")
 
-    # Record audit log
     log_audit_event(
         action="USER_REGISTER",
         user_id=user.id,
@@ -104,7 +96,6 @@ def register():
     response.set_cookie("token", token, **get_cookie_kwargs())
     return response
 
-# 2. LOGIN
 @auth_bp.route("/auth/login", methods=["POST"])
 def login():
     data = request.get_json() or {}
@@ -118,7 +109,6 @@ def login():
     user = User.query.filter_by(email=clean_email).first()
 
     if not user or not user.password_hash:
-        # Prevents timing attack / user enumeration
         verify_dummy_password(password)
         log_audit_event(
             action="LOGIN_FAILED",
@@ -136,7 +126,6 @@ def login():
         )
         return jsonify({"error": "Invalid email or password"}), 401
 
-    # Create new session
     session_obj = Session(
         user_id=user.id,
         ip=request.remote_addr,
@@ -154,7 +143,6 @@ def login():
     }
     token = jwt.encode(payload, jwt_secret, algorithm="HS256")
 
-    # Record audit log
     log_audit_event(
         action="USER_LOGIN",
         user_id=user.id,
@@ -173,7 +161,6 @@ def login():
     response.set_cookie("token", token, **get_cookie_kwargs())
     return response
 
-# 3. CURRENT USER (/me)
 @auth_bp.route("/auth/me", methods=["GET"])
 @require_auth
 def get_current_user():
@@ -182,10 +169,8 @@ def get_current_user():
         "user": g.user.to_dict(),
     }), 200
 
-# 4. LOGOUT
 @auth_bp.route("/auth/logout", methods=["POST"])
 def logout():
-    # If authenticated, revoke session
     auth_header = request.headers.get("Authorization", "")
     token = None
     if auth_header.startswith("Bearer "):

@@ -36,7 +36,6 @@ def generate_pdf_report(document, clauses, missing_clauses, deadlines, pii_findi
 
     styles = getSampleStyleSheet()
 
-    # Custom editorial styles
     title_style = ParagraphStyle(
         "DocTitle",
         parent=styles["Heading1"],
@@ -90,7 +89,6 @@ def generate_pdf_report(document, clauses, missing_clauses, deadlines, pii_findi
 
     elements = []
 
-    # Title & Subtitle
     elements.append(Paragraph("ClauseGuard AI — Risk Analysis Report", title_style))
     elements.append(
         Paragraph(
@@ -100,7 +98,6 @@ def generate_pdf_report(document, clauses, missing_clauses, deadlines, pii_findi
     )
     elements.append(Spacer(1, 10))
 
-    # Top Mandatory Disclaimer Banner
     disclaimer_table = Table(
         [[Paragraph(f"<b>LEGAL NOTICE:</b> {DISCLAIMER_TEXT}", disclaimer_style)]],
         colWidths=[540],
@@ -118,10 +115,8 @@ def generate_pdf_report(document, clauses, missing_clauses, deadlines, pii_findi
     elements.append(disclaimer_table)
     elements.append(Spacer(1, 12))
 
-    # Document Overview Card
     elements.append(Paragraph("1. Document Overview & Executive Summary", section_heading))
     
-    # Risk color based on band
     band_colors = {
         "low": colors.HexColor("#15803D"),
         "medium": colors.HexColor("#B45309"),
@@ -154,7 +149,6 @@ def generate_pdf_report(document, clauses, missing_clauses, deadlines, pii_findi
     elements.append(overview_table)
     elements.append(Spacer(1, 10))
 
-    # PII Summary
     elements.append(Paragraph("2. Privacy & PII Redaction Summary", section_heading))
     pii_counts = {}
     for p in pii_findings:
@@ -178,7 +172,6 @@ def generate_pdf_report(document, clauses, missing_clauses, deadlines, pii_findi
         elements.append(Paragraph("No sensitive personal identification items detected for redaction.", body_style))
     elements.append(Spacer(1, 10))
 
-    # Missing Clauses
     elements.append(Paragraph("3. Expected but Missing Clauses", section_heading))
     if missing_clauses:
         m_rows = [[Paragraph("<b>Clause Type</b>", body_bold), Paragraph("<b>Severity</b>", body_bold), Paragraph("<b>Standard Protection Note</b>", body_bold)]]
@@ -203,7 +196,6 @@ def generate_pdf_report(document, clauses, missing_clauses, deadlines, pii_findi
         elements.append(Paragraph("All standard expected clauses for this document type were identified.", body_style))
     elements.append(Spacer(1, 10))
 
-    # Deadlines Timeline
     elements.append(Paragraph("4. Deadlines & Date-Bound Obligations", section_heading))
     if deadlines:
         dl_rows = [[
@@ -235,7 +227,6 @@ def generate_pdf_report(document, clauses, missing_clauses, deadlines, pii_findi
         elements.append(Paragraph("No time-sensitive deadlines or relative notice obligations detected.", body_style))
     elements.append(Spacer(1, 10))
 
-    # Per-Clause Breakdown
     elements.append(Paragraph("5. Detailed Clause-by-Clause Risk Breakdown", section_heading))
     for c in clauses:
         fav_label = (c.favorability_label or "fair").upper()
@@ -257,7 +248,6 @@ def generate_pdf_report(document, clauses, missing_clauses, deadlines, pii_findi
         ]
         elements.append(KeepTogether(clause_block))
 
-    # Final Bottom Disclaimer
     elements.append(Spacer(1, 10))
     elements.append(disclaimer_table)
 

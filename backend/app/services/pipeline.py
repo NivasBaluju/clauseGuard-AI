@@ -21,7 +21,6 @@ from app.services.audit_service import log_audit_event
 
 logger = logging.getLogger(__name__)
 
-
 def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Document:
     """
     Executes the full end-to-end processing pipeline for a legal document:
@@ -39,7 +38,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
         raise ValueError(f"Document {document_id} not found in database.")
 
     try:
-        # Stage 1: Text Ingestion & Extraction
         doc.status = "processing"
         doc.processing_stage = "extracting_text"
         db.session.commit()
@@ -53,7 +51,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
         doc.raw_text_encrypted = encrypt_text(raw_text)
         db.session.commit()
 
-        # Stage 2: PII Redaction (Must happen before any model sees the text)
         doc.processing_stage = "redacting_pii"
         db.session.commit()
         logger.info(f"[{doc.id}] Stage 2: Redacting PII")
@@ -61,7 +58,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
         redacted_text, pii_findings = redact(raw_text)
         doc.redacted_text = redacted_text
 
-        # Store PII findings (type, offsets, confidence only — no sensitive values)
         for f in pii_findings:
             pf = PIIFinding(
                 document_id=doc.id,
@@ -73,14 +69,12 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
             db.session.add(pf)
         db.session.commit()
 
-        # Stage 3: Clause Segmentation
         doc.processing_stage = "segmenting_clauses"
         db.session.commit()
         logger.info(f"[{doc.id}] Stage 3: Segmenting clauses for {doc.document_type}")
 
         raw_segments = segment_clauses(redacted_text, document_type=doc.document_type)
         if not raw_segments:
-            # Fallback to single clause if segmentation yielded nothing
             raw_segments = [{
                 "clause_index": 0,
                 "text": redacted_text.strip(),
@@ -88,7 +82,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
                 "end_offset": len(redacted_text.strip()),
             }]
 
-        # Create clause objects in memory
         clause_objs = []
         for seg in raw_segments:
             c = Clause(
@@ -102,12 +95,10 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
             clause_objs.append(c)
         db.session.commit()
 
-        # Stage 4: Clause Classification (Type + Favorability) - BATCHED
         doc.processing_stage = "classifying_clauses"
         db.session.commit()
         logger.info(f"[{doc.id}] Stage 4: Classifying {len(clause_objs)} clauses in high-speed batch mode")
 
-        # Prepare items for batch classification
         clause_items = []
         for i, c in enumerate(clause_objs):
             prev_t = clause_objs[i - 1].redacted_text if i > 0 else None
@@ -118,9 +109,7 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
                 "next_text": next_t,
             })
 
-        # Batch predict clause types
         type_results = classify_clauses_batch(clause_items, document_type=doc.document_type, task="clause_type")
-        # Batch predict favorabilities
         fav_results = classify_clauses_batch(clause_items, document_type=doc.document_type, task="favorability")
 
         model_version_used = "bert-windowed-v1"
@@ -137,7 +126,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
         doc.model_version = model_version_used
         db.session.commit()
 
-        # Stage 5: Risk Scoring & Missing Clauses
         doc.processing_stage = "scoring_risk"
         db.session.commit()
         logger.info(f"[{doc.id}] Stage 5: Scoring risk and checking missing clauses")
@@ -154,7 +142,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
             c.risk_score = r_score
             clause_scores.append(r_score)
 
-        # Detect missing clauses
         classified_dicts = [
             {"clause_type": c.clause_type, "clause_type_confidence": c.clause_type_confidence}
             for c in clause_objs
@@ -170,7 +157,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
             )
             db.session.add(mc)
 
-        # Compute document overall risk
         doc_risk = compute_document_risk(clause_scores, missing_list)
         band = compute_risk_band(doc_risk)
 
@@ -178,7 +164,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
         doc.risk_band = band
         db.session.commit()
 
-        # Stage 6: Deadline & Date Extraction
         doc.processing_stage = "extracting_deadlines"
         db.session.commit()
         logger.info(f"[{doc.id}] Stage 6: Extracting deadlines")
@@ -199,7 +184,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
             db.session.add(d_obj)
         db.session.commit()
 
-        # Stage 7: Embeddings for RAG - HIGH-SPEED BATCH
         doc.processing_stage = "generating_embeddings"
         db.session.commit()
         logger.info(f"[{doc.id}] Stage 7: Generating Gemini embeddings for {len(clause_objs)} clauses in batch")
@@ -210,14 +194,12 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
             c.embedding = emb
         db.session.commit()
 
-        # Completed
         doc.status = "analyzed"
         doc.processing_stage = "completed"
         doc.analyzed_at = datetime.now(timezone.utc)
         db.session.commit()
         logger.info(f"[{doc.id}] Document processing completed successfully! Risk Score: {doc.overall_risk_score} ({doc.risk_band})")
 
-        # Record audit log for completed analysis
         log_audit_event(
             action="DOC_ANALYZED",
             resource_type="document",
@@ -234,7 +216,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
 
         return doc
 
-
     except Exception as e:
         logger.exception(f"Pipeline error for document {doc.id}: {e}")
         doc.status = "failed"
@@ -243,7 +224,6 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
         db.session.commit()
         raise e
     finally:
-        # Clean up temporary uploaded file
         try:
             if os.path.exists(file_path):
                 os.remove(file_path)

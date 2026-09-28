@@ -7,7 +7,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if user is already authenticated via token or httpOnly cookie
   const refreshUser = useCallback(async () => {
     try {
       const data = await api.getMe();

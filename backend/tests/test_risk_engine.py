@@ -2,7 +2,6 @@ import unittest
 import sys
 from pathlib import Path
 
-# Add backend directory to sys.path
 backend_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(backend_dir))
 
@@ -18,30 +17,25 @@ class TestRiskEngine(unittest.TestCase):
         self.config = get_risk_config()
 
     def test_fair_clause_risk(self):
-        # Fair clause should have 0 risk regardless of base weight
         score = compute_clause_risk("security_deposit", "fair", 1.0, config=self.config)
         self.assertEqual(score, 0.0)
 
     def test_unfavorable_clause_risk(self):
-        # Termination base weight is 1.0, unfavorable multiplier is 1.0 -> 100.0
         score = compute_clause_risk("termination", "unfavorable", 1.0, config=self.config)
         self.assertEqual(score, 100.0)
 
     def test_needs_review_clause_risk(self):
-        # Rent payment base weight is 0.6, needs_review multiplier is 0.5 -> 30.0
         score = compute_clause_risk("rent_payment_terms", "needs_review", 1.0, config=self.config)
         self.assertEqual(score, 30.0)
 
     def test_sequence_adjustment_pair(self):
-        # renewal_auto_renewal -> termination has a +0.1 bump
         normal_score = compute_clause_risk("termination", "needs_review", 1.0, prior_clause_type=None, config=self.config)
         bumped_score = compute_clause_risk("termination", "needs_review", 1.0, prior_clause_type="renewal_auto_renewal", config=self.config)
         self.assertGreater(bumped_score, normal_score)
 
     def test_document_risk_composite(self):
-        clause_scores = [20.0, 40.0, 60.0]  # mean = 40.0
-        missing = [{"severity": "high"}]     # penalty = 15.0
-        # overall = 0.7 * 40.0 + 0.3 * 15.0 = 28.0 + 4.5 = 32.5
+        clause_scores = [20.0, 40.0, 60.0]
+        missing = [{"severity": "high"}]
         overall = compute_document_risk(clause_scores, missing, config=self.config)
         self.assertEqual(overall, 32.5)
 

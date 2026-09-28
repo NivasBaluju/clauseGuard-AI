@@ -12,7 +12,7 @@ class PIIFinding(db.Model):
         nullable=False,
         index=True,
     )
-    entity_type = db.Column(db.String(32), nullable=False)  # PERSON, EMAIL_ADDRESS, etc.
+    entity_type = db.Column(db.String(32), nullable=False)
     start_offset = db.Column(db.Integer)
     end_offset = db.Column(db.Integer)
     confidence = db.Column(db.Float)

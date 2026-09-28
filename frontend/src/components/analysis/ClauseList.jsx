@@ -5,7 +5,7 @@ import { Search, ArrowUpDown, Filter } from "lucide-react";
 export function ClauseList({ clauses = [], selectedClauseId, onSelectClause }) {
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("index"); // 'index' or 'risk'
+  const [sortBy, setSortBy] = useState("index");
 
   const filteredClauses = useMemo(() => {
     return clauses
@@ -29,9 +29,7 @@ export function ClauseList({ clauses = [], selectedClauseId, onSelectClause }) {
 
   return (
     <div className="space-y-4">
-      {/* Controls Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border border-neutral-200 bg-white p-4 shadow-sm">
-        {/* Search */}
         <div className="relative flex-1">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
           <input
@@ -43,7 +41,6 @@ export function ClauseList({ clauses = [], selectedClauseId, onSelectClause }) {
           />
         </div>
 
-        {/* Filter Buttons */}
         <div className="flex items-center gap-1 overflow-x-auto">
           {["all", "unfavorable", "needs_review", "fair"].map((f) => (
             <button
@@ -59,7 +56,6 @@ export function ClauseList({ clauses = [], selectedClauseId, onSelectClause }) {
             </button>
           ))}
 
-          {/* Sort button */}
           <button
             onClick={() => setSortBy(sortBy === "index" ? "risk" : "index")}
             className="px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider border border-neutral-300 bg-white text-neutral-700 hover:text-black hover:border-black flex items-center gap-1.5 transition-colors"
@@ -71,7 +67,6 @@ export function ClauseList({ clauses = [], selectedClauseId, onSelectClause }) {
         </div>
       </div>
 
-      {/* Clause Cards */}
       {filteredClauses.length > 0 ? (
         <div className="space-y-3">
           {filteredClauses.map((clause) => (

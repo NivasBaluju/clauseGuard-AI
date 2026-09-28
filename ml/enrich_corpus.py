@@ -2,7 +2,6 @@ import re
 import sys
 from pathlib import Path
 
-# Add project root to sys.path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -10,8 +9,6 @@ from ml.dataset_corpus_data import RENTAL_SOURCES
 from ml.dataset_corpus_offer import OFFER_SOURCES
 from ml.dataset_corpus_insurance import INSURANCE_SOURCES
 
-# 1. RENTAL ENRICHMENT
-# For rental documents 5 to 25, add standard clauses if not already present
 rental_enrichments = {
     "wa_seattle_housing_lease_05": [
         ("SECTION 10: LATE PAYMENT CHARGES\nIf monthly rent is not received by the fifth (5th) day of the month, Tenant shall pay a late charge not to exceed $10.00 in strict accordance with the Seattle Municipal Code.", "late_fees_penalty", "fair"),
@@ -219,8 +216,6 @@ rental_enrichments = {
     ],
 }
 
-# 2. OFFER LETTER ENRICHMENT
-# For offer letter documents 4 to 22, add standard clauses
 offer_enrichments = {
     "stanford_staff_offer_04": [
         ("8. WORKING HOURS AND HYBRID SCHEDULE\nStandard core working hours are 8:30 AM to 5:00 PM, Monday through Friday (40 hours/week) with eligibility for hybrid telecommuting pursuant to university policy.", "working_hours_location", "fair"),
@@ -370,8 +365,6 @@ offer_enrichments = {
     ]
 }
 
-# 3. INSURANCE ENRICHMENT
-# For insurance documents 3 to 20, add standard clauses
 insurance_enrichments = {
     "oid_ho4_specimen_03": [
         ("SECTION 8: GRACE PERIOD FOR PREMIUM\nA grace period of thirty (30) days will be granted for the payment of each renewal premium, during which time the policy continues in force.", "grace_period", "fair"),
@@ -498,7 +491,6 @@ insurance_enrichments = {
     ]
 }
 
-# Apply enrichments
 for d in RENTAL_SOURCES:
     doc_id = d["doc_id"]
     if doc_id in rental_enrichments:

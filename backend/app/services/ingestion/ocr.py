@@ -13,7 +13,6 @@ from flask import current_app
 
 logger = logging.getLogger(__name__)
 
-# Fallback OCR engine if Tesseract is missing
 _rapidocr_engine = None
 
 def get_tesseract_lang() -> str:
@@ -32,7 +31,6 @@ def configure_tesseract_cmd():
     if cmd and os.path.exists(cmd):
         pytesseract.pytesseract.tesseract_cmd = cmd
 
-# Cached Tesseract availability flag
 _tesseract_available_cached = None
 
 def is_tesseract_available() -> bool:
@@ -94,7 +92,6 @@ def preprocess_for_rapidocr(image: Image.Image) -> np.ndarray:
         image = image.convert("RGB")
 
     w, h = image.size
-    # If image dimensions are small, upscale with Lanczos so font contours are sharp
     if w < 450 or h < 90:
         scale = max(2.0, 450.0 / max(1, w), 90.0 / max(1, h))
         if scale > 1.2:
@@ -113,7 +110,6 @@ def ocr_image_detailed(image: Image.Image) -> Dict[str, Any]:
     Includes inverted-color retry for white-on-dark text and transparency handling.
     Never crashes the calling process.
     """
-    # 1. Try Tesseract first if installed
     if is_tesseract_available():
         try:
             processed = preprocess_for_tesseract(image)
@@ -140,14 +136,12 @@ def ocr_image_detailed(image: Image.Image) -> Dict[str, Any]:
         except Exception as e:
             logger.info(f"[OCR] Tesseract failed ({e}). Proceeding to RapidOCR...")
 
-    # 2. RapidOCR engine (highly accurate deep-learning model)
     rapid = get_rapidocr()
     if rapid:
         try:
             cv_img = preprocess_for_rapidocr(image)
             result, _ = rapid(cv_img)
 
-            # Retry with color inversion if initial pass yields no text (e.g. white text on dark background)
             if not result:
                 try:
                     rgb_img = image.convert("RGB")
@@ -181,7 +175,6 @@ def ocr_image_detailed(image: Image.Image) -> Dict[str, Any]:
         except Exception as ex:
             logger.error(f"[OCR] RapidOCR extraction failed: {ex}")
 
-    # 3. Graceful fallback if nothing recognized
     return {
         "text": "",
         "method": "ocr_none",
@@ -194,5 +187,4 @@ def ocr_image(image: Image.Image) -> str:
     """Standard interface: returns extracted text string."""
     res = ocr_image_detailed(image)
     return res.get("text", "")
-
 

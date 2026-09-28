@@ -7,7 +7,6 @@ Supports fair, needs_review, and unfavorable classifications with diverse legal 
 
 import random
 
-# Core entity, jurisdictional and parameter dictionaries
 RENT_VALS = ["$1,200", "$1,450", "$1,750", "$1,900", "$2,150", "$2,400", "$2,750", "$3,100", "$3,600", "$4,250", "Rs. 22,000", "Rs. 35,000", "Rs. 50,000", "Rs. 85,000", "£1,250", "£1,850"]
 DEPOSIT_VALS = ["$1,500", "$2,000", "$2,500", "$3,000", "$4,500", "one month's rent", "two months' rent", "Rs. 75,000", "Rs. 1,50,000", "£1,500"]
 SALARY_VALS = ["$68,000", "$85,000", "$105,000", "$125,000", "$145,000", "$165,000", "$190,000", "$230,000", "Rs. 10,50,000", "Rs. 18,00,000", "Rs. 28,00,000", "£60,000", "£85,000"]
@@ -21,9 +20,6 @@ ROLES = ["Senior Software Engineer", "Product Manager", "Data Science Lead", "Cl
 DEPARTMENTS = ["Engineering", "Product Operations", "Data & Analytics", "Information Security", "Corporate Finance", "Commercial Strategy"]
 MANAGERS = ["the VP of Engineering", "the Chief Technology Officer", "the Director of Product", "the Head of Architecture", "the General Manager"]
 
-# -------------------------------------------------------------------------------------------------
-# 1. RENTAL AGREEMENT COMBINATORIAL SCENARIOS
-# -------------------------------------------------------------------------------------------------
 RENTAL_PATTERNS = {
     "rent_payment_terms": {
         "fair": [
@@ -229,9 +225,6 @@ RENTAL_PATTERNS = {
     },
 }
 
-# -------------------------------------------------------------------------------------------------
-# 2. JOB OFFER LETTER COMBINATORIAL SCENARIOS
-# -------------------------------------------------------------------------------------------------
 OFFER_PATTERNS = {
     "compensation_salary": {
         "fair": [
@@ -422,9 +415,6 @@ OFFER_PATTERNS = {
     },
 }
 
-# -------------------------------------------------------------------------------------------------
-# 3. INSURANCE POLICY COMBINATORIAL SCENARIOS
-# -------------------------------------------------------------------------------------------------
 INSURANCE_PATTERNS = {
     "coverage_scope": {
         "fair": [
@@ -613,7 +603,6 @@ ALL_PATTERNS = {
     "insurance_policy": INSURANCE_PATTERNS,
 }
 
-# Modifiers to guarantee infinite variety without repeating word sequences
 OPENERS = [
     "It is expressly agreed and stipulated that",
     "Under the terms and conditions hereof,",
@@ -658,7 +647,6 @@ def generate_scenario_clause(doc_type: str, clause_type: str, index: int, favora
 
     template = random.choice(patterns[fav])
 
-    # Dynamic slot replacement
     rent = random.choice(RENT_VALS)
     deposit = random.choice(DEPOSIT_VALS)
     salary = random.choice(SALARY_VALS)
@@ -685,7 +673,6 @@ def generate_scenario_clause(doc_type: str, clause_type: str, index: int, favora
         days=days
     )
 
-    # Combinatorial formatting: prefix, opener, closer
     formats = [
         f"Section {index % 50 + 1}.{(index // 50) % 9 + 1} ",
         f"Clause {index % 40 + 1} ",

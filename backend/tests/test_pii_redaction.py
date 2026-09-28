@@ -2,7 +2,6 @@ import unittest
 import sys
 from pathlib import Path
 
-# Add backend directory to sys.path
 backend_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(backend_dir))
 
@@ -23,16 +22,13 @@ class TestPIIRedaction(unittest.TestCase):
         self.assertTrue(any(t in ["PERSON", "NAME"] for t in entity_types))
 
     def test_date_time_preserved(self):
-        # Mandatory architectural test: DATE_TIME must NOT be redacted
         sample = "This lease begins on September 1, 2026 and requires 30 days written notice prior to August 31, 2027."
         redacted_text, findings = redact(sample)
 
-        # Dates and durations should remain intact for deadline extraction
         self.assertIn("September 1, 2026", redacted_text)
         self.assertIn("30 days", redacted_text)
         self.assertIn("August 31, 2027", redacted_text)
         
-        # Verify DATE_TIME was not among the redacted entities
         entity_types = [f["entity_type"] for f in findings]
         self.assertNotIn("DATE_TIME", entity_types)
 

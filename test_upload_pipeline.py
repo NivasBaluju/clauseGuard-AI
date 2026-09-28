@@ -9,13 +9,11 @@ def upload_and_audit(filepath, doc_type):
     boundary = uuid.uuid4().hex
     body = []
     
-    # document_type field
     body.append(f"--{boundary}".encode())
     body.append(b'Content-Disposition: form-data; name="document_type"')
     body.append(b"")
     body.append(doc_type.encode())
 
-    # file field
     body.append(f"--{boundary}".encode())
     body.append(f'Content-Disposition: form-data; name="file"; filename="{filepath.split("/")[-1]}"'.encode())
     body.append(b"Content-Type: text/plain")
@@ -36,7 +34,6 @@ def upload_and_audit(filepath, doc_type):
     print("Upload initiated:", res_data)
     doc_id = res_data.get("document_id") or res_data.get("id")
 
-    # Poll status
     while True:
         time.sleep(2)
         status_resp = urllib.request.urlopen(f"http://127.0.0.1:5000/api/documents/{doc_id}/status")
@@ -72,7 +69,6 @@ def upload_and_audit(filepath, doc_type):
     pii = json.loads(urllib.request.urlopen(f"http://127.0.0.1:5000/api/documents/{doc_id}/pii-summary").read().decode())
     print(f"PII Redactions: {pii['total_findings']} entities -> {pii['entity_counts']}")
 
-    # Test Grounded RAG Chat
     print("\n=== TESTING GROUNDED RAG CHAT ===")
     chat_url = f"http://127.0.0.1:5000/api/documents/{doc_id}/chat"
     chat_payload = json.dumps({"question": "How much advance notice is required before the landlord enters?"}).encode()
@@ -82,7 +78,6 @@ def upload_and_audit(filepath, doc_type):
     print(f"AI Grounded Response:\n{chat_resp['answer']}")
     print(f"Grounded: {chat_resp['grounded']} | Cited Clauses: {chat_resp['cited_clause_ids']}")
 
-    # Test PDF Report generation
     print("\n=== TESTING PDF REPORT GENERATION ===")
     pdf_resp = urllib.request.urlopen(f"http://127.0.0.1:5000/api/documents/{doc_id}/report.pdf")
     pdf_bytes = pdf_resp.read()

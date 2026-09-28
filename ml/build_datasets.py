@@ -29,7 +29,6 @@ import random
 from pathlib import Path
 from collections import defaultdict
 
-# Add project root and backend to path
 project_root = Path(__file__).resolve().parent.parent
 backend_dir = project_root / "backend"
 sys.path.insert(0, str(project_root))
@@ -47,7 +46,6 @@ from ml.test_heuristics import (
 
 DATASET_ROOT = project_root / "ml" / "datasets"
 
-# Document split assignments ensuring strict document isolation and full class coverage
 DOCUMENT_SPLITS = {
     "rental_agreement": {
         "train": [
@@ -150,7 +148,6 @@ def build_datasets():
             clauses = doc["clauses"]
             split = doc_split_map.get(doc_id, "train")
 
-            # 1. Reconstruct and save raw unredacted source document
             raw_doc_text = "\n\n".join(c[0] for c in clauses)
             raw_doc_file = raw_doc_dir / f"{doc_id}.txt"
             with open(raw_doc_file, "w", encoding="utf-8") as f:
@@ -159,7 +156,6 @@ def build_datasets():
                 f.write("=" * 72 + "\n\n")
                 f.write(raw_doc_text)
 
-            # 2. Apply Presidio PII redaction to raw clauses BEFORE labeling or tokenization (Section 7)
             redacted_clauses = []
             for c_tuple in clauses:
                 raw_text = c_tuple[0]
@@ -170,13 +166,11 @@ def build_datasets():
                 redacted_text, _ = redact(raw_text)
                 redacted_clauses.append((redacted_text, ground_truth_type, calibrated_fav))
 
-            # 3. Assemble sequential clauses with surrounding context
             for idx, c_data in enumerate(redacted_clauses):
                 c_text, gt_type, h_fav = c_data
                 prev_text = redacted_clauses[idx - 1][0] if idx > 0 else None
                 next_text = redacted_clauses[idx + 1][0] if idx + 1 < len(redacted_clauses) else None
 
-                # 4. Auto-label via keyword/heading heuristics (label_source: "heuristic")
                 heur_type = heuristic_fn(c_text)
                 if heur_type != gt_type:
                     heuristic_mismatches.append({
@@ -195,15 +189,14 @@ def build_datasets():
                     "prev_clause_text": prev_text,
                     "clause_text": c_text,
                     "next_clause_text": next_text,
-                    "clause_type": gt_type,  # Spot-checked verified ground truth
+                    "clause_type": gt_type,
                     "heuristic_clause_type": heur_type,
                     "label_source": "heuristic",
-                    "adjudicated_favorability": h_fav,  # Grounded human legal assessment
+                    "adjudicated_favorability": h_fav,
                     "split": split,
                 }
                 all_records.append(clause_record)
 
-        # 5. Stratified 20% sample for double-annotation (Section 9.4)
         records_by_type = defaultdict(list)
         for r in all_records:
             records_by_type[r["clause_type"]].append(r)
@@ -218,11 +211,9 @@ def build_datasets():
             rec["is_double_annotated_sample"] = True
             rec["label_source"] = "double_annotated_sample"
 
-            # Annotator 1 matches verified adjudication
             a1_type = rec["clause_type"]
             a1_fav = rec["adjudicated_favorability"]
 
-            # Independent Annotator 2
             if random.random() < 0.94:
                 a2_type = a1_type
             else:
@@ -247,13 +238,11 @@ def build_datasets():
         kappa_type = compute_inter_annotator_agreement(annotator_1_types, annotator_2_types)
         kappa_fav = compute_inter_annotator_agreement(annotator_1_favs, annotator_2_favs)
 
-        # Write labeled_clauses.jsonl
         full_jsonl = type_dir / "labeled_clauses.jsonl"
         with open(full_jsonl, "w", encoding="utf-8") as f:
             for r in all_records:
                 f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
-        # Partition into train.jsonl, val.jsonl, test.jsonl
         train_recs = [r for r in all_records if r["split"] == "train"]
         val_recs = [r for r in all_records if r["split"] == "val"]
         test_recs = [r for r in all_records if r["split"] == "test"]
@@ -268,7 +257,6 @@ def build_datasets():
             for r in test_recs:
                 f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
-        # Log systematic spot-check corrections
         corrections_file = type_dir / "heuristic_spot_check_report.json"
         corrections_summary = {
             "document_type": doc_type,

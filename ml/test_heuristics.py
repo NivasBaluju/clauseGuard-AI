@@ -18,7 +18,6 @@ import random
 from pathlib import Path
 from collections import defaultdict
 
-# Add project root and backend to path
 project_root = Path(__file__).resolve().parent.parent
 backend_dir = project_root / "backend"
 sys.path.insert(0, str(project_root))
@@ -29,10 +28,6 @@ from ml.common.metrics import compute_inter_annotator_agreement
 from ml.enrich_corpus import RENTAL_SOURCES, OFFER_SOURCES, INSURANCE_SOURCES
 
 DATASET_ROOT = project_root / "ml" / "datasets"
-
-# ==============================================================================
-# RULE-BASED / KEYWORD HEURISTIC CLASSIFIERS (Section 9.2)
-# ==============================================================================
 
 def heuristic_rental_clause_type(text: str) -> str:
     t = text.lower()

@@ -43,7 +43,6 @@ export function ChatInput({ onSendMessage, isLoading, documentType = "rental_agr
 
   return (
     <div className="border-t border-rule bg-paper-dim p-4 space-y-3">
-      {/* Suggestions */}
       <div>
         <div className="flex items-center gap-1.5 text-[11px] font-mono text-zinc-500 uppercase tracking-wider mb-2">
           <Sparkles className="w-3 h-3 text-white" />
@@ -64,7 +63,6 @@ export function ChatInput({ onSendMessage, isLoading, documentType = "rental_agr
         </div>
       </div>
 
-      {/* Input box */}
       <form onSubmit={handleSubmit} className="flex gap-2">
         <textarea
           rows={2}

@@ -13,7 +13,7 @@ class MissingClause(db.Model):
         index=True,
     )
     clause_type = db.Column(db.String(64), nullable=False)
-    severity = db.Column(db.String(16), nullable=False)  # high | medium | low
+    severity = db.Column(db.String(16), nullable=False)
     checklist_note = db.Column(db.Text)
 
     document = db.relationship("Document", back_populates="missing_clauses")

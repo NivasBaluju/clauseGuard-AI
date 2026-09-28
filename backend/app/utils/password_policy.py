@@ -2,7 +2,6 @@ import bcrypt
 
 BCRYPT_ROUNDS = 12
 
-# Precomputed dummy hash for timing-attack equalization
 DUMMY_HASH = "$2a$12$e80yqZ6G9lT2b6hTzGkM1.aP0uVlUqNkJ2a3zK3/Hq9r8F1D0m0s2"
 
 def validate_password(password: str, confirm_password: str = None) -> dict:

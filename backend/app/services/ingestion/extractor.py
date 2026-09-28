@@ -5,13 +5,12 @@ import logging
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
 from PIL import Image
-import fitz  # PyMuPDF
+import fitz
 import docx
 from app.services.ingestion.ocr import ocr_image_detailed
 
 logger = logging.getLogger(__name__)
 
-# Known legal and standard hyphenated compounds that must preserve their hyphens
 PRESERVED_HYPHEN_TERMS = {
     "non-compete",
     "non-solicitation",
@@ -50,7 +49,6 @@ def clean_ocr_text(text: str) -> str:
     if not text:
         return ""
 
-    # 1. Normalize line-break hyphenations across line wraps
     def hyphen_replacer(match):
         part1 = match.group(1)
         part2 = match.group(2)
@@ -61,12 +59,8 @@ def clean_ocr_text(text: str) -> str:
 
     cleaned = re.sub(r"\b([a-zA-Z]{2,})-\s*\n\s*([a-zA-Z]{2,})\b", hyphen_replacer, text)
 
-    # 2. Normalize whitespace while preserving paragraph structure
-    # Remove carriage returns
     cleaned = cleaned.replace("\r\n", "\n").replace("\r", "\n")
-    # Collapse 3+ newlines to 2 newlines
     cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
-    # Strip trailing whitespace on each line
     cleaned = "\n".join(line.rstrip() for line in cleaned.splitlines())
 
     return cleaned.strip()
@@ -86,22 +80,18 @@ def should_use_ocr(page: fitz.Page, extracted_text: str) -> Tuple[bool, str]:
     stripped = (extracted_text or "").strip()
     char_count = len(stripped)
 
-    # Condition A: Almost no text
     if char_count < 40:
         return True, "insufficient_text_length"
 
-    # Condition B: Low word count
     words = stripped.split()
     if len(words) < 8:
         return True, "low_word_count"
 
-    # Condition C & E: Image-heavy page check
     images = page.get_images(full=True)
     if images:
         if char_count < 150:
             return True, "image_heavy_page"
 
-        # Check if an image dominates the page geometry (e.g. scanned page with partial OCR garbage)
         page_area = page.rect.width * page.rect.height
         for img_info in images:
             xref = img_info[0]
@@ -114,13 +104,11 @@ def should_use_ocr(page: fitz.Page, extracted_text: str) -> Tuple[bool, str]:
             except Exception:
                 pass
 
-    # Condition D: Suspicious text / encoding artifacts
     alpha_chars = sum(1 for c in stripped if c.isalpha())
     alpha_ratio = alpha_chars / max(1, char_count)
     if alpha_ratio < 0.50 and char_count < 300:
         return True, "suspicious_low_alpha_ratio"
 
-    # Encoding corruption / replacement character frequency
     if stripped.count("\ufffd") > 3 or stripped.count("?") > char_count * 0.25:
         return True, "encoding_artifacts_detected"
 
@@ -147,7 +135,6 @@ def extract_pdf_with_metadata(file_path: str) -> Tuple[str, int, List[Dict[str, 
         clean_native = clean_ocr_text(native_text)
         needs_page_ocr, reason = should_use_ocr(page, native_text)
 
-        # 1. Extract text from any embedded images inside this page
         images = page.get_images(full=True)
         embedded_image_texts = []
         seen_xrefs = set()
@@ -162,7 +149,6 @@ def extract_pdf_with_metadata(file_path: str) -> Tuple[str, int, List[Dict[str, 
                     base_image = doc.extract_image(xref)
                     w = base_image.get("width", 0)
                     h = base_image.get("height", 0)
-                    # Filter out tiny decorative icons, dividers, bullets (<300 px area or <15px dim)
                     if w < 20 or h < 15 or (w * h < 300):
                         continue
 
@@ -176,7 +162,6 @@ def extract_pdf_with_metadata(file_path: str) -> Tuple[str, int, List[Dict[str, 
                         cleaned_extracted = clean_ocr_text(raw_extracted)
 
                         if cleaned_extracted and len(cleaned_extracted.split()) >= 1:
-                            # Avoid duplicates if extracted image text is already present in native text
                             if cleaned_extracted.lower() not in clean_native.lower():
                                 embedded_image_texts.append(cleaned_extracted)
                                 logger.info(
@@ -188,7 +173,6 @@ def extract_pdf_with_metadata(file_path: str) -> Tuple[str, int, List[Dict[str, 
 
         embedded_text_block = "\n\n".join(embedded_image_texts).strip()
 
-        # 2. Page assembly based on quality assessment
         if not needs_page_ocr:
             if embedded_text_block:
                 final_page_text = f"{clean_native}\n\n[Extracted Image Text]:\n{embedded_text_block}"
@@ -208,7 +192,6 @@ def extract_pdf_with_metadata(file_path: str) -> Tuple[str, int, List[Dict[str, 
             })
             logger.info(f"[PAGE {page_num}] Native extraction complete ({len(final_page_text)} chars)")
         else:
-            # Scanned or image-heavy page
             if embedded_text_block and len(embedded_text_block) > 60:
                 final_page_text = f"{clean_native}\n\n{embedded_text_block}".strip()
                 page_results.append(f"[PAGE {page_num}]\n{final_page_text}")
@@ -224,10 +207,9 @@ def extract_pdf_with_metadata(file_path: str) -> Tuple[str, int, List[Dict[str, 
                 })
                 logger.info(f"[PAGE {page_num}] Direct embedded scan extraction complete ({len(final_page_text)} chars)")
             else:
-                # Full page rasterization fallback (e.g. flattened page or complex layout)
                 logger.info(f"[PAGE {page_num}] Native text insufficient ({reason}) → Rasterizing page for OCR...")
                 try:
-                    zoom = 200.0 / 72.0  # 200 DPI gives clean recognition with fast processing
+                    zoom = 200.0 / 72.0
                     mat = fitz.Matrix(zoom, zoom)
                     pix = page.get_pixmap(matrix=mat, alpha=False)
                     img_bytes = pix.tobytes("png")
@@ -279,7 +261,6 @@ def extract_pdf_with_metadata(file_path: str) -> Tuple[str, int, List[Dict[str, 
     doc.close()
     full_text = "\n\n".join(page_results)
     return full_text, page_count, page_metadata
-
 
 def extract_pdf(file_path: str) -> Tuple[str, int]:
     """

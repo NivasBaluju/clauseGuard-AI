@@ -12,12 +12,10 @@ def build_windowed_input(prev_clause_text: str | None, clause_text: str, next_cl
     next_part = (next_clause_text or "").strip()
     target_part = (clause_text or "").strip()
 
-    # Budget rough character counts (approx 4 chars per token)
     max_chars = max_length * 4
     target_chars = len(target_part)
 
     if target_chars + len(prev_part) + len(next_part) > max_chars:
-        # Keep target intact, trim context from outer edges
         remaining_budget = max(0, max_chars - target_chars - 30)
         half_budget = remaining_budget // 2
         if len(prev_part) > half_budget:

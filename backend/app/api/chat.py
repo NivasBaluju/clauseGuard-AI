@@ -12,10 +12,6 @@ from app.services.rag.chat_engine import answer_document_question
 logger = logging.getLogger(__name__)
 chat_bp = Blueprint("chat", __name__)
 
-# =========================================================================
-# Enterprise AI Chat Endpoints (Grounded RAG & ChatTab API)
-# =========================================================================
-
 @chat_bp.route("/chat", methods=["POST"])
 @optional_auth
 def post_chat_message():
@@ -33,10 +29,8 @@ def post_chat_message():
     if not question:
         return jsonify({"error": "Question is required and cannot be empty"}), 400
 
-    # Ensure a valid user_id for database foreign key constraint
     user = getattr(g, "user", None)
     if not user:
-        # Check if guest user exists or create one for open testing
         guest_email = "guest@clauseguard.ai"
         user = User.query.filter_by(email=guest_email).first()
         if not user:
@@ -63,10 +57,8 @@ def post_chat_message():
         except Exception as e:
             logger.warning(f"Could not parse document_id {document_id}: {e}")
 
-    # Call LLM / Heuristic Engine
     ai_result = ask_gemini_or_fallback(question, document_text)
 
-    # 1. Save user message to database
     user_msg_id = uuid.uuid4()
     user_msg = ChatMessage(
         id=user_msg_id,
@@ -74,11 +66,10 @@ def post_chat_message():
         user_id=user.id,
         role="USER",
         content=question,
-        created_at=None,  # defaults to utcnow
+        created_at=None,
     )
     db.session.add(user_msg)
 
-    # 2. Save assistant response to database
     assistant_msg_id = uuid.uuid4()
     asst_msg = ChatMessage(
         id=assistant_msg_id,
@@ -93,7 +84,6 @@ def post_chat_message():
     db.session.add(asst_msg)
     db.session.commit()
 
-    # Record audit log
     from app.services.audit_service import log_audit_event
     log_audit_event(
         action="CHAT_QUERY",
@@ -142,10 +132,6 @@ def get_conversation_history():
     return jsonify({
         "messages": [m.to_dict() for m in messages]
     }), 200
-
-# =========================================================================
-# Legacy Document Chat Endpoints (Preserved for backwards compatibility)
-# =========================================================================
 
 @chat_bp.route("/documents/<uuid:doc_id>/chat", methods=["POST"])
 @optional_auth

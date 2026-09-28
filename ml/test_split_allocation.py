@@ -9,13 +9,11 @@ sys.path.insert(0, str(project_root))
 from ml.enrich_corpus import RENTAL_SOURCES, OFFER_SOURCES, INSURANCE_SOURCES
 
 def test_allocation(sources, doc_type_name, n_train, n_val, n_test):
-    # Clause types and favorabilities per document
     doc_types = {d["doc_id"]: set(c[1] for c in d["clauses"]) for d in sources}
     doc_favs = {d["doc_id"]: set(c[2] for c in d["clauses"]) for d in sources}
     all_types = sorted(list(set(c[1] for d in sources for c in d["clauses"])))
     all_favs = sorted(list(set(c[2] for d in sources for c in d["clauses"])))
     
-    # Try multiple seeds to find a perfect document split
     best_split = None
     best_score = -1000
     
@@ -50,15 +48,11 @@ def test_allocation(sources, doc_type_name, n_train, n_val, n_test):
         for did in test_ids:
             test_favs.update(doc_favs[did])
             
-        # Hard requirements:
-        # 1. train_types must contain all test_types
-        # 2. train_favs must contain all test_favs
         if not test_types.issubset(train_types):
             continue
         if not test_favs.issubset(train_favs):
             continue
             
-        # Score based on how many types are covered in test and val, and train coverage
         score = (len(train_types) * 10) + (len(test_types) * 5) + (len(val_types) * 2) + len(test_favs) * 10
         if score > best_score:
             best_score = score

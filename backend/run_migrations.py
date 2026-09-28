@@ -3,7 +3,6 @@ import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
-# Optional: load local .env if present (for local testing)
 try:
     from dotenv import load_dotenv
     load_dotenv(Path(__file__).resolve().parent / ".env")
@@ -19,13 +18,11 @@ if not raw_db_url:
     print("Please configure DATABASE_URL in the Railway 'Variables' tab.")
     sys.exit(1)
 
-# Normalize postgres:// to postgresql+psycopg2://
 if raw_db_url.startswith("postgres://"):
     raw_db_url = raw_db_url.replace("postgres://", "postgresql+psycopg2://", 1)
 elif raw_db_url.startswith("postgresql://"):
     raw_db_url = raw_db_url.replace("postgresql://", "postgresql+psycopg2://", 1)
 
-# Sanitize host for logging
 try:
     clean_url = raw_db_url.replace("postgresql+psycopg2://", "http://").replace("postgresql://", "http://")
     parsed = urlparse(clean_url)
@@ -38,13 +35,11 @@ try:
     with engine.begin() as conn:
         print("Running database migrations for Users, Sessions, and ChatMessages...")
 
-        # 1. Create extension if possible
         try:
             conn.execute(text('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'))
         except Exception as e:
             print("Note: uuid-ossp extension:", e)
 
-        # 2. Users Table
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS users (
             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -58,7 +53,6 @@ try:
         """))
         print("Users table ready.")
 
-        # 3. Sessions Table
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS sessions (
             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -72,7 +66,6 @@ try:
         """))
         print("Sessions table ready.")
 
-        # 4. Modify chat_messages Table columns
         cols_to_add = [
             "ALTER TABLE chat_messages ADD COLUMN IF NOT EXISTS document_id UUID REFERENCES documents(id) ON DELETE SET NULL;",
             "ALTER TABLE chat_messages ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES users(id) ON DELETE CASCADE;",
@@ -87,7 +80,6 @@ try:
             except Exception as e:
                 print(f"Notice on column migration: {e}")
 
-        # 5. Create Indexes
         indexes = [
             "CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);",
             "CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);",

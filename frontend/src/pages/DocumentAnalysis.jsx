@@ -28,7 +28,7 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
   const [deadlines, setDeadlines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState("overview"); // overview | clauses | deadlines | text | chat
+  const [activeTab, setActiveTab] = useState("overview");
   const [selectedClauseId, setSelectedClauseId] = useState(null);
   const [downloadingPdf, setDownloadingPdf] = useState(false);
 
@@ -62,7 +62,7 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
 
   const handleSelectClause = (clauseId) => {
     setSelectedClauseId(clauseId);
-    // Switch to clauses tab if currently on text or chat
+
     if (activeTab === "chat" || activeTab === "overview") {
       setActiveTab("clauses");
     }
@@ -123,14 +123,12 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
     );
   }
 
-  // Summary counts
   const unfavorableCount = clauses.filter((c) => c.favorability_label === "unfavorable").length;
   const reviewCount = clauses.filter((c) => c.favorability_label === "needs_review").length;
   const fairCount = clauses.filter((c) => c.favorability_label === "fair").length;
 
   return (
     <div className="space-y-6 py-4">
-      {/* Top Navigation & Actions Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-neutral-200 pb-4">
         <div>
           <button
@@ -193,7 +191,6 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
         </div>
       </div>
 
-      {/* Tab Navigation */}
       <div className="flex border-b border-neutral-200 overflow-x-auto gap-1">
         {[
           { key: "overview", label: "Executive Risk Overview", icon: Layers },
@@ -221,14 +218,10 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
         })}
       </div>
 
-      {/* Tab Content */}
       <div className="space-y-6">
-        {/* Tab 1: Executive Overview */}
         {activeTab === "overview" && (
           <div className="space-y-6">
-            {/* Top Grid: Risk Gauge + Stat Cards */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Risk Gauge */}
               <div className="lg:col-span-1">
                 <RiskScoreGauge
                   score={doc.overall_risk_score}
@@ -236,7 +229,6 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
                 />
               </div>
 
-              {/* Stat Cards */}
               <div className="lg:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div className="border border-neutral-200 bg-white p-4 flex flex-col justify-between shadow-sm">
                   <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block font-semibold">
@@ -312,15 +304,12 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
               </div>
             </div>
 
-            {/* Missing Clauses Section */}
             <MissingClauseList missingClauses={missingClauses} />
 
-            {/* PII Summary Panel */}
             <PiiSummaryPanel documentId={doc.id} />
           </div>
         )}
 
-        {/* Tab 2: Clauses List */}
         {activeTab === "clauses" && (
           <ClauseList
             clauses={clauses}
@@ -329,12 +318,10 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
           />
         )}
 
-        {/* Tab 3: Deadlines */}
         {activeTab === "deadlines" && (
           <DeadlineTimeline deadlines={deadlines} />
         )}
 
-        {/* Tab 4: Redacted Text */}
         {activeTab === "text" && (
           <RedactedTextViewer
             redactedText={doc.redacted_text}
@@ -344,7 +331,6 @@ export function DocumentAnalysis({ documentId, onNavigate }) {
           />
         )}
 
-        {/* Tab 5: Grounded RAG Chat */}
         {activeTab === "chat" && (
           <ChatPanel
             documentId={doc.id}

@@ -77,7 +77,6 @@ export function Sidebar({ currentView, onNavigate }) {
 
   return (
     <>
-      {/* Mobile Top Header with toggle */}
       <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-neutral-200 sticky top-0 z-50">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 border border-neutral-300 bg-neutral-100 flex items-center justify-center text-black rounded">
@@ -95,7 +94,6 @@ export function Sidebar({ currentView, onNavigate }) {
         </button>
       </div>
 
-      {/* Backdrop for mobile */}
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
@@ -103,13 +101,11 @@ export function Sidebar({ currentView, onNavigate }) {
         />
       )}
 
-      {/* Main Sidebar */}
       <aside
         className={`fixed top-0 bottom-0 left-0 z-50 w-64 sm:w-72 bg-white border-r border-neutral-200 flex flex-col transition-transform duration-200 ease-in-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        {/* Brand Area */}
         <div className="p-5 border-b border-neutral-200 bg-white">
           <button
             onClick={() => handleNavClick("landing")}
@@ -129,7 +125,6 @@ export function Sidebar({ currentView, onNavigate }) {
           </button>
         </div>
 
-        {/* Navigation Sections */}
         <div className="flex-1 overflow-y-auto px-3 py-5 space-y-6">
           {navItems.map((group, gIdx) => (
             <div key={gIdx} className="space-y-1.5">
@@ -175,7 +170,6 @@ export function Sidebar({ currentView, onNavigate }) {
           ))}
         </div>
 
-        {/* User Card & Sign Out at Bottom */}
         <div className="p-4 border-t border-neutral-200 bg-white">
           {user ? (
             <div className="space-y-3">

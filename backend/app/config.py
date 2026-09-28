@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load .env from backend directory
 backend_dir = Path(__file__).resolve().parent.parent
 load_dotenv(backend_dir / ".env")
 
@@ -33,7 +32,6 @@ class Config:
     FIELD_ENCRYPTION_KEY = os.environ.get("FIELD_ENCRYPTION_KEY", "")
     TESSERACT_CMD = os.environ.get("TESSERACT_CMD", "")
     
-    # Configurable CORS origins with support for FRONTEND_URL (Vercel)
     import re
     frontend_env = os.environ.get("FRONTEND_URL", "")
     cors_env = os.environ.get("CORS_ORIGINS", "")
@@ -48,7 +46,6 @@ class Config:
             "http://127.0.0.1:5173",
             "https://localhost:5173",
         }
-    # Always allow Vercel production and preview domains
     allowed_origins.add(re.compile(r"https://.*\.vercel\.app"))
     CORS_ORIGINS = list(allowed_origins)
     

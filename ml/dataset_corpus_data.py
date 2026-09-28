@@ -4,10 +4,6 @@ Stores 67 distinct public document texts collected from state housing authoritie
 university career/HR services, and state insurance departments (HO-4 broad form).
 """
 
-# ==============================================================================
-# 1. RENTAL / LEASE AGREEMENTS (25 DISTINCT REAL PUBLIC SOURCE DOCUMENTS)
-# ==============================================================================
-
 RENTAL_SOURCES = [
     {
         "doc_id": "ca_dre_residential_lease_01",
@@ -369,4 +365,3 @@ RENTAL_SOURCES = [
     }
 ]
 
-# (Offer letter and insurance sources continue in Part 2)

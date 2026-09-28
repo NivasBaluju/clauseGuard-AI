@@ -14,7 +14,6 @@ def search_ddg(query):
     try:
         resp = urllib.request.urlopen(req, timeout=12)
         html = resp.read().decode("utf-8", errors="ignore")
-        # Extract links
         raw_links = re.findall(r'href="([^"]+uddg=[^"]+)"', html)
         decoded = []
         for l in raw_links:

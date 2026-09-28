@@ -4,7 +4,6 @@ import tempfile
 import os
 from pathlib import Path
 
-# Add backend directory to sys.path
 backend_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(backend_dir))
 
@@ -33,7 +32,6 @@ class TestIngestion(unittest.TestCase):
         doc.add_paragraph("Section 1: Security Deposit")
         doc.add_paragraph("Tenant shall deposit $2,000 upon signing.")
         
-        # Add table
         table = doc.add_table(rows=2, cols=2)
         table.cell(0, 0).text = "Utility"
         table.cell(0, 1).text = "Responsible Party"

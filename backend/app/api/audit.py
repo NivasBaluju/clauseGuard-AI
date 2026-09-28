@@ -32,7 +32,6 @@ def get_audit_logs():
 
         query = AuditLog.query
 
-        # Restrict strictly to user's own logs (by user_id or user_email)
         if getattr(user, "role", "user") != "admin":
             query = query.filter((AuditLog.user_id == user.id) | (AuditLog.user_email == user.email))
 

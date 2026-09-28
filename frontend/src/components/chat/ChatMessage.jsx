@@ -22,7 +22,6 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
           : "border-neutral-200 bg-white text-black shadow-sm mr-4 sm:mr-12"
       }`}
     >
-      {/* Header */}
       <div className="flex items-center justify-between gap-3 border-b border-neutral-200 pb-2.5 mb-3 flex-wrap">
         <div className="flex items-center gap-2">
           {isUser ? (
@@ -74,7 +73,6 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
         )}
       </div>
 
-      {/* Message content: rendered cleanly using LegalMarkdown for assistant, preserving exact formatting */}
       {isUser ? (
         <div className="text-sm sm:text-base leading-relaxed text-black font-sans whitespace-pre-wrap">
           {message.content}
@@ -83,7 +81,6 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
         <LegalMarkdown content={message.content} />
       )}
 
-      {/* Citations section for Assistant */}
       {!isUser && message.cited_clause_ids && message.cited_clause_ids.length > 0 && (
         <div className="mt-4 pt-3 border-t border-neutral-200">
           <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-600 block mb-2 font-semibold">
@@ -112,7 +109,6 @@ export function ChatMessage({ message, onSelectClause, clauseLookup = {} }) {
         </div>
       )}
 
-      {/* Retrieved Context Accordion for transparency */}
       {!isUser && message.retrieved_clauses && message.retrieved_clauses.length > 0 && (
         <div className="mt-3 pt-2">
           <button

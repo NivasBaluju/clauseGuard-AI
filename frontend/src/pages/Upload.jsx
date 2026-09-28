@@ -13,11 +13,10 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [processingDocId, setProcessingDocId] = useState(null);
 
-  // Poll status when upload succeeds
   const { status, processingStage, errorMessage } = usePolling(processingDocId, {
     interval: 1000,
     onComplete: (data) => {
-      // Auto navigate to analysis screen upon completion
+
       onNavigate("analysis", { documentId: processingDocId });
     },
     onError: (err) => {
@@ -72,7 +71,6 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto py-4">
-      {/* Header */}
       <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
         <div>
           <button
@@ -98,7 +96,6 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
         </button>
       </div>
 
-      {/* If actively processing, show live pipeline stages */}
       {processingDocId ? (
         <div className="space-y-6">
           <ProcessingStatus
@@ -122,12 +119,10 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
           )}
         </div>
       ) : (
-        /* Upload Form */
+
         <div className="space-y-8">
-          {/* Step 1: Document Type Select */}
           <DocumentTypeSelect value={documentType} onChange={setDocumentType} />
 
-          {/* Step 2: Dropzone */}
           <Dropzone
             file={file}
             onFileSelect={handleFileSelect}
@@ -135,7 +130,6 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
             error={error}
           />
 
-          {/* Error Message */}
           {error && (
             <div className="border border-red-200 bg-red-50 p-4 text-xs font-mono text-red-700 flex items-start gap-2.5 rounded-lg">
               <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
@@ -143,7 +137,6 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
             </div>
           )}
 
-          {/* Privacy Note */}
           <div className="border border-neutral-200 bg-neutral-50 p-4 text-xs text-neutral-600 font-sans leading-relaxed rounded-lg">
             <span className="font-mono text-neutral-800 uppercase tracking-wider text-[10px] block mb-1 font-semibold">
               Privacy Architecture Note:
@@ -151,7 +144,6 @@ export function Upload({ onNavigate, initialDocType = "rental_agreement" }) {
             Names, phone numbers, email addresses, and residential addresses are detected and masked via Presidio immediately upon text extraction. The raw unredacted text is encrypted at rest and is never sent to any ML classifier or external model.
           </div>
 
-          {/* Submit CTA */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-neutral-200">
             <button
               type="button"

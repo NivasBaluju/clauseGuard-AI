@@ -51,7 +51,6 @@ export function DocumentList({ onNavigate }) {
     const targetDoc = confirmDeleteDoc;
     const previousDocs = [...documents];
 
-    // Optimistically remove from view for instant responsiveness
     setDocuments((prev) => prev.filter((d) => d.id !== targetDoc.id));
     setDeletingId(targetDoc.id);
     setConfirmDeleteDoc(null);
@@ -64,7 +63,7 @@ export function DocumentList({ onNavigate }) {
       });
       setTimeout(() => setNotification(null), 4000);
     } catch (err) {
-      // Revert optimistic update on failure
+
       setDocuments(previousDocs);
       setNotification({
         type: "error",
@@ -114,7 +113,6 @@ export function DocumentList({ onNavigate }) {
 
   return (
     <div className="space-y-8 py-4">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-neutral-200 pb-4">
         <div>
           <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block font-semibold">
@@ -148,7 +146,6 @@ export function DocumentList({ onNavigate }) {
         </div>
       </div>
 
-      {/* Notification Toast Banner */}
       {notification && (
         <div
           className={`p-3 text-xs font-mono border flex items-center justify-between transition-all ${
@@ -168,7 +165,6 @@ export function DocumentList({ onNavigate }) {
         </div>
       )}
 
-      {/* Filter / Search Bar */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="w-4 h-4 absolute left-3 top-3 text-neutral-400" />
@@ -196,7 +192,6 @@ export function DocumentList({ onNavigate }) {
         </div>
       </div>
 
-      {/* Loading state */}
       {loading ? (
         <div className="border border-neutral-200 bg-white p-12 text-center space-y-3 animate-pulse">
           <div className="w-8 h-8 border border-neutral-300 mx-auto"></div>
@@ -235,7 +230,7 @@ export function DocumentList({ onNavigate }) {
           </button>
         </div>
       ) : (
-        /* Document Cards / Grid */
+
         <div className="grid grid-cols-1 gap-4">
           {filteredDocs.map((doc) => {
             const isAnalyzed = doc.status === "analyzed";
@@ -268,7 +263,6 @@ export function DocumentList({ onNavigate }) {
                   </div>
                 </div>
 
-                {/* Status & Risk Score Section */}
                 <div className="flex items-center gap-4 sm:gap-6 self-stretch sm:self-auto justify-between sm:justify-end border-t sm:border-t-0 border-neutral-200 pt-3 sm:pt-0">
                   {isAnalyzed ? (
                     <div className="text-right">
@@ -291,7 +285,6 @@ export function DocumentList({ onNavigate }) {
                     </div>
                   )}
 
-                  {/* Actions */}
                   <div className="flex items-center gap-2">
                     {isAnalyzed && (
                       <button
@@ -324,7 +317,6 @@ export function DocumentList({ onNavigate }) {
         </div>
       )}
 
-      {/* Inline Delete Confirmation Modal */}
       {confirmDeleteDoc && (
         <div
           className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150"

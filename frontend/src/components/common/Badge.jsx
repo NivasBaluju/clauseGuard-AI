@@ -2,18 +2,16 @@ import React from "react";
 
 export function Badge({ variant = "default", children, className = "" }) {
   const variantStyles = {
-    // Risk bands
+
     low: "border-green-300 bg-green-50 text-green-800 font-semibold",
     medium: "border-amber-300 bg-amber-50 text-amber-800 font-semibold",
     high: "border-orange-300 bg-orange-50 text-orange-800 font-semibold",
     critical: "border-red-300 bg-red-50 text-red-800 font-semibold",
 
-    // Favorability
     fair: "border-green-300 bg-green-50 text-green-800 font-semibold",
     needs_review: "border-amber-300 bg-amber-50 text-amber-800 font-semibold",
     unfavorable: "border-red-300 bg-red-50 text-red-800 font-semibold",
 
-    // Status / info
     info: "border-neutral-300 bg-neutral-100 text-black font-semibold",
     default: "border-neutral-300 bg-neutral-100 text-neutral-800 font-semibold",
   };

@@ -39,7 +39,6 @@ def sanitize_chat_input(user_input: str) -> tuple[str, bool, list[str]]:
         if matches:
             detected.append(pattern)
             logger.warning(f"Prompt injection pattern detected: {pattern} in user input")
-            # Defensively defang or redact the offending span
             sanitized = re.sub(pattern, "[DEFANGED_INSTRUCTION]", sanitized)
             
     was_flagged = len(detected) > 0

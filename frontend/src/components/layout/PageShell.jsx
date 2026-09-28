@@ -4,10 +4,8 @@ import { Sidebar } from "./Sidebar";
 export function PageShell({ children, currentView, onNavigate }) {
   return (
     <div className="min-h-screen bg-white text-black flex flex-col selection:bg-black selection:text-white">
-      {/* Sidebar on left */}
       <Sidebar currentView={currentView} onNavigate={onNavigate} />
 
-      {/* Main Content Area offset by Sidebar width on desktop */}
       <div className="lg:pl-72 flex-1 flex flex-col min-w-0">
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {children}

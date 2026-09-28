@@ -31,7 +31,6 @@ export function StandaloneChat({ onNavigate }) {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      {/* Header Banner */}
       <div className="border border-neutral-200 bg-white p-6 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 border border-neutral-300 bg-neutral-100 flex items-center justify-center text-black rounded-xl">
@@ -50,7 +49,6 @@ export function StandaloneChat({ onNavigate }) {
           </div>
         </div>
 
-        {/* Document Scope Selector */}
         <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-2">
           <label className="text-xs font-mono text-neutral-600 whitespace-nowrap flex items-center gap-1.5 font-medium">
             <FileText className="w-3.5 h-3.5 text-neutral-500" />
@@ -72,7 +70,6 @@ export function StandaloneChat({ onNavigate }) {
         </div>
       </div>
 
-      {/* Main Grounded Chat Component */}
       <div className="border border-neutral-200 bg-white rounded-lg shadow-sm overflow-hidden">
         <ChatTab
           key={selectedDocId || "general"}
@@ -80,7 +77,6 @@ export function StandaloneChat({ onNavigate }) {
         />
       </div>
 
-      {/* Architecture Footer Note */}
       <div className="flex flex-wrap items-center justify-between text-[11px] font-mono text-neutral-500 px-2 py-1">
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-3.5 h-3.5 text-neutral-600" />

@@ -53,7 +53,6 @@ def get_bert_model_and_tokenizer(document_type: str, task: str = "clause_type"):
     ml_dir = models_dir / document_type
     report_file = models_dir / "model_comparison_report.json"
     
-    # Check evaluation report to see which model won for this task
     winning_model_type = None
     if report_file.exists():
         try:
@@ -63,11 +62,9 @@ def get_bert_model_and_tokenizer(document_type: str, task: str = "clause_type"):
         except Exception:
             pass
 
-    # If baseline won for this task (e.g. clause_type with strong keyword n-grams), return None so caller uses baseline
     if winning_model_type == "baseline_tfidf_lr":
         return None, None, {"model_version": f"baseline-tfidf-lr-{task}-v1"}
 
-    # Otherwise look for BERT final weights
     candidate_paths = [
         ml_dir / f"bert_{task}_nocontext" / "final",
         ml_dir / f"bert_{task}_windowed" / "final",
@@ -156,7 +153,6 @@ def classify_clauses_batch(
 
     model, tokenizer, meta = get_bert_model_and_tokenizer(document_type, task)
 
-    # If BERT model is not available, process using vectorized baseline
     if model is None:
         results = []
         for item in clause_items:
@@ -169,7 +165,6 @@ def classify_clauses_batch(
     id2label = meta.get("id2label", {})
     model_version = meta.get("model_version", f"bert-{task}-v1")
 
-    # Build inputs for all clauses
     prepared_inputs = []
     for item in clause_items:
         txt = item.get("text") or item.get("redacted_text", "")

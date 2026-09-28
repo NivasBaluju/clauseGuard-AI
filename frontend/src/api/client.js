@@ -21,15 +21,14 @@ export function apiUrl(endpoint) {
 async function request(endpoint, options = {}) {
   const url = apiUrl(endpoint);
   const headers = { ...(options.headers || {}) };
-  
-  // Attach token from localStorage if present
+
   try {
     const token = localStorage.getItem("cg_token") || localStorage.getItem("token");
     if (token && !headers["Authorization"]) {
       headers["Authorization"] = `Bearer ${token}`;
     }
   } catch (e) {
-    // ignore in environments without localStorage
+
   }
 
   const fetchOptions = {
@@ -48,12 +47,11 @@ async function request(endpoint, options = {}) {
         errMsg = errData.error;
       }
     } catch {
-      // ignore
+
     }
     throw new Error(errMsg);
   }
 
-  // Handle file blob responses (PDF)
   const contentType = response.headers.get("content-type");
   if (contentType && contentType.includes("application/pdf")) {
     return response.blob();
@@ -63,7 +61,7 @@ async function request(endpoint, options = {}) {
 }
 
 export const api = {
-  // Auth
+
   login: (email, password) =>
     request("/auth/login", {
       method: "POST",
@@ -79,10 +77,8 @@ export const api = {
   getMe: () => request("/auth/me"),
   logout: () => request("/auth/logout", { method: "POST" }),
 
-  // Audit Logs
   getAuditLogs: (limit = 200) => request(`/audit?limit=${limit}`),
 
-  // Documents
   getDocuments: () => request("/documents"),
   getDocument: (id) => request(`/documents/${id}`),
   getDocumentStatus: (id) => request(`/documents/${id}/status`),
@@ -96,7 +92,6 @@ export const api = {
       method: "DELETE",
     }),
 
-  // Analysis Details
   getClauses: (id) => request(`/documents/${id}/clauses`),
   getMissingClauses: (id) => request(`/documents/${id}/missing-clauses`),
   getDeadlines: (id) => request(`/documents/${id}/deadlines`),
@@ -107,7 +102,7 @@ export const api = {
     try {
       token = localStorage.getItem("cg_token") || localStorage.getItem("token") || "";
     } catch {
-      // ignore
+
     }
     const query = token ? `?token=${encodeURIComponent(token)}` : "";
     return `${BASE_URL}/documents/${id}/report.pdf${query}`;
@@ -128,7 +123,6 @@ export const api = {
     }, 100);
   },
 
-  // Chat / RAG
   sendChatMessage: (docId, question, sessionId = null) =>
     request(`/documents/${docId}/chat`, {
       method: "POST",
@@ -137,7 +131,6 @@ export const api = {
     }),
   getChatHistory: (docId) => request(`/documents/${docId}/chat/history`),
 
-  // Standalone Chat
   sendStandaloneChat: (question, sessionId = null) =>
     request("/chat", {
       method: "POST",

@@ -4,9 +4,6 @@ from presidio_anonymizer import AnonymizerEngine
 
 logger = logging.getLogger(__name__)
 
-# Deliberately EXCLUDES "DATE_TIME": the deadlines module needs real
-# calendar dates and notice periods, and a document's own dates are not personal
-# identifying information the way a tenant's/employee's name or phone number is.
 ENTITIES_TO_REDACT = [
     "PERSON",
     "EMAIL_ADDRESS",

@@ -8,7 +8,6 @@ sys.path.insert(0, str(project_root))
 
 from ml.bert.train_bert import train_bert_model
 
-# Update batch_size in train_bert_model to 16
 import ml.bert.train_bert as tb
 
 t0 = time.time()

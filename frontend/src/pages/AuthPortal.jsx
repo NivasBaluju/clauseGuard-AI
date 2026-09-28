@@ -14,23 +14,20 @@ import {
 } from "lucide-react";
 
 export function AuthPortal({ onAuthSuccess }) {
-  const [tab, setTab] = useState("login"); // 'login' or 'register'
+  const [tab, setTab] = useState("login");
   const { login } = useAuth();
 
-  // Form states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Eye toggle states
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // Handle Login
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -59,7 +56,6 @@ export function AuthPortal({ onAuthSuccess }) {
     }
   };
 
-  // Handle Register
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -84,7 +80,6 @@ export function AuthPortal({ onAuthSuccess }) {
         } catch (e) {}
       }
 
-      // Auto login upon successful registration
       login(data.user);
       if (onAuthSuccess) onAuthSuccess(data.user);
     } catch (err) {
@@ -96,9 +91,7 @@ export function AuthPortal({ onAuthSuccess }) {
 
   return (
     <div className="min-h-screen bg-white text-black flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden">
-      {/* Main Container */}
       <div className="w-full max-w-md relative z-10 space-y-6">
-        {/* Brand Header */}
         <div className="text-center space-y-2">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-neutral-100 border border-neutral-300 text-black mb-2 shadow-sm">
             <ShieldAlert size={26} />
@@ -111,9 +104,7 @@ export function AuthPortal({ onAuthSuccess }) {
           </p>
         </div>
 
-        {/* Auth Card */}
         <div className="bg-white border border-neutral-200 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
-          {/* Mode Tabs */}
           <div className="flex bg-neutral-100 p-1 rounded-lg border border-neutral-200">
             <button
               onClick={() => {
@@ -143,7 +134,6 @@ export function AuthPortal({ onAuthSuccess }) {
             </button>
           </div>
 
-          {/* Error Banner */}
           {error && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-xs font-mono text-red-700 flex items-center gap-2">
               <AlertCircle size={15} className="shrink-0 text-red-600" />
@@ -151,7 +141,6 @@ export function AuthPortal({ onAuthSuccess }) {
             </div>
           )}
 
-          {/* SIGN IN FORM */}
           {tab === "login" ? (
             <form onSubmit={handleLoginSubmit} className="space-y-4">
               <div>
@@ -185,7 +174,6 @@ export function AuthPortal({ onAuthSuccess }) {
                     placeholder="••••••••••••"
                     className="w-full bg-neutral-50 border border-neutral-300 rounded-lg pl-10 pr-10 py-2.5 text-xs font-mono text-black placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
                   />
-                  {/* See Password Toggle Option */}
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -213,7 +201,7 @@ export function AuthPortal({ onAuthSuccess }) {
               </button>
             </form>
           ) : (
-            /* CREATE ACCOUNT FORM */
+
             <form onSubmit={handleRegisterSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-mono text-neutral-700 font-medium mb-1.5">
@@ -263,7 +251,6 @@ export function AuthPortal({ onAuthSuccess }) {
                     placeholder="••••••••••••"
                     className="w-full bg-neutral-50 border border-neutral-300 rounded-lg pl-10 pr-10 py-2.5 text-xs font-mono text-black placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
                   />
-                  {/* See Password Toggle Option */}
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -289,7 +276,6 @@ export function AuthPortal({ onAuthSuccess }) {
                     placeholder="••••••••••••"
                     className="w-full bg-neutral-50 border border-neutral-300 rounded-lg pl-10 pr-10 py-2.5 text-xs font-mono text-black placeholder-neutral-400 focus:outline-none focus:border-black transition-colors"
                   />
-                  {/* See Confirm Password Toggle Option */}
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -318,7 +304,6 @@ export function AuthPortal({ onAuthSuccess }) {
             </form>
           )}
 
-          {/* Trust Footnotes */}
           <div className="pt-4 border-t border-neutral-200 flex items-center justify-between text-[10px] font-mono text-neutral-500">
             <span className="flex items-center gap-1 text-neutral-600 font-medium">
               <ShieldCheck size={12} />

@@ -41,7 +41,6 @@ export function AuditTrail({ onNavigate }) {
     fetchLogs();
   }, []);
 
-  // Filter logs based on category and search
   const filteredLogs = logs.filter((log) => {
     if (filterType === "documents" && !log.action.startsWith("DOC_")) return false;
     if (filterType === "chat" && !log.action.startsWith("CHAT_")) return false;
@@ -62,7 +61,6 @@ export function AuditTrail({ onNavigate }) {
     return true;
   });
 
-  // KPI counts
   const totalEvents = logs.length;
   const docEvents = logs.filter((l) => l.action.startsWith("DOC_")).length;
   const chatEvents = logs.filter((l) => l.action.startsWith("CHAT_")).length;
@@ -137,7 +135,6 @@ export function AuditTrail({ onNavigate }) {
 
   return (
     <div className="space-y-6">
-      {/* Header Banner */}
       <div className="border border-neutral-200 bg-white p-6 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-neutral-100 border border-neutral-300 flex items-center justify-center text-black shrink-0">
@@ -166,7 +163,6 @@ export function AuditTrail({ onNavigate }) {
         </button>
       </div>
 
-      {/* KPI Summary Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="border border-neutral-200 bg-white p-4 rounded-lg flex flex-col justify-between shadow-sm">
           <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider font-semibold">
@@ -209,9 +205,7 @@ export function AuditTrail({ onNavigate }) {
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
       <div className="border border-neutral-200 bg-white p-4 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
-        {/* Category Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
           {[
             { id: "all", label: "All Events" },
@@ -233,7 +227,6 @@ export function AuditTrail({ onNavigate }) {
           ))}
         </div>
 
-        {/* Search */}
         <div className="relative w-full sm:w-64">
           <Search size={14} className="absolute left-3 top-2.5 text-neutral-400" />
           <input
@@ -246,7 +239,6 @@ export function AuditTrail({ onNavigate }) {
         </div>
       </div>
 
-      {/* Trail List Table */}
       <div className="border border-neutral-200 bg-white rounded-xl overflow-hidden shadow-sm">
         {loading ? (
           <div className="p-12 text-center text-xs font-mono text-neutral-500 animate-pulse">
@@ -301,7 +293,6 @@ export function AuditTrail({ onNavigate }) {
                           )}
                         </div>
 
-                        {/* Summary description from details */}
                         <div className="text-xs font-mono text-neutral-700 mt-1">
                           {log.action === "DOC_UPLOADED" && (
                             <span>
@@ -358,7 +349,6 @@ export function AuditTrail({ onNavigate }) {
                     </div>
                   </div>
 
-                  {/* Expanded JSON Inspector */}
                   {isExpanded && (
                     <div className="mt-3 p-3 rounded bg-neutral-50 border border-neutral-200 text-[11px] font-mono space-y-1">
                       <div className="text-neutral-500 text-[10px] uppercase font-semibold">Event Payload Metadata:</div>

@@ -42,9 +42,6 @@ ARTIFACTS_DIR = project_root / "ml" / "artifacts"
 
 random.seed(42)
 
-# -------------------------------------------------------------------------------------------------
-# 10 CANONICAL CLAUSE TYPES PER DOCUMENT TYPE
-# -------------------------------------------------------------------------------------------------
 CANONICAL_TYPES = {
     "rental_agreement": [
         "rent_payment_terms",
@@ -84,16 +81,12 @@ CANONICAL_TYPES = {
     ],
 }
 
-# Target clause counts to total exactly 10,000 rows:
 TARGET_COUNTS = {
     "rental_agreement": 3334,
     "job_offer_letter": 3333,
     "insurance_policy": 3333,
 }
 
-# -------------------------------------------------------------------------------------------------
-# TEXT EXTRACTION
-# -------------------------------------------------------------------------------------------------
 def extract_text_docx(path: Path) -> str:
     try:
         import docx
@@ -109,7 +102,6 @@ def extract_text_docx(path: Path) -> str:
         return ""
 
 def extract_text_pdf(path: Path) -> str:
-    # Fast path: pypdf (100x faster than pdfplumber on large multi-page PDFs)
     try:
         import pypdf
         reader = pypdf.PdfReader(str(path))
@@ -120,12 +112,11 @@ def extract_text_pdf(path: Path) -> str:
     except Exception:
         pass
 
-    # Fallback to pdfplumber
     try:
         import pdfplumber
         parts = []
         with pdfplumber.open(str(path)) as pdf:
-            for page in pdf.pages[:60]:  # limit to first 60 pages for extreme safety
+            for page in pdf.pages[:60]:
                 t = page.extract_text()
                 if t:
                     parts.append(t)
@@ -138,9 +129,6 @@ def extract_text(path: Path) -> str:
         return extract_text_docx(path)
     return extract_text_pdf(path)
 
-# -------------------------------------------------------------------------------------------------
-# DOCUMENT CLASSIFIER
-# -------------------------------------------------------------------------------------------------
 def classify_document(text: str, filename: str) -> str:
     fl = filename.lower()
     tl = text.lower()[:5000]
@@ -159,9 +147,6 @@ def classify_document(text: str, filename: str) -> str:
     best = max(scores, key=scores.get)
     return best if scores[best] > 0 else "rental_agreement"
 
-# -------------------------------------------------------------------------------------------------
-# PII REDACTION & SEGMENTATION
-# -------------------------------------------------------------------------------------------------
 def redact_text(text: str) -> str:
     try:
         from services.pii_redaction import redact_pii
@@ -208,9 +193,6 @@ def segment_clauses(text: str) -> list[str]:
                 final.append(c)
     return final
 
-# -------------------------------------------------------------------------------------------------
-# CANONICAL HEURISTIC TAGGERS (Maps any text to one of the 10 canonical types)
-# -------------------------------------------------------------------------------------------------
 def tag_rental_clause(text: str) -> str:
     t = text.lower()
     if any(k in t for k in ["deposit", "security deposit", "caution deposit"]):
@@ -289,9 +271,6 @@ HEURISTIC_TAGGERS = {
     "insurance_policy": tag_insurance_clause,
 }
 
-# -------------------------------------------------------------------------------------------------
-# FAVORABILITY EVALUATOR
-# -------------------------------------------------------------------------------------------------
 UNFAVORABLE_PHRASES = [
     "shall not", "waive all", "waives any", "forfeit", "penalty", "sole discretion",
     "non-refundable", "at tenant's sole expense", "without notice", "liquidated damages",
@@ -319,9 +298,6 @@ def assess_favorability(text: str) -> str:
         return "fair"
     return "needs_review"
 
-# -------------------------------------------------------------------------------------------------
-# DEDUPLICATION LOGIC
-# -------------------------------------------------------------------------------------------------
 def normalize_text(text: str) -> str:
     t = text.lower().strip()
     t = re.sub(r'[^a-z0-9\s]', ' ', t)
@@ -357,9 +333,6 @@ class Deduplicator:
         self.recent_word_sets.append(words)
         return False
 
-# -------------------------------------------------------------------------------------------------
-# REAL DOCUMENT INGESTION
-# -------------------------------------------------------------------------------------------------
 def ingest_downloads_documents():
     print(f"\n[1/6] Ingesting documents from {DOWNLOADS_DIR} ...", flush=True)
     real_clauses = defaultdict(list)
@@ -436,9 +409,6 @@ def ingest_existing_public_clauses():
         print(f"  {dt:20s}: {len(existing_clauses[dt])} existing public clauses loaded.", flush=True)
     return existing_clauses
 
-# -------------------------------------------------------------------------------------------------
-# DATASET BALANCING & SCENARIO GENERATION (Exactly 10,000 Total Rows)
-# -------------------------------------------------------------------------------------------------
 def build_balanced_dataset(real_user_clauses, existing_public_clauses):
     print("\n[3/6] Building exactly 10,000-row balanced dataset across all 3 document types ...", flush=True)
     final_dataset = {}
@@ -460,7 +430,6 @@ def build_balanced_dataset(real_user_clauses, existing_public_clauses):
         deduper = Deduplicator(jaccard_threshold=0.90)
         clauses_by_type = defaultdict(list)
 
-        # 1. Pool all real clauses
         combined_real = real_user_clauses.get(dt, []) + existing_public_clauses.get(dt, [])
         random.shuffle(combined_real)
 
@@ -479,7 +448,6 @@ def build_balanced_dataset(real_user_clauses, existing_public_clauses):
 
         print(f"  Real non-duplicate clauses accepted: {real_accepted}", flush=True)
 
-        # 2. Generate scenario clauses to fill any shortfalls to reach exact equal balance
         synth_added = 0
         for c_type, target_k in type_targets.items():
             fav_cycle = ["fair", "needs_review", "unfavorable"]
@@ -512,7 +480,6 @@ def build_balanced_dataset(real_user_clauses, existing_public_clauses):
 
         print(f"  Scenario clauses generated: {synth_added}", flush=True)
 
-        # Compile and shuffle all clauses for this doc_type
         all_records = []
         for c_type in types_list:
             recs = clauses_by_type[c_type][:type_targets[c_type]]
@@ -528,9 +495,6 @@ def build_balanced_dataset(real_user_clauses, existing_public_clauses):
     print("-------------------------------------------------------")
     return final_dataset
 
-# -------------------------------------------------------------------------------------------------
-# SPLITTING & METRICS
-# -------------------------------------------------------------------------------------------------
 def cohen_kappa(y1, y2):
     labels = sorted(list(set(y1 + y2)))
     if len(labels) <= 1:
@@ -555,7 +519,6 @@ def partition_and_save(final_dataset):
         splits_dir = type_dir / "splits"
         splits_dir.mkdir(parents=True, exist_ok=True)
 
-        # Stratified partitioning across clause_type and favorability
         buckets = defaultdict(list)
         for r in records:
             key = (r["clause_type"], r["adjudicated_favorability"])
@@ -571,7 +534,6 @@ def partition_and_save(final_dataset):
             va.extend(bucket[n_tr:n_tr + n_va])
             te.extend(bucket[n_tr + n_va:])
 
-        # Double annotation sample for Cohen's Kappa
         sample = []
         for key, bucket in buckets.items():
             k = max(1, int(round(len(bucket) * 0.20)))
@@ -588,7 +550,6 @@ def partition_and_save(final_dataset):
         kt = cohen_kappa(a1t, a2t)
         kf = cohen_kappa(a1f, a2f)
 
-        # Write split files
         with open(type_dir / "labeled_clauses.jsonl", "w", encoding="utf-8") as fh:
             for r in records:
                 fh.write(json.dumps(r, ensure_ascii=False) + "\n")
@@ -624,9 +585,6 @@ def partition_and_save(final_dataset):
     print("  Split files and corpus_collection_summary.json written.")
     return summary
 
-# -------------------------------------------------------------------------------------------------
-# TRAINING PIPELINE: BASELINE (TF-IDF + LR) & DISTILBERT
-# -------------------------------------------------------------------------------------------------
 def train_all_models():
     print("\n[5/6] Training TF-IDF + Logistic Regression Baseline Models ...")
     from ml.baseline.train_tfidf_lr import train_baseline
@@ -652,9 +610,7 @@ def train_all_models():
         for task in ["clause_type", "favorability"]:
             print(f"\n  Fine-tuning DistilBERT -> {dt} [{task}] ...")
             try:
-                # Train windowed context BERT
                 bert_win = train_bert_model(dt, task=task, use_context=True, epochs=2)
-                # Train no-context BERT
                 bert_nc  = train_bert_model(dt, task=task, use_context=False, epochs=2)
 
                 comparison_results[dt][task]["bert_windowed"] = bert_win["test_metrics"]

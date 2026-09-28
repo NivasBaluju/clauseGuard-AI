@@ -13,8 +13,6 @@ def retrieve_relevant_clauses(document_id, query_vector: list[float], top_k: int
         return []
 
     try:
-        # pgvector cosine distance: Clause.embedding.cosine_distance(query_vector)
-        # Cosine similarity ≈ 1 - cosine_distance
         distance_col = Clause.embedding.cosine_distance(query_vector)
         
         results = (
@@ -42,7 +40,6 @@ def retrieve_relevant_clauses(document_id, query_vector: list[float], top_k: int
         return retrieved
     except Exception as e:
         logger.error(f"Error querying pgvector for document {document_id}: {e}")
-        # Fallback to simple first-k clauses if vector query fails
         clauses = (
             db.session.query(Clause)
             .filter(Clause.document_id == document_id)

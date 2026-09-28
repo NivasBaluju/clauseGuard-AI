@@ -18,7 +18,6 @@ def log_audit_event(
     Safely records an audit event in PostgreSQL.
     """
     try:
-        # Auto-extract IP if not provided and in request context
         if not ip_address:
             try:
                 ip_address = request.headers.get("X-Forwarded-For", request.remote_addr)
