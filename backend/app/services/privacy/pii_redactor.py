@@ -33,9 +33,11 @@ def get_analyzer_and_anonymizer():
         _anonymizer = AnonymizerEngine()
     return _analyzer, _anonymizer
 
-def redact(raw_text: str) -> tuple[str, list[dict]]:
+def redact(raw_text: str, chunk_size: int = 4000) -> tuple[str, list[dict]]:
     """
     Redact personally identifiable information (PII) before any model or frontend sees it.
+    Uses lightweight chunked processing for documents exceeding 4,000 characters
+    to prevent spaCy from allocating excessive memory (>200MB) on 20+ page documents.
     Returns: (redacted_text, pii_findings_list)
     """
     if not raw_text or not raw_text.strip():
@@ -43,25 +45,65 @@ def redact(raw_text: str) -> tuple[str, list[dict]]:
 
     analyzer, anonymizer = get_analyzer_and_anonymizer()
     
-    results = analyzer.analyze(
-        text=raw_text,
-        entities=ENTITIES_TO_REDACT,
-        language="en"
-    )
-    
-    anonymized = anonymizer.anonymize(
-        text=raw_text,
-        analyzer_results=results
-    )
-    
-    findings = [
-        {
-            "entity_type": r.entity_type,
-            "start": r.start,
-            "end": r.end,
-            "confidence": float(r.score)
-        }
-        for r in results
-    ]
-    
-    return anonymized.text, findings
+    if len(raw_text) <= chunk_size:
+        results = analyzer.analyze(
+            text=raw_text,
+            entities=ENTITIES_TO_REDACT,
+            language="en"
+        )
+        anonymized = anonymizer.anonymize(
+            text=raw_text,
+            analyzer_results=results
+        )
+        findings = [
+            {
+                "entity_type": r.entity_type,
+                "start": r.start,
+                "end": r.end,
+                "confidence": float(r.score)
+            }
+            for r in results
+        ]
+        return anonymized.text, findings
+
+    all_findings = []
+    redacted_parts = []
+    current_pos = 0
+    lines = raw_text.splitlines(keepends=True)
+    current_chunk = []
+    current_len = 0
+
+    for line in lines:
+        if current_len + len(line) > chunk_size and current_chunk:
+            chunk_str = "".join(current_chunk)
+            results = analyzer.analyze(text=chunk_str, entities=ENTITIES_TO_REDACT, language="en")
+            anon = anonymizer.anonymize(text=chunk_str, analyzer_results=results)
+            redacted_parts.append(anon.text)
+            for r in results:
+                all_findings.append({
+                    "entity_type": r.entity_type,
+                    "start": current_pos + r.start,
+                    "end": current_pos + r.end,
+                    "confidence": float(r.score)
+                })
+            current_pos += len(chunk_str)
+            current_chunk = [line]
+            current_len = len(line)
+        else:
+            current_chunk.append(line)
+            current_len += len(line)
+
+    if current_chunk:
+        chunk_str = "".join(current_chunk)
+        results = analyzer.analyze(text=chunk_str, entities=ENTITIES_TO_REDACT, language="en")
+        anon = anonymizer.anonymize(text=chunk_str, analyzer_results=results)
+        redacted_parts.append(anon.text)
+        for r in results:
+            all_findings.append({
+                "entity_type": r.entity_type,
+                "start": current_pos + r.start,
+                "end": current_pos + r.end,
+                "confidence": float(r.score)
+            })
+
+    return "".join(redacted_parts), all_findings

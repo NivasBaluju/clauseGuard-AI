@@ -58,15 +58,19 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
         redacted_text, pii_findings = redact(raw_text)
         doc.redacted_text = redacted_text
 
-        for f in pii_findings:
-            pf = PIIFinding(
+        # Persist top PII findings to prevent SQL statement size limits on 500+ entity documents
+        top_findings = sorted(pii_findings, key=lambda x: x.get("confidence", 0), reverse=True)[:200]
+        finding_objs = [
+            PIIFinding(
                 document_id=doc.id,
                 entity_type=f["entity_type"],
                 start_offset=f["start"],
                 end_offset=f["end"],
                 confidence=f["confidence"],
             )
-            db.session.add(pf)
+            for f in top_findings
+        ]
+        db.session.add_all(finding_objs)
         db.session.commit()
 
         doc.processing_stage = "segmenting_clauses"
