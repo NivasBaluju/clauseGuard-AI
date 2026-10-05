@@ -22,6 +22,11 @@ def run_pipeline_async(app, document_id, file_path, ext):
             process_document_pipeline(document_id, file_path, ext)
         except Exception as e:
             logger.error(f"Async pipeline processing failed for {document_id}: {e}")
+        finally:
+            try:
+                db.session.remove()
+            except Exception:
+                pass
 
 @documents_bp.route("/documents", methods=["POST"])
 @optional_auth
@@ -91,9 +96,12 @@ def upload_document():
 def list_documents():
     user = getattr(g, "user", None)
     if not user:
-        return jsonify([]), 200
+        docs = Document.query.filter(Document.user_id.is_(None)).order_by(Document.uploaded_at.desc()).limit(50).all()
+        return jsonify([d.to_dict(include_text=False) for d in docs]), 200
 
-    docs = Document.query.filter_by(user_id=user.id).order_by(Document.uploaded_at.desc()).all()
+    docs = Document.query.filter(
+        (Document.user_id == user.id) | (Document.user_id.is_(None))
+    ).order_by(Document.uploaded_at.desc()).limit(50).all()
     return jsonify([d.to_dict(include_text=False) for d in docs]), 200
 
 @documents_bp.route("/documents/<uuid:doc_id>", methods=["GET"])

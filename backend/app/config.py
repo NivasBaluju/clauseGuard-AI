@@ -19,7 +19,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
         "pool_pre_ping": True,
-        "pool_recycle": 280,
+        "pool_recycle": 120,
         "pool_timeout": 30,
         "max_overflow": 10,
         "pool_size": 5,
@@ -40,13 +40,19 @@ class Config:
         s = item.strip().rstrip("/")
         if s:
             allowed_origins.add(s)
-    if not allowed_origins:
-        allowed_origins = {
-            "http://localhost:5173",
-            "http://127.0.0.1:5173",
-            "https://localhost:5173",
-        }
-    allowed_origins.add(re.compile(r"https://.*\.vercel\.app"))
+    # Always include common dev origins and regex patterns for Vercel/Railway
+    allowed_origins.update({
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:5174",
+        "http://127.0.0.1:5174",
+    })
+    allowed_origins.add(re.compile(r"^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$"))
+    allowed_origins.add(re.compile(r"^https://.*\.vercel\.app$"))
+    allowed_origins.add(re.compile(r"^https://.*\.railway\.app$"))
+    allowed_origins.add(re.compile(r"^https://.*\.up\.railway\.app$"))
     CORS_ORIGINS = list(allowed_origins)
     
     MAX_UPLOAD_MB = int(os.environ.get("MAX_UPLOAD_MB", 20))

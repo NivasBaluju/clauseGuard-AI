@@ -142,7 +142,7 @@ def ocr_image_detailed(image: Image.Image) -> Dict[str, Any]:
             cv_img = preprocess_for_rapidocr(image)
             result, _ = rapid(cv_img)
 
-            if not result:
+            if not result and np.mean(cv_img) < 85:
                 try:
                     rgb_img = image.convert("RGB")
                     inv_img = ImageOps.invert(rgb_img)

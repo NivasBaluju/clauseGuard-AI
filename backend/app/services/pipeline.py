@@ -217,11 +217,21 @@ def process_document_pipeline(document_id: str, file_path: str, ext: str) -> Doc
         return doc
 
     except Exception as e:
-        logger.exception(f"Pipeline error for document {doc.id}: {e}")
-        doc.status = "failed"
-        doc.processing_stage = "failed"
-        doc.error_message = str(e)
-        db.session.commit()
+        logger.exception(f"Pipeline error for document {document_id}: {e}")
+        try:
+            db.session.rollback()
+            failed_doc = db.session.get(Document, document_id)
+            if failed_doc:
+                failed_doc.status = "failed"
+                failed_doc.processing_stage = "failed"
+                failed_doc.error_message = str(e)[:500]
+                db.session.commit()
+        except Exception as rollback_err:
+            logger.error(f"Failed to record pipeline failure state for {document_id}: {rollback_err}")
+            try:
+                db.session.rollback()
+            except Exception:
+                pass
         raise e
     finally:
         try:

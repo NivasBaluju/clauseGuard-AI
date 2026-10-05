@@ -2,7 +2,12 @@ const rawBaseUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE
 
 function resolveBaseUrl() {
   if (!rawBaseUrl || rawBaseUrl.trim() === "") {
-    return "/api";
+    // In dev mode, Vite proxy routes /api to the configured backend
+    if (import.meta.env.DEV) {
+      return "/api";
+    }
+    // In production without an explicit env variable, route to the live Railway backend
+    return "https://clauseguard-ai-production.up.railway.app/api";
   }
   const trimmed = rawBaseUrl.trim().replace(/\/+$/, "");
   if (trimmed.endsWith("/api")) {
@@ -52,9 +57,15 @@ async function request(endpoint, options = {}) {
     throw new Error(errMsg);
   }
 
-  const contentType = response.headers.get("content-type");
-  if (contentType && contentType.includes("application/pdf")) {
+  const contentType = response.headers.get("content-type") || "";
+  if (contentType.includes("application/pdf")) {
     return response.blob();
+  }
+
+  if (contentType.includes("text/html")) {
+    throw new Error(
+      "Received HTML instead of JSON from API. Please verify the backend URL is active and reachable."
+    );
   }
 
   return response.json();

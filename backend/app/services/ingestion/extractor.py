@@ -135,128 +135,61 @@ def extract_pdf_with_metadata(file_path: str) -> Tuple[str, int, List[Dict[str, 
         clean_native = clean_ocr_text(native_text)
         needs_page_ocr, reason = should_use_ocr(page, native_text)
 
-        images = page.get_images(full=True)
-        embedded_image_texts = []
-        seen_xrefs = set()
-
-        if images:
-            for img_info in images:
-                xref = img_info[0]
-                if xref in seen_xrefs:
-                    continue
-                seen_xrefs.add(xref)
-                try:
-                    base_image = doc.extract_image(xref)
-                    w = base_image.get("width", 0)
-                    h = base_image.get("height", 0)
-                    if w < 20 or h < 15 or (w * h < 300):
-                        continue
-
-                    img_bytes = base_image.get("image")
-                    if not img_bytes:
-                        continue
-
-                    with Image.open(io.BytesIO(img_bytes)) as pil_img:
-                        ocr_res = ocr_image_detailed(pil_img)
-                        raw_extracted = ocr_res.get("text", "").strip()
-                        cleaned_extracted = clean_ocr_text(raw_extracted)
-
-                        if cleaned_extracted and len(cleaned_extracted.split()) >= 1:
-                            if cleaned_extracted.lower() not in clean_native.lower():
-                                embedded_image_texts.append(cleaned_extracted)
-                                logger.info(
-                                    f"[PAGE {page_num}] Extracted text from embedded image xref {xref} "
-                                    f"({len(cleaned_extracted)} chars): {cleaned_extracted[:60]}..."
-                                )
-                except Exception as img_err:
-                    logger.warning(f"[PAGE {page_num}] Failed extracting image xref {xref}: {img_err}")
-
-        embedded_text_block = "\n\n".join(embedded_image_texts).strip()
-
+        # FAST PATH: If the page contains sufficient digital text, skip heavy deep-learning OCR
         if not needs_page_ocr:
-            if embedded_text_block:
-                final_page_text = f"{clean_native}\n\n[Extracted Image Text]:\n{embedded_text_block}"
-            else:
-                final_page_text = clean_native
+            page_results.append(f"[PAGE {page_num}]\n{clean_native}")
+            page_metadata.append({
+                "page_number": page_num,
+                "extraction_method": "native",
+                "text_length": len(clean_native),
+                "ocr_used": False,
+                "ocr_confidence": 100.0,
+                "reason": reason,
+            })
+            logger.info(f"[PAGE {page_num}] Native extraction complete ({len(clean_native)} chars)")
+            continue
+
+        # SLOW PATH: Page lacks native text or is a scanned document -> Run OCR
+        logger.info(f"[PAGE {page_num}] Native text insufficient ({reason}) → Rasterizing page for OCR...")
+        try:
+            # 150 DPI provides sharp text detection while halving image size and memory usage compared to 200 DPI
+            zoom = 150.0 / 72.0
+            mat = fitz.Matrix(zoom, zoom)
+            pix = page.get_pixmap(matrix=mat, alpha=False)
+            img_bytes = pix.tobytes("png")
+
+            with Image.open(io.BytesIO(img_bytes)) as img:
+                ocr_res = ocr_image_detailed(img)
+
+            raster_ocr_text = clean_ocr_text(ocr_res.get("text", ""))
+            final_page_text = raster_ocr_text if raster_ocr_text else clean_native
 
             page_results.append(f"[PAGE {page_num}]\n{final_page_text}")
             page_metadata.append({
                 "page_number": page_num,
-                "extraction_method": "native+embedded_image_ocr" if embedded_text_block else "native",
+                "extraction_method": ocr_res.get("method", "rapidocr"),
                 "text_length": len(final_page_text),
-                "ocr_used": bool(embedded_text_block),
-                "ocr_confidence": 100.0,
-                "embedded_images_found": len(images),
-                "embedded_images_extracted": len(embedded_image_texts),
+                "ocr_used": True,
+                "ocr_confidence": ocr_res.get("ocr_confidence", 0.0),
+                "word_count": ocr_res.get("word_count", 0),
                 "reason": reason,
             })
-            logger.info(f"[PAGE {page_num}] Native extraction complete ({len(final_page_text)} chars)")
-        else:
-            if embedded_text_block and len(embedded_text_block) > 60:
-                final_page_text = f"{clean_native}\n\n{embedded_text_block}".strip()
-                page_results.append(f"[PAGE {page_num}]\n{final_page_text}")
-                page_metadata.append({
-                    "page_number": page_num,
-                    "extraction_method": "embedded_image_ocr",
-                    "text_length": len(final_page_text),
-                    "ocr_used": True,
-                    "ocr_confidence": 92.0,
-                    "embedded_images_found": len(images),
-                    "embedded_images_extracted": len(embedded_image_texts),
-                    "reason": reason,
-                })
-                logger.info(f"[PAGE {page_num}] Direct embedded scan extraction complete ({len(final_page_text)} chars)")
-            else:
-                logger.info(f"[PAGE {page_num}] Native text insufficient ({reason}) → Rasterizing page for OCR...")
-                try:
-                    zoom = 200.0 / 72.0
-                    mat = fitz.Matrix(zoom, zoom)
-                    pix = page.get_pixmap(matrix=mat, alpha=False)
-                    img_bytes = pix.tobytes("png")
-
-                    with Image.open(io.BytesIO(img_bytes)) as img:
-                        ocr_res = ocr_image_detailed(img)
-
-                    raster_ocr_text = clean_ocr_text(ocr_res.get("text", ""))
-
-                    parts = []
-                    if clean_native and len(clean_native) > 30:
-                        parts.append(clean_native)
-                    if embedded_text_block:
-                        parts.append(embedded_text_block)
-                    if raster_ocr_text:
-                        combined_so_far = " ".join(parts).lower()
-                        if raster_ocr_text.lower() not in combined_so_far:
-                            parts.append(raster_ocr_text)
-
-                    final_page_text = "\n\n".join(parts) if parts else raster_ocr_text
-
-                    page_results.append(f"[PAGE {page_num}]\n{final_page_text}")
-                    page_metadata.append({
-                        "page_number": page_num,
-                        "extraction_method": ocr_res.get("method", "rapidocr"),
-                        "text_length": len(final_page_text),
-                        "ocr_used": True,
-                        "ocr_confidence": ocr_res.get("ocr_confidence", 0.0),
-                        "word_count": ocr_res.get("word_count", 0),
-                        "reason": reason,
-                    })
-                    logger.info(
-                        f"[PAGE {page_num}] OCR complete via {ocr_res.get('method')} "
-                        f"(Confidence: {ocr_res.get('ocr_confidence')}%, Chars: {len(final_page_text)})"
-                    )
-                except Exception as e:
-                    logger.error(f"[PAGE {page_num}] OCR rendering failed: {e}")
-                    fallback_text = clean_native or embedded_text_block
-                    page_results.append(f"[PAGE {page_num}]\n{fallback_text}")
-                    page_metadata.append({
-                        "page_number": page_num,
-                        "extraction_method": "ocr_failed",
-                        "text_length": len(fallback_text),
-                        "ocr_used": True,
-                        "ocr_confidence": 0.0,
-                        "error": str(e),
-                    })
+            logger.info(
+                f"[PAGE {page_num}] OCR complete via {ocr_res.get('method')} "
+                f"(Confidence: {ocr_res.get('ocr_confidence')}%, Chars: {len(final_page_text)})"
+            )
+        except Exception as e:
+            logger.error(f"[PAGE {page_num}] OCR rendering failed: {e}")
+            fallback_text = clean_native
+            page_results.append(f"[PAGE {page_num}]\n{fallback_text}")
+            page_metadata.append({
+                "page_number": page_num,
+                "extraction_method": "ocr_failed",
+                "text_length": len(fallback_text),
+                "ocr_used": True,
+                "ocr_confidence": 0.0,
+                "error": str(e),
+            })
 
     doc.close()
     full_text = "\n\n".join(page_results)
