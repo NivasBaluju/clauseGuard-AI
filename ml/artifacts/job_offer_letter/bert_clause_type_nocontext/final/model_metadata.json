@@ -1,0 +1,39 @@
+{
+  "document_type": "job_offer_letter",
+  "task": "clause_type",
+  "use_context": false,
+  "model_version": "bert-nocontext-clause_type-v1",
+  "num_labels": 10,
+  "label2id": {
+    "at_will_employment": 0,
+    "benefits_overview": 1,
+    "bonus_incentive": 2,
+    "compensation_salary": 3,
+    "confidentiality_nda": 4,
+    "job_title_role": 5,
+    "non_compete_non_solicit": 6,
+    "start_date_contingencies": 7,
+    "termination_conditions": 8,
+    "working_hours_location": 9
+  },
+  "id2label": {
+    "0": "at_will_employment",
+    "1": "benefits_overview",
+    "2": "bonus_incentive",
+    "3": "compensation_salary",
+    "4": "confidentiality_nda",
+    "5": "job_title_role",
+    "6": "non_compete_non_solicit",
+    "7": "start_date_contingencies",
+    "8": "termination_conditions",
+    "9": "working_hours_location"
+  },
+  "test_metrics": {
+    "accuracy": 0.8677,
+    "f1_macro": 0.8688,
+    "f1_weighted": 0.8691,
+    "precision_macro": 0.8776,
+    "recall_macro": 0.8677
+  },
+  "artifact_path": "C:\\Users\\DELL\\.gemini\\antigravity-ide\\scratch\\clauseguard-ai\\ml\\artifacts\\job_offer_letter\\bert_clause_type_nocontext\\final"
+}

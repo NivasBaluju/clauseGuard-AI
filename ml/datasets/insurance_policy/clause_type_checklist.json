@@ -1,0 +1,46 @@
+{
+  "document_type": "insurance_policy",
+  "expected_clause_types": [
+    {
+      "type": "coverage_scope",
+      "severity_if_missing": "high",
+      "note": "Defines covered perils, property/dwelling coverage, and personal liability limits."
+    },
+    {
+      "type": "exclusions",
+      "severity_if_missing": "high",
+      "note": "Enumerates risks not covered under the specimen policy (e.g. flood, earthquake, intentional loss)."
+    },
+    {
+      "type": "deductible_premium",
+      "severity_if_missing": "high",
+      "note": "Details policyholder deductible amounts per claim and premium payment schedules."
+    },
+    {
+      "type": "claims_process",
+      "severity_if_missing": "medium",
+      "note": "Specifies duties after a loss, notice timelines, proof of loss submission, and documentation."
+    },
+    {
+      "type": "cancellation_non_renewal",
+      "severity_if_missing": "medium",
+      "note": "Outlines conditions and required advance notice for policy cancellation or non-renewal."
+    },
+    {
+      "type": "limits_of_liability",
+      "severity_if_missing": "medium",
+      "note": "Establishes maximum payout thresholds for property, medical payments, and liability."
+    },
+    {
+      "type": "grace_period",
+      "severity_if_missing": "low",
+      "note": "Defines allowable grace window for premium receipt before coverage lapsing."
+    },
+    {
+      "type": "dispute_resolution_appraisal",
+      "severity_if_missing": "low",
+      "note": "Sets appraisal process or arbitration in the event of valuation disputes."
+    }
+  ],
+  "notes": "Starter list for residential property/casualty (renters/homeowners) policy specimens. Engineering defaults, not statutory mandate."
+}

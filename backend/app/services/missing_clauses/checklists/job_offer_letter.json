@@ -1,0 +1,51 @@
+{
+  "document_type": "job_offer_letter",
+  "expected_clause_types": [
+    {
+      "type": "compensation_salary",
+      "severity_if_missing": "high",
+      "note": "Defines base wage/salary, payment frequency, and exempt/non-exempt status."
+    },
+    {
+      "type": "start_date_contingencies",
+      "severity_if_missing": "high",
+      "note": "Sets official start date and prerequisites (e.g. background check, I-9 verification)."
+    },
+    {
+      "type": "at_will_employment",
+      "severity_if_missing": "high",
+      "note": "Affirms employment status and terms under applicable labor standards."
+    },
+    {
+      "type": "job_title_role",
+      "severity_if_missing": "medium",
+      "note": "Specifies formal position title, department, and reporting manager."
+    },
+    {
+      "type": "benefits_overview",
+      "severity_if_missing": "medium",
+      "note": "Summarizes health insurance, retirement plan, and paid time off (PTO) eligibility."
+    },
+    {
+      "type": "confidentiality_nda",
+      "severity_if_missing": "medium",
+      "note": "Protects company confidential information and trade secrets."
+    },
+    {
+      "type": "termination_conditions",
+      "severity_if_missing": "medium",
+      "note": "Defines separation procedures, notice expectations, or severance provisions."
+    },
+    {
+      "type": "working_hours_location",
+      "severity_if_missing": "low",
+      "note": "Clarifies primary work location, remote/hybrid arrangements, and core hours."
+    },
+    {
+      "type": "bonus_incentive",
+      "severity_if_missing": "low",
+      "note": "Specifies annual bonus structure, commission plans, or equity eligibility if offered."
+    }
+  ],
+  "notes": "Starter list based on standard employment offer letter practices. Engineering default checklist, not legal advice."
+}

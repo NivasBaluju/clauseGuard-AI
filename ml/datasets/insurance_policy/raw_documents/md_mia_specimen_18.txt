@@ -1,0 +1,39 @@
+DOCUMENT ID: md_mia_specimen_18
+SOURCE URL: Maryland Insurance Administration Specimen HO-4 Contents Form (https://insurance.maryland.gov)
+========================================================================
+
+SECTION I: PROPERTY COVERAGE
+Covers personal property up to limit of liability.
+
+SECTION I: ADDITIONAL LIVING EXPENSE
+Reimburses reasonable living costs.
+
+SECTION I: PERILS INSURED
+Fire, smoke, wind, vehicle damage, theft.
+
+SECTION I: WATER DAMAGE EXCLUSION
+Excludes flood, surface water, and sewer backup.
+
+SECTION I: DEDUCTIBLE
+$500.00 deductible.
+
+SECTION I: PROOF OF LOSS
+Must submit proof of loss within 60 days.
+
+SECTION I: 45-DAY NON-RENEWAL NOTICE
+Notice of non-renewal must be mailed 45 days in advance.
+
+8. GRACE PERIOD
+30 days grace period for renewal premium payment.
+
+9. CONCEALMENT OR FRAUD
+Material misrepresentation voids coverage.
+
+10. APPRAISAL
+Appraisal clause for disputed loss amount.
+
+11. SUBROGATION
+Subrogation rights transfer upon payment of loss.
+
+12. POLICY PERIOD
+Policy covers loss during declared period.

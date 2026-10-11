@@ -1,0 +1,9 @@
+{
+  "$schema": "https://railpack.com/spec/v1/schema.json",
+  "deploy": {
+    "aptPackages": [
+      "libgl1",
+      "libglib2.0-0"
+    ]
+  }
+}

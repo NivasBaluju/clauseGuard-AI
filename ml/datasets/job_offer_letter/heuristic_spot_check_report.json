@@ -1,0 +1,26 @@
+{
+  "document_type": "job_offer_letter",
+  "total_clauses": 3333,
+  "train_clauses": 2334,
+  "val_clauses": 500,
+  "test_clauses": 499,
+  "cohen_kappa_clause_type": 1.0,
+  "cohen_kappa_favorability": 0.8023,
+  "clause_type_counts": {
+    "compensation_salary": 334,
+    "start_date_contingencies": 334,
+    "at_will_employment": 334,
+    "job_title_role": 333,
+    "benefits_overview": 333,
+    "confidentiality_nda": 333,
+    "termination_conditions": 333,
+    "working_hours_location": 333,
+    "bonus_incentive": 333,
+    "non_compete_non_solicit": 333
+  },
+  "favorability_counts": {
+    "unfavorable": 957,
+    "needs_review": 1047,
+    "fair": 1329
+  }
+}

@@ -1,0 +1,39 @@
+DOCUMENT ID: sc_doi_specimen_19
+SOURCE URL: South Carolina Department of Insurance Property Specimen Form (https://doi.sc.gov)
+========================================================================
+
+1. COVERAGE C
+Covers personal property of insured.
+
+2. LOSS OF USE
+Reimburses living costs during repairs.
+
+3. PERILS COVERED
+Fire, lightning, wind, hail, theft, vandalism.
+
+4. HURRICANE DEDUCTIBLE
+Percentage deductible applies during named hurricane events.
+
+5. EXCLUSIONS (WATER)
+Excludes flood, storm surge, and drain backup.
+
+6. CLAIMS NOTICE
+Prompt notice required.
+
+7. CANCELLATION
+30 days advance notice required.
+
+8. GRACE PERIOD
+Thirty days grace period for renewal premium.
+
+9. FRAUD AND CONCEALMENT
+Fraudulent misrepresentation voids coverage.
+
+10. APPRAISAL OF LOSS
+Appraisal mechanism for valuation disputes.
+
+11. SUBROGATION
+Assignment of recovery rights upon payment.
+
+12. POLICY PERIOD
+Policy applies to loss during declared term.

@@ -1,0 +1,36 @@
+DOCUMENT ID: in_doi_specimen_20
+SOURCE URL: Indiana Department of Insurance Standard Renters Policy Specimen (https://www.in.gov/idoi)
+========================================================================
+
+SECTION I: PERSONAL PROPERTY
+Covers personal property anywhere in the world.
+
+SECTION I: LOSS OF USE
+Covers additional living expenses.
+
+SECTION I: PERILS
+Covers fire, lightning, windstorm, explosion, riot, theft.
+
+SECTION I: EXCLUSIONS
+Excludes flood, water backup, and earth movement.
+
+SECTION I: DEDUCTIBLE
+$500.00 per occurrence.
+
+SECTION I: NON-RENEWAL NOTICE (IC 27-7-12)
+Notice of non-renewal must be provided at least 20 days prior to expiration.
+
+7. GRACE PERIOD
+30 days grace period for renewal premium.
+
+8. FRAUD AND CONCEALMENT
+Intentional concealment voids insurance.
+
+9. APPRAISAL
+Disputes on amount of loss resolved by appraisal.
+
+10. SUBROGATION
+Subrogation rights assigned upon claim payment.
+
+11. POLICY PERIOD
+Covers loss during declared policy period.

@@ -1,0 +1,98 @@
+[
+  {
+    "document_type": "rental_agreement",
+    "task": "clause_type",
+    "best_params": {
+      "clf__C": 1.0,
+      "tfidf__max_features": 1000
+    },
+    "test_metrics": {
+      "accuracy": 0.8,
+      "f1_macro": 0.7333,
+      "f1_weighted": 0.7333,
+      "precision_macro": 0.7,
+      "recall_macro": 0.8
+    },
+    "artifact_path": "C:\\Users\\DELL\\.gemini\\antigravity-ide\\scratch\\clauseguard-ai\\ml\\artifacts\\rental_agreement\\baseline_tfidf_lr_clause_type.joblib"
+  },
+  {
+    "document_type": "rental_agreement",
+    "task": "favorability",
+    "best_params": {
+      "clf__C": 0.1,
+      "tfidf__max_features": 1000
+    },
+    "test_metrics": {
+      "accuracy": 0.7333,
+      "f1_macro": 0.4231,
+      "f1_weighted": 0.8462,
+      "precision_macro": 0.5,
+      "recall_macro": 0.3667
+    },
+    "artifact_path": "C:\\Users\\DELL\\.gemini\\antigravity-ide\\scratch\\clauseguard-ai\\ml\\artifacts\\rental_agreement\\baseline_tfidf_lr_favorability.joblib"
+  },
+  {
+    "document_type": "job_offer_letter",
+    "task": "clause_type",
+    "best_params": {
+      "clf__C": 1.0,
+      "tfidf__max_features": 500
+    },
+    "test_metrics": {
+      "accuracy": 0.75,
+      "f1_macro": 0.6667,
+      "f1_weighted": 0.6667,
+      "precision_macro": 0.625,
+      "recall_macro": 0.75
+    },
+    "artifact_path": "C:\\Users\\DELL\\.gemini\\antigravity-ide\\scratch\\clauseguard-ai\\ml\\artifacts\\job_offer_letter\\baseline_tfidf_lr_clause_type.joblib"
+  },
+  {
+    "document_type": "job_offer_letter",
+    "task": "favorability",
+    "best_params": {
+      "clf__C": 0.1,
+      "tfidf__max_features": 1000
+    },
+    "test_metrics": {
+      "accuracy": 0.5,
+      "f1_macro": 0.3333,
+      "f1_weighted": 0.3333,
+      "precision_macro": 0.25,
+      "recall_macro": 0.5
+    },
+    "artifact_path": "C:\\Users\\DELL\\.gemini\\antigravity-ide\\scratch\\clauseguard-ai\\ml\\artifacts\\job_offer_letter\\baseline_tfidf_lr_favorability.joblib"
+  },
+  {
+    "document_type": "insurance_policy",
+    "task": "clause_type",
+    "best_params": {
+      "clf__C": 0.1,
+      "tfidf__max_features": 500
+    },
+    "test_metrics": {
+      "accuracy": 0.5455,
+      "f1_macro": 0.4848,
+      "f1_weighted": 0.4848,
+      "precision_macro": 0.4545,
+      "recall_macro": 0.5455
+    },
+    "artifact_path": "C:\\Users\\DELL\\.gemini\\antigravity-ide\\scratch\\clauseguard-ai\\ml\\artifacts\\insurance_policy\\baseline_tfidf_lr_clause_type.joblib"
+  },
+  {
+    "document_type": "insurance_policy",
+    "task": "favorability",
+    "best_params": {
+      "clf__C": 0.1,
+      "tfidf__max_features": 500
+    },
+    "test_metrics": {
+      "accuracy": 0.7273,
+      "f1_macro": 0.2963,
+      "f1_weighted": 0.8081,
+      "precision_macro": 0.3333,
+      "recall_macro": 0.2667
+    },
+    "artifact_path": "C:\\Users\\DELL\\.gemini\\antigravity-ide\\scratch\\clauseguard-ai\\ml\\artifacts\\insurance_policy\\baseline_tfidf_lr_favorability.joblib"
+  }
+]

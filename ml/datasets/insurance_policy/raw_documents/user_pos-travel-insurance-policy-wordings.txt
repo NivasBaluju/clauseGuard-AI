@@ -1,0 +1,1196 @@
+ID: user_pos-travel-insurance-policy-wordings
+FILE: pos-travel-insurance-policy-wordings.pdf
+========================================================================
+
+POS - TRAVEL INSURANCE POLICY
+POLICY WORDING
+A. SCHEDULE
+B. PREAMBLE
+This Policy is an evidence of the contract between You and Universal Sompo General Insurance
+Company Limited. The information furnished by You in the Proposal Form and the declaration
+signed by You forms the basis of this contract.
+The Policy, the Schedule and any Endorsement shall be read together and any word or
+expression to which a specific meaning has been attached in any part of this Policy or of
+Schedule shall bear such meaning whenever it may appear.
+This Policy witnesses that in consideration of Your having paid the premium for the period stated
+in the Schedule, We will indemnify/ pay to You or Your legal representatives, as the case may
+be, in respect of the insured events occurring during the period of insurance in the manner and
+to the extent set-forth in the Policy including endorsements provided that all the terms, conditions,
+provisions, and exceptions of this Policy in so far as they relate to anything to be done or
+complied with by You.
+The Schedule shall form part of this Policy and the term Policy whenever used shall be read as
+including the Schedule.
+Any word or expression to which a specific meaning has been attached in any part of this Policy
+or of Schedule shall bear such meaning whenever it may appear.
+The Policy is based on the information which has been given to Us about You pertaining to the
+risk insured under the Policy and the truth of this information shall be condition precedent to Your
+right to recover under this Policy.
+C. DEFINITIONS
+C.1. Standard Definitions:
+Accident means a sudden unforeseen and involuntary event caused by external, visible and
+violent means.
+Cashless Facility means a facility extended by the insurer to the insured where the payments,
+of the costs of treatment undergone by the insured in accordance with the Policy terms and
+conditions, are directly made to the Network Provider by the insurer to the extent
+preauthorization approved.
+Congenital Anomaly means a condition which is present since birth, and which is abnormal with
+reference to form, structure or position.
+a) Internal Congenital Anomaly: Congenital Anomaly which is not in the visible and accessible
+parts of the body
+b) External Congenital Anomaly: Congenital Anomaly which is in the visible and accessible
+parts of the body
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 1
+Co-payment means a cost sharing requirement under a health insurance Policy that provides
+that the Policy holder/Insured will bear a specified percentage of the admissible claim amount.
+A co-payment does not reduce the Sum Insured.
+Condition Precedent means a Policy term or condition upon which the Insurer's liability under the
+Policy is conditional upon.
+Deductible: means a cost-sharing requirement under a health insurance policy that provides
+that the insurer will not be liable for a specified rupee amount in case of indemnity policies and
+for a specified number of days/hours in case of hospital cash policies which will apply before
+any benefits are payable by the insurer. A deductible does not reduce the Sum Insured
+Dental Treatment means a treatment related to teeth or structures supporting teeth including
+examinations, fillings (where appropriate), crowns, extractions and Surgery.
+Disclosure to information norm means the Policy shall be void and all premium paid hereon
+shall be forfeited to the Company, in the event of misrepresentation, mis-description or
+nondisclosure of any material fact.
+Hospital:
+Means any institution established for treatment of illness and/or injuries and which has been
+registered as a hospital with the local authorities and complies with all minimum criteria as under:
+- has qualified nursing staff under its employment round the clock;
+- has qualified medical practitioner(s) in charge round the clock;
+- has a fully equipped operation theatre of its own where surgical procedures are carried
+out;
+- maintains daily records of patients and makes these accessible to the insurance
+company’s authorized personnel.
+Hospitalization means admission in a Hospital for a minimum period of 24 In-patient Care
+consecutive hours except for specified procedures/ treatments, where such admission could be
+for a period of less than 24 consecutive hours.
+Illness: Means a sickness or a disease or pathological condition leading to the impairment of
+normal physiological function and requires medical treatment.
+a) Acute condition - Acute condition is a disease, illness or injury that is likely to respond
+quickly to treatment which aims to return the person to his or her state of health
+immediately before suffering the disease/illness/injury which leads to full recovery.
+b) Chronic condition - A chronic condition is defined as a disease, illness, or injury that has
+one or more of the following characteristics:
+- it needs ongoing or long-term monitoring through consultations, examinations,
+checkups, and/or tests
+- it needs ongoing or long-term control or relief of symptoms
+- it requires rehabilitation for the patient or for the patient to be specially trained to
+cope with it
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 2
+- it continues indefinitely
+- it recurs or is likely to recur.
+Injury: means accidental physical bodily harm excluding illness or disease solely and directly
+caused by external, violent, visible and evident means which is verified and certified by a
+Medical Practitioner.
+Intensive Care Unit means an identified section, ward or wing of a Hospital which is under the
+constant supervision of a dedicated Medical Practitioner(s), and which is specially equipped for
+the continuous monitoring and treatment of patients who are in a critical condition, or require
+life support facilities and where the level of care and supervision is considerably more
+sophisticated and intensive than in the ordinary and other wards.
+Medical Advice means any consultation or advice from a Medical Practitioner including the issue
+of any prescription or follow-up prescription.
+Medical Expenses: Medical Expenses means those expenses that an Insured Person has
+necessarily and actually incurred for medical treatment on account of Illness or Accident on the
+advice of a Medical Practitioner, as long as these are no more than would have been payable
+if the Insured Person had not been insured and no more than other hospitals or doctors in the
+same locality would have charged for the same medical treatment.
+Medically Necessary means any treatment, tests, medication, or stay in Hospital or part of a
+stay in Hospital which
+• is required for the medical management of the Illness or Injury suffered by the insured;
+• must not exceed the level of care necessary to provide safe, adequate and appropriate
+medical care in scope, duration, or intensity;
+• must have been prescribed by a Medical Practitioner,
+• must conform to the professional standards widely accepted in international medical practice
+or by the medical community in India.
+Medical Practitioner: Means a person who is qualified to practice medicine or is a physician,
+surgeon or an anesthetist and has a valid medical license issued by the appropriate authority
+and is not a member of insured’s family.
+Qualified Nurse means a person who holds a valid registration from the Nursing Council in the
+respective jurisdiction.
+Reasonable and Customary charges: Means the charges for services or supplies, which are the
+standard charges for the specific provider and consistent with the prevailing charges in the
+geographical area for identical or similar services, taking into account the nature of the
+illness/injury involved.
+Room Rent means the amount charged by a Hospital towards Room and Boarding expenses
+and shall include the associated medical expenses.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 3
+Surgery or Surgical Procedure means manual and / or operative procedure (s) required for
+treatment of an Illness or Injury, correction of deformities and defects, diagnosis and cure of
+diseases, relief from suffering and prolongation of life, performed in a Hospital or day care
+centre by a Medical Practitioner.
+Subrogation means the right of the insurer to assume the rights of the Insured Person to recover
+expenses paid out under the Policy that may be recovered from any other source.
+Unproven/Experimental Treatment mean treatment including drug experimental therapy which
+is not based on established medical practice in India, is treatment experimental or unproven.
+C.2. Specific Definitions:
+Air Travel: It means that the insured person is in or boarding an aircraft for the purpose of flying
+therein or alighting there from following a flight.
+Annual Multi Trip Insurance - means a Trip or Trips of not exceeding 30 days duration each,
+that you undertake during the Insured Period as specified on the Proposal and/or Declaration
+Form / Policy Schedule
+Assistance Service Provider (ASP) means such person or persons as may be appointed by the
+Company from time to time to provide assistance to You in terms of this Policy.
+Checked Baggage: It means the baggage handed over by you and accepted by the carrier
+(airline, coach operator, Ferry Company) for transportation in the same carrier in which You are
+going to travel and for which the carrier has issued a baggage receipt.
+Company means “Universal Sompo General Insurance Company Limited.”
+Covered Hazards:
+1. delay of a Common Carrier caused by Inclement Weather; or
+2. delay due to a Strike or other job action by employees of a Common Carrier scheduled
+to be used by You during Your Trip; or
+3. delay caused by Equipment Failure of a Common Carrier.
+Day - means a period of 24 consecutive hours
+Finalization of the insurance contract: It means that:
+(a) The Insurance Policy must be concluded prior to the trip abroad by means of the
+Proposal Form provided for this purpose. Insurance policies that are taken after the
+commencement of the trip are deemed to be invalid.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 4
+(b) The Insurance Policy comes into effect when the Insurance Policy Schedule is issued, which
+will be done only on acceptance of the Proposal by Us and payment of the full premium
+by you.
+Hijack: It means that there is any unlawful seizure or exercise of control by force or violence or
+threat of force or violence and with wrongful intent of an air or sea common carrier.
+Insured Event: It means the medically imperative curative treatment of an insured person for an
+illness or the consequences of an accident. The insured event begins with the commencement of
+the curative treatment and ends when on the strength of medical findings; there is no longer any
+need for treatment. If the curative treatment needs to be extended to an illness or the
+consequence of an accident that is not causally related to the already treated one, a new insured
+event shall be deemed to have occurred. The insured event is also deemed to include necessary
+transportation home (repatriation) for the purposes of the aforementioned medically necessary
+treatment and various other contingencies during travel like Personal Accident, Loss of Passport,
+Loss of baggage etc as mentioned in “What is covered” under various sections of coverage.
+Insured Person: It means the person (from age of 1 year up to an age of 70 years) proposed
+for insurance coverage with Us by You for whom the appropriate premium has been paid.
+Layoff: The act of suspending or dismissing an employee, as for lack of work or because of
+corporate reorganization.
+Loss: It means loss or damage
+Money: It means cash, bank drafts, current coins, bank and currency notes, treasury notes,
+cheques, postal orders, current postage stamps, travelers cheque that are not part of a collection
+and luncheon voucher
+Period of Insurance: This is valid from the commencement to the end of the insurance cover and
+this duration is shown on the Schedule of the Policy:
+a. Commencement of the Insurance Cover: The Insurance Cover begins on the day specified
+in the Policy Schedule, but not before the finalisation of the insurance contract and not before
+the international border is crossed to go abroad.
+b. End of the Insurance Cover: The Insurance Cover terminates (i) with the end of the insurance
+period or (ii) with the end of the period abroad, whichever is earlier. The period abroad
+shall be deemed to end when You cross the international border entering into territory of
+Republic of India
+c. Automatic Extension of Period of Insurance:
+(i) The period of insurance is automatically extended for the period not exceeding 7(seven)
+days, and without any extra charge, if necessitated by the delay of public transport
+services beyond your control, for which You are not able to commence the return journey.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 5
+(ii) Further, if an injury/ illness/ accident covered under the Policy is contracted during the
+Insurance Period and continues beyond the expiry date of this Policy which necessitates
+curative treatment beyond the end of Insurance Period, Our liability to pay benefits
+within the scope of this Policy shall extend for a further 30 days in case of the Specified
+Trip Policy daily rated plan and 60 days in case of the Annual Cover in so far as it can
+be proved that transportation home is not possible. If any new illness/ injury is proved
+to have been contracted beyond the expiry date of the Policy, treatment for the same
+would not be covered.
+Policy: It means the Policy booklet, the Schedule and any applicable Endorsement or
+memoranda. The Policy contains details of the extent of cover available to You, what is excluded
+from the cover and the conditions on which the Policy is issued.
+Pre-Existing Condition: Means any condition, ailment or injury or related condition(s) for which
+you had signs or symptoms, and/or were diagnosed, and/or received medical advice/treatment
+within 48 months to prior to the first policy issued by the company.
+Property Damage: means physical injury to, destruction of or loss of use of tangible property
+Proposal Form: It means any signed proposal by filling up the questionnaires and declarations,
+written statements and any information including the Medical History and Physician’s Report and
+Certificate in addition thereto supplied to us by you.
+Relative / Relation: It means your legal spouse, parent, parent-in-law, grandparent,
+grandparent-in-law, child, brother, sister, brother or sister-in-law, niece or nephew.
+Service Providers means any person, institution or organisation that has been empanelled by
+the Company to provide services to the Insured Person specified in the Policy.
+Schedule: It means the latest Schedule issued by us as part of the Policy. It provides details of
+the Policy, Your details and the level of coverage opted by you.
+Sum Insured: means the amount stated in the Schedule against each Cover in force, which
+represents Our maximum liability for any and all claims made during the Policy Period in respect
+of each insured person [regardless of the number of Insured’s or the Insuring Parts under which
+a claim is advanced] or [per Insured] Sum Insured as stated in the Policy.
+Travel Fund: It means cash, bank drafts, currency coins, bank and currency notes, treasury notes,
+cheques, postal orders, Credit/ debit card, travelers cheque.
+Treatment: It means the Surgical or medical procedures, the sole purpose of which is the cure or
+relief from acute pain or distress for disease/ illness / injury first manifested / occurring during
+the Period of Insurance.
+Trip: means any Insured Journey during the Insured Period:
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 6
+• which starts and finishes in India and involves a destination(s) outside India;
+• which lasts or is expected to last for: 180 Days or less if covered under Single Trip
+Insurance; or 30/45 Days or less per Trip, if covered under Annual Multi Trip Insurance or
+a period of maximum 365 days if covered under a Student Travel Plan
+Valuables: It means photographic, audio, video, computer and any other electronic equipment,
+telecommunications and electrical equipment, telescopes, binoculars, antiques, watches,
+jewellery, furs and articles made of precious stones and metals.
+War: means War, whether declared or not, or any warlike activities, including use of military
+force by any sovereign nation to achieve economic, geographic, nationalistic, political, racial,
+religious or other ends.
+We / Our / Us: It means Universal Sompo General Insurance Company Limited
+You / Your /Yourself: It means the insured person named in the Schedule.
+D. BENEFITS:
+Coverage
+SECTION 1 - HEALTH COVER WHAT IS COVERED
+If You fall ill or contact any disease or sustain an accident whilst abroad during the Period of
+Insurance, then We will reimburse the following costs:
+1. Medical Expenses: Costs incurred for Medically Necessary treatment during a temporary
+stay abroad less the deductible stated in the Schedule. Within the meaning of these
+coverage’s, treatment is deemed to include only the following : a) Out-patient treatment.
+b) In patient treatment in a local hospital at the place You are staying or at the nearest suitable
+hospital.
+c) Medical aid that is necessary as part of the treatment for broken limbs or injuries (e.g.
+plaster casts, bandages and walking aids) prescribed by a physician.
+d) Radiotherapy, heat therapy or phototherapy and other such treatment prescribed by a
+physician.
+e) X-Ray, Diagnostic tests.
+f) Cost of transportation including necessary medical care enroute by recognized emergency
+services for medical attention at the nearest hospital or from the nearest available physician.
+g) Cost of being transferred to a special clinic if this is Medically Necessary and prescribed
+by a Physician.
+h) Life saving unforeseen emergency measures or measures solely designed to relieve acute
+pain provided to You by medical assistance for disease / accident including their
+consequences arising out of a pre-existing condition. This coverage is specifically subject to
+General Exclusions (2) of this Policy and will not include “Transportation” described in Item
+3 of “What Is Covered” of Section 1 of the Health Cover of this Policy.
+2. Dental treatment: In principle for only acute anesthetic treatment of a natural tooth or
+teeth upto the maximum limit shown in the Schedule. However dental treatment rendered
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 7
+necessary as a result of a covered accident shall be up to the maximum limit of medical
+expenses and deductible shown in the Schedule.
+3. Medical Repatriation:
+(a) Extra costs of Medically Necessary and prescribed transportation from the foreign country
+to Your permanent country of residence provided that -
+1. Extra costs in the event of transportation home are the additional costs arising for
+the return journey home as a consequence of the insured event.
+2. If You are transportable from a medical point of view, it is Our decision whether the
+Insured Person is repatriated to India or not.
+(b) Additional extra costs for an accompanying person, if it is medically necessary that the
+insured person be accompanied in this way.
+4. Repatriation of Mortal Remains
+In the event of death of the Insured Person due to illness/ injuries covered on the trip abroad,
+extra costs of transporting the mortal remains of the deceased back home or up to an
+equivalent amount for a local burial or cremation in the country where the death occurred up
+to the limit stipulated in the Schedule.
+5. Balance Period of Policy + 30 days:
+If it has been established that the continued treatment in the Republic of India is appropriate,
+then We will pay the medical expenses incurred in India for the same illness/ bodily injury
+contracted abroad following the transportation home at the usual customary level, for
+treatment received within the Insurance Period – and for a maximum of 30 days beyond the
+Insurance Period provided the disease/ injury/ illness is contracted within the Insurance Period.
+6. Hospital Daily Allowance: In the event of You being hospitalised for a period of more
+than 48 hours and also if We have accepted liability under the Medical Expenses cover
+aforementioned, then We will pay You up to the maximum limit mentioned in the Schedule
+SECTION 2 - TOTAL LOSS OF BAGGAGE INCLUDING DELAY OF BAGGAGE WHAT IS
+COVERED
+We will reimburse for total loss of Checked baggage caused by a carrier (i.e. airline, coach
+operator, ferry company etc.) up to the limits stipulated in the Schedule provided that:
+1. Loss of a Pair/Set: (pair or set of articles is treated as one article e.g. a pair of earrings) In
+case of loss to a pair or set, We may elect to:
+a) repair or replace any part, to restore the pair or set to its value before the loss;
+or
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 8
+b) pay the difference between the cash value of the property before and after the
+loss. You make a report to the Police within 24 hours after You become aware of
+the loss.
+2. You provide all the Reports concerning the loss to Us or Our Assistant Service Provider.
+3. We will pay the benefit on Market Value. Market Value is the sum required to purchase new
+items of the same kind and quality less a figure representing the condition of the articles
+insured (age, wear, usage etc.)
+4. The maximum amount to be reimbursed per bag is 50%, and the maximum value per article
+contained in any bag is 10%, of the amount stated in the Policy Schedule
+Benefits: (Delay of Baggage)
+We will pay up to the limit of cover shown in the Schedule for costs of necessary emergency
+purchases of essential items in the event of You suffering a temporary loss of Your baggage
+while being transported during the journey provided that:
+a) The delay of baggage is more than 12 hours from the scheduled arrival time at the
+destination and relates to delivery of baggage that has been checked in by the carrier.
+b) You give Us written proof of delay from the carrier.
+SECTION 3 - HIJACK DISTRESS ALLOWANCE WHAT IS COVERED
+In the event of air or sea common carrier in which You are travelling, being hijacked on
+the trip abroad during the Period of Insurance for more than 12 hours, and the journey is
+interrupted, then We will pay US $ 125 to You for each day up to the maximum limit
+mentioned in the Schedule.
+SECTION 4 - LOSS OF PASSPORT WHAT IS COVERED
+In the event that the passport belonging to You is lost, We will pay up to the limit
+stipulated in the Policy Schedule for the reimbursement of actual expenses necessarily
+and reasonably incurred in connection with obtaining a duplicate or fresh passport.
+SECTION 5 - FINANCIAL EMERGENCY ASSISTANCE COVER WHAT IS COVERED
+In the event of Your getting into a financial emergency due to theft, pilferage, robbery,
+dacoity of Your travel funds, We will pay up to the amount stipulated in the Schedule
+SECTION 6 - PERSONAL LIABILITY WHAT IS COVERED
+a. Property Damage:
+If a claim is made or a suit is brought against You for Property Damage caused by a
+Occurrence to which this coverage applies, We will pay up to the amount stated in t Policy
+Schedule or the Schedule of Benefits subject to any applicable Deductible, for O limit of
+liability for the damages for which You are legally liable.
+b. Medical Payments to Others:
+We will pay the necessary medical expenses that are incurred or medically ascertaine
+within one year from the date of an Accident causing Bodily Injury. Medical expens means
+reasonable charges for medical, surgical, X-ray, dental, ambulance, Hospita professional
+nursing, prosthetic devices and funeral services. This coverage does not app to You or
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 9
+regular residents of Your household. As to others, this coverage applies only the Bodily
+Injury is caused by Your activities.
+c) Any claim under this additional benefit will be offset against any claim payable under
+Total Loss of Baggage.
+Limit of Liability:
+Our liability for this Section shall be limited to the maximum per insured trip equal to the Sum
+Insured mentioned in the Schedule.
+Special Conditions:
+1. Our liability comprises checking the question of personal liability, contesting unjustified
+claims and providing indemnity for damages which You have to pay. For indemnity to be
+provided against damages, the damages must be payable under an acceptance of
+liability given or approved by Us or under a judicial decision.
+2. If there is a legal action with the claimant or Your assignees over a Personal Liability claim,
+We may conduct the legal action at Our expenses in Your name and You will allow us to
+do so.
+3. If an event insured against occurs which may result in a Personal Liability claim falling
+within the cover provided and if there are criminal proceedings relating to this event and
+if in these proceedings, We wish to appoint a defence counsel for You. For approval of
+such an appointment, We will pay the costs of this counsel.
+4. If We wish to settle a Personal Liability claim by accepting liability or making an out of
+court settlement and cannot do so due to Your resistance, We shall not be liable to pay
+the extra expenditure incurred from the date of refusal in respect of main sum, interest
+and cost.
+SECTION 7 - PERSONAL ACCIDENT WHAT IS COVERED
+If You meet with an Injury on a trip abroad which leads to Your death or subsequent disablement,
+We will indemnify You in the following way:
+1. Your Death: If following an Injury that directly causes Your death within one year directly
+as a result of an accident, We will pay to Your legal heirs the Sum Insured mentioned in the
+Schedule.
+2. Your Permanent total / partial disablement: If following an injury which causes permanent
+impairment of Your mental or physical capabilities, We will pay the following benefits
+depending upon the degree of disablement as provided in the Table of Benefits subject to:
+a. the disablement must occur within a year of the accident
+the disablement must be confirmed and claimed for prior to the expiry of a further period of
+3 months
+Table of Benefits Percentage of Sum Insured mentioned in the
+Schedule
+Death 100
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 10
+Loss or Inability to function of an arm at 70
+the shoulder joint
+An arm to a point above the elbow 65
+joint
+An arm below the elbow joint 60
+A hand at the wrist 55
+A thumb 20
+An index finger 10
+Any other finger 5
+A leg above the Centre of the femur 70
+A leg up to a point below the femur 65
+A leg to a point below the knee 50
+A leg up to the Centre of the tibia 45
+A foot at the ankle 40
+A big toe 5
+Some other toe 2
+An eye 50
+Hearing in one ear 30
+Sense of smell 10
+Sense of taste 5
+Special Conditions Applying to the Personal Accident Section
+1. In the event of partial loss or impairment of the function of one of the above parts of
+the body or senses, the appropriate proportion of the percentage stated in the Table
+of Benefits will be considered by Us.
+2. If the accident impairs a number of physical or mental functions, the degree of
+disablement given in the Table of Benefits will be added together, but not exceeding
+100% of the Sum Insured stated in the Schedule.
+3. If the accident affects parts of the body or senses whose loss or inability to function is
+not dealt with above, the governing factor in such a case will be the extent to which
+normal physical or mental capabilities are impaired, solely from a medical point of view
+as ascertained by Us.
+4. If the accident affects any physical or mental function, which was already impaired
+beforehand, a deduction will be made equal in amount to this prior disablement.
+5. If You die for a reason unconnected with the accident within one year of an accident or
+for whatever reasons after more than 12 months from the accident, and if a claim for
+disablement payment had arisen, then the payment will be made in accordance with the
+degree of disablement which would have been expected to exist from the findings of
+the last medical examination made.
+6. In the event of Permanent Disablement, You will be under obligation to:
+a. have Yourself examined by doctors appointed by Us or on Our behalf and We will
+pay the costs involved thereof.
+b. authorize doctors providing treatments or giving expert opinion, other insurers and
+any other authority to supply Us any information that may be required. If the
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 11
+obligations are not met with due to whatsoever reasons, We may be relieved of
+Our liability to pay.
+7. In the event of permanent disablement, a disablement payment cannot be claimed prior
+to completion of the healing process or within one year of occurrence of the accident,
+whichever is earlier.
+SECTION 8 - TRIP DELAY WHAT IS COVERED
+We will reimburse Reasonable
+Additional Expenses for Trip Delay, subject to all other terms and conditions , if the aircraft
+in which You are booked to travel from India is delayed beyond 12 hours from the original
+scheduled departure time, up to the maximum limit shown in the Policy Schedule or the Schedule
+of Benefits
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 12
+SECTION 9 TRIP CANCELLATION WHAT IS COVERED
+We will indemnify You subject to the limits shown in the Schedule , for loss of
+personal accommodation or travel charges paid or contracted to be paid by
+You which are not recoverable from any other source , following the necessary
+&unavoidable cancellation of the trip prior to its commencement because of
+1. Your death or sudden sickness requiring minimum three days hospitalisation
+2. Death of Your spouse or parent or child
+3. Serious injury or sudden sickness requiring minimum three days hospitalisation
+of Your wife or child who were booked to travel with You and who are also
+insured with Us
+Compulsory quarantine or prevention of travel by Government
+SECTION 10 MISSED CONNECTION WHAT IS COVERED
+We will pay subject to all the terms & conditions, if the air craft on which You
+are booked to travel from India is delayed beyond 12 hours from the original
+scheduled arrival time at the destination of the connecting flight, We will pay
+the sum mentioned in the Schedule towards missed connection.
+For a claim to be admissible under this Section it is condition precedent to liability
+that the claim is admissible under Section 9 : Trip Delay
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 13
+SECTION 11 BURGLARY (HOME CONTENTS) WHAT IS COVERED
+We will pay You for any claim in respect of loss of or damage to contents of Your
+home in India ( Located at the address mentioned in the Policy Schedule) caused
+by actual or attempted Burglary and/or Robbery during the
+Policy Wording- Travel Insurance Policy UIN: UNITIOP21251V032021
+Page 13
+Policy period. The cover incepts from the date of Your departure from the country
+and ends on the expiry date or date of return to the country whichever is earlier
+.Our liability will be limited to the Sum Insured specified in the Schedule.
+SECTION 12 STUDY INTERRUPTION WHAT IS COVERED
+We shall pay You, compensation in the event of Study Interruption up to the amount
+stated in the Schedule subject to the following terms.
+1. In the event of Your Hospitalisation for more than one consecutive month from
+either a covered Injury or sickness or in the case of terminal sickness, or in
+the case of a medical repatriation, or
+In case of death of any one immediate family member or the sponsor during
+the entire Policy period, which leads You to discontinue Your studies for the
+remaining part of the current school semester for which Tuition has been paid,
+We shall reimburse You, the Tuition fees which has already been advanced
+to the educational institution less possible/ actual refunds, up to the amount
+stated in the Policy Schedule.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 14
+Policy Wording- Travel Insurance Policy UIN: UNITIOP21251V032021
+Page 14
+Claim Procedure
+In the event of a claim, You shall make a request to the institution, in writing,
+seeking a written response from the institute towards any amount due to You by
+way of refunds, both of which shall require being provided to Us. Only the figures
+shown on an official invoice(s) from the educational institution for payment of said
+Tuition Fees in conjunction with the refund statement, if any, shall be used for
+calculating any reimbursement to be paid by Us. It cannot exceed the maximum
+amount stated in the Schedule of benefits under this Policy.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 15
+SECTION 13 ACCIDENT TO SPONSOR WHAT IS COVERED
+In the event of accidental injury to Your Sponsor, as stated in the Enrollment Form,
+resulting in his Death within the Policy Period the Company shall reimburse You the
+Tuition Fee incurred for the remaining period of this study up to the maximum limit
+stated in the Schedule of benefits. In the event of a claim, only the figures shown on
+official invoice(s) from the educational institution and voucher(s) of payment of the
+said Tuition fees, shall be used for calculating any reimbursement to be paid by Us.
+Claim Procedure
+The claim would be payable by Us upon Your submission of an official death
+certificate and a statement from a Medical Practitioner (which Medical
+Practitioner should not be a relative or spouse of the Insured or the Sponsor)
+stating cause of death, as proof of death, of the Sponsor. Simultaneous claims
+under 'Study Interruption' and 'Sponsor Protection' is not permitted.
+SECTION 14 COMPASSIONATE VISIT WHAT IS COVERED
+We shall pay compensation, to You in the event of Compassionate Visit by one
+Immediate Family Member, up to the amount stated in the Schedule, as per the
+following terms.
+In the event You are Hospitalised for more than seven (7) consecutive days, and
+Your medical condition forbids Your repatriation and no adult member of Your
+immediate family is present, We or the Assistant Service Provider, after obtaining
+confirmation of need for a companion from Our panel doctor / the Assistant
+Service Provider, will provide a round trip economy class air ticket, or first class
+railway ticket, to allow one immediate Family Member, during the -relevant
+period of insurance, to be at Your bedside for the duration of Your stay in the
+hospital. Additionally, We will refund the cost of stay of one immediate family
+member, up to the amount stated in the Policy Schedule. In any event, the
+Company's total liability for round trip transport and for daily allowances
+(accommodation and transportation only) shall not exceed the maximum amount
+stated in the Schedule under this Policy.
+In the event p Parent(s), spouse / child of the Insured is Hospitalized for more than
+(7) consecutive days, We or the Assistant Service Provider, after obtaining
+confirmation of need for a companion from Our panel doctor / the Assistant
+Service Provider, will provide a round trip economy class air ticket, or first class
+railway ticket, to allow You to be at the bedside of Your parent(s), spouse / child
+for the duration of his/her stay in the hospital. In any event, Our total liability for
+round-trip transport shall not exceed the maximum amount stated in the Schedule
+of this Policy.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 16
+E. EXCLUSIONS:
+E.1. Specific Exclusions:
+a) Exclusions Applicable to Section 1:
+We will not pay for:
+1. The Deductible mentioned in the Schedule except in case of Hospital Daily
+Allowance.
+2. Treatment abroad if that is the sole reason or one of the reasons for temporary
+stay abroad.
+3. Medical Expenses / services, the need for which arises out of a pre-existing
+condition
+4. A treatment which could reasonably be delayed until You return to the Republic
+of India. The question of what can or what cannot be reasonably delayed will
+be decided jointly by the treating physicians and Us.
+5. Treatment of orthopedic, degenerative or oncological diseases, unless the
+medical assistance provided abroad involves unforeseen emergency measures
+to save Your life or measures solely designed to relieve the acute pain.
+6. Charges in excess of reasonable and customary charges.
+7. Any costs incurred in connection with cancer treatment, unless the medical
+assistance provided abroad involves unforeseen emergency measures to save
+Your life or measures solely designed to relieve the acute pain.
+8. Treatments relating to the removal of physical flaws or anomalies (cosmetic
+treatment).
+9. Any costs incurred in connection with rest cures or recuperation at a spa or health
+resort, sanatorium, convalescence home or similar institution.
+10. Pregnancy, childbirth and their consequences. In the event of acute complications
+in the course of pregnancy however, We will indemnify within the scope of the
+Policy, medical measures to directly avert danger to the life of the mother and
+/ or child, on the condition that the pregnant woman has not reached the age of
+38 and the 30th week of the pregnancy is not yet completed.
+11. Medical Treatment of typical complaints suffered during pregnancy and their
+consequences, including changes in the chronic conditions as a result of pregnancy
+12. Checkups during pregnancy or treatment of the pregnancy.
+13. Treatment by relatives.
+14. Rehabilitation and physiotherapy or the costs of prostheses (artificial limbs etc.)
+15. Any other costs not listed as indemnifiable under “What is Covered”.
+16. Any claim in respect of Hospital Daily Allowance for the first 48 hours
+17. Medical Expenses incurred as the result of alcohol and/or drug abuse, addiction
+or overdose
+18. Eyeglasses, contact lenses, hearing aids, and examination for the prescription or
+fitting thereof, unless Injury or Sickness has caused impairment of vision or hearing
+b) Exclusions applicable to Section 02:
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 17
+We will not pay for –
+1. Valuables and Money all kinds of securities and tickets. The Valuables and Money
+should at all times be carried on person by You.
+2. loss of property unless the Property Irregularity Report has been obtained from the
+carrier after the discovery of loss by You.
+3. any partial loss. However loss of individual units of baggage will be considered as
+a total loss.
+4. losses arising from any delay, detention, confiscation or distribution by customs
+officials or other public authorities.
+c) Exclusions Applicable to Section 03:
+We will not pay for:
+1. First 12 hours of hijacking
+2. Any claim where You are considered as the principal or accessory in the hijacking.
+3. Any claim as a consequence of change in the direction of the route of the carrier due to
+traffic, weather, fuel shortage, technical snag or security reasons.
+d) Exclusions Applicable to Section 04:
+We will not pay for loss:
+1. of the passport due to delay or confiscation or detention by the customs, police or public
+authorities.
+2. of the passport due to theft unless it has been reported to the Police within 24 hours of Your
+becoming aware of the theft and a written Police Report obtained.
+3. of the passport due to, it being left unattended or forgotten by You in a public place or
+public transport.
+4. or theft of the passport from a private place or from a private vehicle unless it was located
+in a locked hotel room or apartment and any forcible and violent entry was used to gain
+access to it.
+e) Exclusions Applicable to Section 05:
+We will not pay for any:
+1. claim reported in excess of 30 days after the occurrence of the incident, giving rise to a
+claim.
+2. loss or shortage due to currency fluctuation, errors, omission, exchange loss or depreciation
+in value.
+3. loss if not reported to the Police having jurisdiction at the place of loss within 24 hours of the
+incident and a written Report obtained.
+4. claim in respect of loss of travellers’ cheques not immediately reported to the local branches
+or agents of the issuing authority.
+5. of travel funds not kept in Your personal custody.
+f) Exclusions Applicable to Section 06:
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 18
+We will not pay for any claim:
+1. up to the deductible stated in the Schedule. The deductible will apply to each insured
+event and shall be borne by You. In case of a single claim leading to a series of claims
+single deductible will be applicable
+2. arising from employer’s liability or contractual liability or through special promises
+made by You.
+3. of Your personal liability towards Your family, relations and travelling companions,
+whether personal or official.
+4. resulting from transmission of an illness or disease by the insured person.
+5. or damage resulting from Your professional activities.
+6. for liability arising directly or indirectly from or due to Your
+a) ownership of animals.
+b) ownership, possession of vehicles, aircrafts, watercrafts, or Your activities of parachuting,
+hang-gliding, hot air ballooning or use of firearms.
+c) willful, malicious or unlawful act.
+d) insanity, the use of any alcohol/ drugs (except as medically prescribed) or drug addiction.
+e) supply of goods or services.
+7. ownership or occupation of land or buildings other than the occupation only of any
+temporary residence.
+g) Exclusions Applicable to Section 07:
+We will not pay for:
+1. damage to health caused by curative measures, radiation, infection and poisoning except
+where these arise from an accident.
+2. any payment under this Section during any one Period of Insurance by which Our liability in
+that period would exceed the sum payable in the event of death.
+3. more than 50% of the Sum Insured as mentioned in the Schedule in respect of death if Your
+age is below the age of 18 years at the time of effecting this insurance.
+4. any other claim after a claim for death has been admitted and becomes payable.
+5. any claim which arises out of an accident where the cause has to do with the operation of an
+aircraft except when You are flying as a passenger on a multi-engine aircraft or which occurs
+during parachuting.
+6. any claim arising out of an accident relating to pregnancy or childbirth, venereal disease or
+infirmity.
+h) Exclusions Applicable to Section 08:
+We will not pay for:
+1. for any departure which is delayed as a result of the You or any other person who have
+arranged to travel with You failing to check in correctly as required by the airlines.
+2. For any delay departure caused by strike or industrial action known to exist or was
+anticipated at the time the trip was booked.
+3. If the air craft is taken out of service on the instructions of the Civil Aviation Authority or
+similar authority.
+i) Exclusions Applicable to Section 09:
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 19
+We will not pay for:-
+1. Common Carrier-caused delays, including an announced, organized sanctioned union labor
+strike that affects public transportation, unless the commencement of the Period of Insurance
+is prior to a date when the Strike is foreseeable. A Strike is foreseeable on the date the
+labor union members vote to approve a Strike.
+2. Travel arrangements cancelled or changed by an airline, cruise line, or tour operator,
+3. Changes in Your plan, an immediate Family Member, or Traveling Companion for any
+reason.
+4. Adverse change in Your financial circumstances, any Family Member, or a Traveling
+Companion.
+5. Any business or contractual obligations of Yours, any Family Member, or a Traveling
+Companion, except for termination or layoff from employment as defined above
+6. Default by the person, agency, or tour operator from whom You bought this Policy and made
+travel arrangements.
+7. Any government regulation or prohibition.
+8. An event or circumstance, which occurs prior to the commencement of the Period of
+Insurance.
+9. On account of a felonious assault on You, any Family Member of Yours, the Travelling
+Companion or Travelling Companion's Family Member has been a principal accessory in
+the assault committed.
+j) Exclusions applicable to Section 11:
+We will not pay for
+1. Any loss or damage to, or on account of loss of, livestock, motor vehicles, pedal
+cycles, money, securities for money, stamp, Jewellery, bullion, deeds, bonds, bills of
+exchange, promissory notes, stock or share certificates, business books, manuscripts,
+documents of any kind, ATM debit or credit cards, precious stones that are not part
+of jewellery or ornaments, gold bullion (unless previously specifically declared to,
+and accepted by Us in writing
+2. Loss or damage to any property/item illegally acquired, kept, stored or property
+subject to forfeiture in any manner whatsoever;
+3. Any claim up to the deductible stated in the Schedule. The deductible will apply to
+each insured event and shall be borne by You
+k) Exclusions Applicable to Section 12:
+We will not pay for
+1. Routine physical check up
+2. A trip, the purpose of which was to obtain medical care;
+3. Cosmetic or plastic surgery except as a result of an accident;
+4. Elective surgery;
+5. Alcoholism or drug addiction, or use of any drug or narcotic agent;
+6. Any treatment provided by a family member;
+7. Specific named hazards, hang gliding, mountaineering, rock climbing, sky diving,
+professional or amateur racing and piloting an aircraft;
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 20
+8. Damage to health caused by curative measures, radiation, infection, poisoning except
+where these arise from an accident.
+9. Any other claim after a claim for death has been admitted by Us and becomes payable.
+10. Any claim which arises out of an accident connected with the operation of an aircraft or
+which occurs during parachuting except when You are flying as a passenger on a multi
+engine, commercial aircraft.
+11. This Benefit does not cover any other loss, directly or indirectly, in whole or in part,
+including loss caused by or resulting from any exclusion mentioned in the 'General
+Exclusions' Section of this Policy
+Specific Exclusions (What is not Covered by the whole Policy):
+We will not pay for:
+1. any claim relating to events occurring before the commencement of the cover.
+2. any claim if You –
+a) are travelling against the advice of a physician.
+b) are suffering from a Pre-existing condition or any complication arising from it
+c) are receiving or on a waiting list for specified medical treatment declared in a
+physician’s report or certificate or
+d) have received terminal prognosis for a medical condition.
+e) are taking part in a naval, military or air force operation.
+3. any claim arising out of illnesses or accidents that caused by the insured person
+intentionally or by committing a crime or as a result of drunkenness or addiction (drugs,
+alcohol).
+4. illness and accidents that are results of war and warlike occurrence or invasion, acts of
+foreign enemies, hostilities, civil war, rebellion, insurrection, military or usurped power,
+active participation in riots, confiscation or nationalisation or requisition of or destruction
+of or damage to property by or under the order of any government or local authority.
+5. any claim arising from damage to any property or any loss or expense whatsoever
+resulting or arising from or any consequential loss directly or indirectly caused by or
+contributed to or arising from:
+a) ionizing radiation or contamination by radioactivity from any nuclear fuel or
+from any nuclear waste from the combustion of nuclear fuel or
+b) the radioactive, toxic, explosive or other hazardous properties of any explosive
+nuclear assembly or nuclear component thereof.
+6. any claim arising out of sporting risk in so far as they involve the training or participation
+in competitions of professional or semi-professional sportsmen or women (unless
+declared beforehand and necessary additional premium paid)
+7. any loss, damage cost or expense of whatsoever nature directly or indirectly caused
+by, resulting from or in connection with any act of terrorism regardless of any other
+cause or event contributing concurrently or in any other sequence to the loss
+F. GENERAL TERMS AND CLAUSES:
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 21
+F.1. Specific Terms and Clauses (applicable to the whole Policy)
+1. Fraud: If a claim is fraudulent in any respect or supported by any fraudulent statement or
+device with or without Your knowledge, all benefit(s) under this Policy shall be forfeited.
+2. Cancellation: Cancellation of the Policy may be done only in cases where a journey is not
+undertaken and only on production of Your passport and cancelled ticket as a proof of the
+same. Any request for Cancellation of Policy will be entertained not later than 14 days
+after the first day of insurance as indicated in the Policy Schedule. Such cancellation will
+be subject to retaining a minimum of 25% of the premium or Rs 200/- for Short Term (
+Single Trip) and Rs 500/- for Annual ( Multi Trip) , whichever is higher.
+We may at any time terminate this Policy on grounds of misrepresentation, fraud,
+nondisclosure of material facts or non-cooperation by You or any Insured Person or anyone
+acting on Your behalf or on behalf of an Insured Person without refund of premium.
+3. We will not be bound to take notice or be affected by any notice of any trust, charge,
+license, assignment or other dealings with or relating to this Policy. Your receipt shall in all
+cases be an effective discharge for Us.
+4. Renewal Conditions:
+This Policy will terminate at the expiration of the period for which premium has been paid
+or on the expiry date shown in the Proposal and Declaration Form and Schedule, whichever
+is earlier.
+a. The Single Trip Insurance and Daily Rated Plan is non-renewable, non-cancellable and
+non-refundable while effective. Single Trip / Multi Trip - Cancellation of the Policy may
+be done only prior to the Effective Date stated in the Policy Schedule and will be subject
+to deduction of cancellation charge by Us.
+b. The Student Plan and Annual Multi Trip Insurance may be renewed on payment in
+advance of the total premium specified by Us, which premium shall be at Our premium
+rate in force at the time of renewal. We, however, are not bound to give notice that it is
+due for renewal. Unless renewed as herein provided, this Policy shall terminate at the
+expiry of the period for which premium has been paid.
+5. Nominee
+You can at the inception or at any time before the expiry of the Policy, make a nomination
+for the purpose of payment of claims under the Policy in the event of Your death.
+Any change of nomination shall be communicated to Us in writing and such change shall be
+effective only when an endorsement on the Policy is made by Us.
+In case of any Insured Person other than You under the Policy, for the purpose of payment
+of claims in the event of death, the default nominee would be You.
+6. Grievance
+In case of any grievance relating to servicing the Policy, the insured person may submit in
+writing to the Policy issuing office or regional office for redressal.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 22
+For details of grievance officer, kindly refer the link www.universalsompo.com
+Or can write to us on:
+Universal Sompo General Insurance Co. Ltd.
+Unit No. 601 & 602, 6th Floor, Reliable Tech Park, Cloud City Campus; Gut No-31, Mouje
+Elthan, Thane- Belapur Road, Airoli, Navi Mumbai- 400708
+Toll Free Numbers: 1800-200-5142
+LandlineNumbers: (022)-41659800 (Chargeable)
+E-mail Address: contactus@universalsompo.com
+IRDAI Integrated Grievance Management System – https://igms.irda.gov.in/
+7. Reasonable Precautions You / insured person shall take all reasonable precautions to
+prevent injury, illness, disease and damage in order to minimize claims. Failure to do so will
+prejudice the claim under this Policy.
+8. Validity: The Policy will be valid only if You commence- the journey within 14 days of the first
+day of insurance as indicated in the Policy Schedule.
+9. Misdescription The Policy shall be void and all premium paid by You to Us will be forfeited in
+the event of a misrepresentation or concealment of any material information.
+10. Changes in Circumstances You must inform Us, as soon as reasonably possible of any change
+in information You have provided to Us about the insured person which may affect the
+insurance cover provided.
+11. Claim Procedure:
+b. You shall immediately contact the Alarm Center of the Overseas Assistance Provider
+providing the necessary details. The phone numbers of the Alarm Centre are as mentioned
+on the Schedule.
+c. You need to contact the Alarm Centre number while abroad as soon as possible and inform
+in case You will be filing - any claim, even if assistance is not required. We will not be liable
+to pay any claim on return back to India, that has not been informed by
+You, while abroad to the Alarm Centre
+d. The Alarm Centre, will verify the identity of the caller by asking his name & passport number.
+e. In the event of an accident or sudden illness where it is not possible to do so before consulting
+a Medical Practitioner or going to the Hospital, You shall contact the Alarm Centre as soon
+as possible. In either case, when being admitted as a patient, You shall show the concerned
+Medical Practitioner or personnel this Policy, if requested.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 23
+f. In case of Financial Emergency, You shall immediately contact the Alarm Centre stating the
+details given on Your Insurance Policy along with the police report containing the passport
+number and a written statement narrating the incident of loss i.e. causes, circumstances and
+the place. Failure to do so may prejudice Your claim, as Our liability will only attach in case
+of claim supported by above documents.
+g. In case of Hijacking, the fact of the incident having occurred should be confirmed by the
+proper police authorities. The police report should contain details such as the passport number
+of the Insured, the period of hijack, etc. In rare cases We may consider the other supporting
+documents such as a report issued by the airlines, newspaper reports, TV and other media
+coverage with regard to the particular hijacking incident.
+h. If the procedure stated above is complied with, the Overseas Assistance Provider, as the case
+may be, will guarantee to the service provider the costs of hospitalization, transportation for
+emergency services, transportation home for You and any covered accompanying person
+and Financial Emergency Assistance. All costs will be directly settled by the Overseas
+Assistance Provider on Our behalf and the same shall constitute due discharge of Our
+obligations hereunder.
+i. If the service provider does not accept the guarantee of payment from the Overseas
+Assistance provider, We cannot be held responsible for the same. The relevant costs will then
+have to be borne by You. These cost will then be considered for reimbursement by - Us or
+the Overseas Assistance Provider on submission of required documents.
+j. Reimbursement of all claims (except claims under Financial Emergency Assistance) will be
+made by the Overseas Assistance Provider in Indian Rupees on the insured's return back to
+the Republic of India, at the exchange rate specified by the Reserve Bank of India, as
+applicable on the date the amount is billed.
+k. Claims under Financial Emergency Assistance shall be settled/ arranged directly to You, whilst
+abroad, by the Overseas Assistance Provider
+l. In case of burglary loss at the home of the insured whilst on the trip abroad, the loss is to be
+intimated to the Overseas Assistance Provider in India. The company shall appoint an
+independent surveyor to assess the loss.
+12. Claim Documentation:
+a. The original ticket / boarding pass or a copy of the passport indicating the travel dates
+must be submitted with every claim, along with the completed claim form.
+b. The original bills and vouchers must be submitted along with all claims.
+c. Bills/vouchers/reports/discharge summary must mention the name of the person treated,
+the type of illness, details of the individual items of medical treatment provided and the
+dates of treatment. Prescriptions must clearly show the medicines prescribed. The
+pharmacy bills must clearly show the price and the receipt stamp of the pharmacy. In
+the case of dental treatment, the bills/ vouchers/ reports must give the details of the
+tooth treated and the treatment performed. Treatment taken on different dates for
+separate ailments will be treated as separate claims. The claim form should clearly
+indicate the same and supporting documents should be provided for each one.
+Deductible will apply for each claim separately.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 24
+d. For Reimbursement of the costs of Transporting the Mortal Remains to the Republic of
+India or of the costs of burial abroad, an official death certificate and a physician's
+statement giving the cause of death needs to be submitted. Medical statements from
+relations or spouses will not be accepted. Original bills / receipts of the expenses
+incurred need to be submitted. These would be paid as per the usual and customary
+charges incurred for the same.
+e. For Reimbursement of Extra Expenses of Your transportation to the Republic of India, a
+medical statement from a qualified & registered Medical Practitioner indicating the
+cause of illness and the necessity of the transportation needs to be submitted. Medical
+statements from relations or spouses will not be accepted. Original bills / receipts of the
+expenses incurred need to be submitted. These would be paid as per the usual and
+customary charges incurred for the same.
+f. In case of Loss of Checked-In Baggage, a Property Irregularity Report or other report
+usually issued by the carriers in the event of loss of checked-in baggage will need to be
+submitted with the claims form. A letter from the airline will also need to be submitted
+stating the compensation received from them for the lost baggage.
+g. Adequate proof of ownership of items contained within Checked-In Baggage valued in
+excess of the Indian Rupee equivalent of US $ 100 for Loss/Delay of Checked-In
+Baggage will need to be submitted.
+h. Original bills of emergency items purchased, and the property irregularity report or any
+other such report from the airline stating the date and time of arrival of delayed
+baggage needs to be submitted in case Delay of Checked-In Baggage delay claims.
+i. For loss of Passport, a Police Report obtained within 24 hours of You becoming aware
+of the theft needs to be submitted. Along with this, bills / receipts of expenses incurred
+in obtaining a new / fresh passport needs to be submitted.
+j. For Financial Emergency, the original police report filed within 24 hours of becoming
+aware of the theft, pilferage, robbery, and dacoity needs to be submitted.
+k. For any claim under Hijacking, the incident should be confirmed by the police. The police
+report should be submitted along with the claim form should contain the details such as
+the name and passport number of the insured, period of hijacking and details of the
+hijacking.
+l. For Personal Liability, proof of judicial decision rendered by a court of law needs to be
+submitted.
+m. For Personal Accident, original bills/ vouchers/ reports/discharge summary that are
+submitted, must mention the name of the person treated, the cause of accident, details
+of the individual items of medical treatment provided and the dates of treatment. Post
+mortem report, if applicable, shall also be submitted.
+n. For claims under Trip Cancellation and Interruption the following documents need to be
+furnished;
+i. Medical reports and doctors statement if trip is cancelled or interrupted due to
+medical reasons. ii. If due to employment reason, then termination letter from the
+company shall be submitted.
+iii. If due to other insured events, police report confirming the incident shall be
+submitted.
+iv. In case the cancellation or interruption is owing to the sickness, injury or death of a
+traveling companion, Your original tickets and those of the traveling companion
+indicating travel to the same destination for the same dates. It should contain the
+Passport number of the Insured and Period. All the bills / receipts of reasonable
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 25
+additional expenses incurred and/or proof of cancellation charges levied by the
+carriers shall be submitted.
+For claims under travel delay the following documents need to be furnished, Medical
+reports and doctors' statement, or police report confirming the incident causing the trip
+delay.
+o. In case the delay is owing to the sickness, injury or death of a travelling companion, Your
+Original tickets and the travelling companion indicating travel to the same destination
+for the same dates. It should contain the Passport number of the Insured and Period. All
+Bills / receipts of reasonable additional expenses incurred should also be attached
+p. For claims under Missed Connection the following documents need to be submitted i.e.
+confirmation from the airline, clearly mentioning the scheduled arrival time and the actual
+arrival time. The reason for delay in the flight also needs to be mentioned. All the bills
+/ receipts of reasonable additional expenses incurred shall be submitted to Us.
+q. If We or the Overseas Assistance Provider request that bills/vouchers in a foreign
+language be accompanied by an appropriate translation then the costs of such
+translation must be borne by You.
+r. Claim documents to be submitted in event of a claim under Burglary (Home contents)
+coverage.
+i. First Information Report
+ii. Panchnama
+iii. Investigation Report by the Police
+iv. Estimate and final bills of repairs if any, required on damaged property v. Invoices
+of owned articles, where called for by Us vi. Legal opinion wherever required. vii. And
+any other document as may be - applicable for the claims preferred under this
+Section of the Policy and called for by Us
+s. We shall condone delay on merit for delayed claims where the delay is proved to be
+beyond Your control
+13. Obligations:
+a. Claims for insurance benefits must be submitted to Our Assistant Service Provider not
+later than one month after the completion of the treatment or transportation home, or in
+the event of death, after transportation of the mortal remains / burial.
+b. You shall provide Us or Our Assistant Service Provider on demand any information that
+is required to determine the occurrence of the insured event or establish Our liability to
+pay the benefits. In particular, at Our or request of Our Assistant Service Provider
+request, proof shall be furnished of the actual commencement date of the trip abroad.
+c. If requested to do so by Us or Our Assistant Service Provider, You shall authorize Our
+Assistant Service Provider to obtain all the information considered necessary from third
+parties (physicians, dentists, alternative practitioners, medical institutions of any kind,
+insurance companies, health or pension offices) and release these parties from their
+obligation not to disclose information.
+d. If requested to do so by Us or Our Assistant Service Provider , You are obliged to
+undergo a medical examination by a Medical Practitioner designated by them
+e. We or Our Assistant Service Provider are authorised by You to take all measures that
+are suitable for loss prevention and claim minimization which includes Your transportation
+back home with simultaneous consideration of the insured person’s interests.
+f. We shall be released from any obligation to pay insurance benefits if any of the
+aforementioned obligations are breached.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 26
+14. Transfer and Set- off of Claims:
+a) If You have claims for damages of a non-insurance nature against third parties, such
+claims shall be transferred in writing to Us up to the amount for which the reimbursement
+of costs is made by Us in accordance with the insurance contract. If You surrender such
+a claim or any right serving to secure such a claim without Our consent, then We are
+released from Our obligation to provide indemnification in so far the insured person
+could have attained a recovery from the claim or right.
+b) In so far as You receive compensation for costs You have incurred either from third
+parties liable for damages or as a result of other legal circumstances, We are entitled
+to set off this compensation against the insurance benefits payable.
+c) Claims to the insurance benefits can neither be pledged nor transferred by You.
+15. Sum Insured enhancement: The Sum Insured under the Policy cannot be
+enhanced during its term. If you wish to enhance Your Sum Insured, You may
+cancel the current Policy held by You and purchase a new Policy with higher SI
+from Us.
+16. Policy Holder’s Right: On receipt of the survey report or the additional survey
+report, as the case may be, an insurer shall within a period of 30 days offer a
+settlement of the claim to the insured. If the insurer, for any reasons to be
+recorded in writing and communicated to the insured, decides to reject a claim
+under the Policy, it shall do so within a period of 30 days from the receipt of the
+survey report or the additional survey report, as the case may be. Upon
+acceptance of an offer of settlement by the insured, the payment of the amount
+due shall be made within 7 days from the date of acceptance of the offer by
+the insured. In the cases of delay in the payment, the insurer shall be liable to
+pay interest at a rate which is 2% above the bank rate prevalent at the
+beginning of the financial year in which the claim is reviewed.
+17. Contribution: If at any time of the happening of any loss/ damage covered by
+this Policy, there shall be existing any other insurance of any nature whatsoever
+covering the same contingency whether effected by You or not, We shall not
+be liable to pay or contribute more than the rateable portion of loss / damage.
+This Condition does not apply to Personal Accident (Section 7) claims.
+18. Multiple Policy: If two or more policies are taken by You during the period for
+which You are covered under this Policy from one or more insurers, the
+contribution clause shall not be applicable where the cover/benefit offered:
+• is fixed in nature i.e. Personal Accident Benefit, if available under the Policy,
+• does not have any relation to the treatment costs;
+i. We also agree that even if, You are covered under multiple policies providing Personal
+Accident cover, We shall make the claim payments independent of payments received under
+other similar polices in respect of the covered event.
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 27
+ii. We agree that even if two or more policies are taken by You during the time for which You
+are covered under this Policy from one or more insurers for indemnification of Your
+Hospitalisation treatment costs, We shall not apply the Contribution clause and You shall have
+the following rights
+• You may choose to get the settlement of claim from Us as long as the claim is within the
+limits of and according to terms and conditions of the Policy
+• If the amount to be claimed exceeds the Sum Insured under a single Policy after
+consideration of the deductible and co-pay, You shall have the right to choose any
+insurers including Us by whom You wish Your claim to be settled. In such cases, We shall
+settle the claim with contribution clause
+• Except for Personal Accident cover, in case if You have taken policies from Us and one
+or more insurers to cover the same hospitalisation risk on indemnity basis , You shall only
+be indemnified the hospitalisation costs in accordance with the terms and condition of
+the Policy.
+20. Geographical Scope: The insurance cover applies in the foreign countries stated
+in the Policy Schedule, except for those countries the citizenships of which You
+possess or where You have a permanent place of residence.
+21. In the event of Your death, We or Our representatives shall have the right to get
+- a post mortem carried out at Our expense.
+22. Any claim which has not been conclusively proven or the amount thereof clearly
+substantiated, shall not be payable.
+23. No Insured Person shall admit liability or make any offer or promise of payment
+without Our written consent.
+24. This insurance does not operate beyond a period of 125 days of continuous
+absence of the insured person from the Republic of India unless specifically
+agreed to by Us.
+Insurance Ombudsman –If Insured person is not satisfied with the redressal of grievance
+through above methods, the insured person may also approach the office of Insurance
+Ombudsman of the respective area/region for redressal of grievance. The contact details
+of the Insurance Ombudsman offices have been provided below:
+Jurisdiction of Office
+Office Details
+Union Territory,District)
+AHMEDABAD - Shri Kuldip Singh Gujarat,
+Office of the Insurance Ombudsman, Dadra & Nagar Haveli,
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 28
+Jeevan Prakash Building, 6th floor, Daman and Diu.
+Tilak Marg, Relief Road,
+Ahmedabad – 380 001.
+Tel.: 079 - 25501201/02/05/06
+Email: bimalokpal.ahmedabad@cioins.co.in
+BENGALURU -
+Office of the Insurance Ombudsman,
+Jeevan Soudha Building,PID No. 57-27-N-19
+Ground Floor, 19/19, 24th Main Road,
+Karnataka.
+JP Nagar, Ist Phase,
+Bengaluru – 560 078.
+Tel.: 080 - 26652048 / 26652049
+Email: bimalokpal.bengaluru@cioins.co.in
+BHOPAL - Madhya Pradesh
+Office of the Insurance Ombudsman, Chattisgarh.
+Janak Vihar Complex, 2nd Floor,
+6, Malviya Nagar, Opp. Airtel Office,
+Near New Market,
+Bhopal – 462 003.
+Tel.: 0755 - 2769201 / 2769202
+Fax: 0755 - 2769203
+Email: bimalokpal.bhopal@cioins.co.in
+BHUBANESHWAR - Shri Suresh Chandra Panda
+Office of the Insurance Ombudsman,
+62, Forest park,
+Bhubneshwar – 751 009. Orissa.
+Tel.: 0674 - 2596461 /2596455
+Fax: 0674 - 2596429
+Email: bimalokpal.bhubaneswar@cioins.co.in
+CHANDIGARH - Punjab,
+Office of the Insurance Ombudsman, Haryana(excluding
+Gurugram, Faridabad,
+Sonepat and Bahadurgarh)
+S.C.O. No. 101, 102 & 103, 2nd Floor, Himachal Pradesh, Union
+Territories of Jammu &
+Kashmir,
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 29
+Batra Building, Sector 17 – D, Ladakh & Chandigarh.
+Chandigarh – 160 017.
+Tel.: 0172 - 2706196 / 2706468
+Fax: 0172 - 2708274
+Email: bimalokpal.chandigarh@cioins.co.in
+CHENNAI - Tamil Nadu,
+Office of the Insurance Ombudsman, Tamil Nadu
+Fatima Akhtar Court, 4th Floor, 453, PuducherryTown and
+Anna Salai, Teynampet, Karaikal (which are part of
+Puducherry).
+CHENNAI – 600 018.
+Tel.: 044 - 24333668 / 24335284
+Fax: 044 - 24333664
+Email: bimalokpal.chennai@cioins.co.in
+DELHI - Shri Sudhir Krishna Delhi &
+Office of the Insurance Ombudsman,
+2/2 A, Universal Insurance Building, Following Districts of
+Asaf Ali Road, Haryana - Gurugram,
+New Delhi – 110 002. Faridabad, Sonepat &
+Tel.: 011 - 23232481/23213504 Bahadurgarh.
+Email: bimalokpal.delhi@cioins.co.in
+GUWAHATI - Assam,
+Office of the Insurance Ombudsman, Meghalaya,
+Jeevan Nivesh, 5th Floor, Manipur,
+Nr. Panbazar over bridge, S.S. Road, Mizoram,
+Guwahati – 781001(ASSAM). Arunachal Pradesh,
+Tel.: 0361 - 2632204 / 2602205 Nagaland and Tripura.
+Email: bimalokpal.guwahati@cioins.co.in
+HYDERABAD - Andhra Pradesh,
+Office of the Insurance Ombudsman, Telangana,
+6-2-46, 1st floor, "Moin Court", Yanam and
+Lane Opp. Saleem Function Palace, part of Union Territory of
+Puducherry.
+A. C. Guards, Lakdi-Ka-Pool,
+Hyderabad - 500 004.
+Tel.: 040 - 23312122
+Fax: 040 - 23376599
+Email: bimalokpal.hyderabad@cioins.co.in
+JAIPUR -
+Office of the Insurance Ombudsman, Rajasthan.
+Jeevan Nidhi – II Bldg., Gr. Floor,
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 30
+Bhawani Singh Marg,
+Jaipur - 302 005.
+Tel.: 0141 - 2740363
+Email: bimalokpal.jaipur@cioins.co.in
+ERNAKULAM - Ms. Poonam Bodra Kerala,
+Office of the Insurance Ombudsman, Lakshadweep,
+2nd Floor, Pulinat Bldg., Mahe-a part of Union
+Territory of Puducherry.
+Opp. Cochin Shipyard, M. G. Road,
+Ernakulam - 682 015.
+Tel.: 0484 - 2358759 / 2359338
+Fax: 0484 - 2359336
+Email: bimalokpal.ernakulam@cioins.co.in
+KOLKATA - Shri P. K. Rath West Bengal,
+Office of the Insurance Ombudsman, Sikkim,
+Hindustan Bldg. Annexe, 4th Floor, Andaman & Nicobar
+Islands.
+4, C.R. Avenue,
+KOLKATA - 700 072.
+Tel.: 033 - 22124339 / 22124340
+Fax : 033 - 22124341
+Email: bimalokpal.kolkata@cioins.co.in
+LUCKNOW -Shri Justice Anil Kumar Srivastava Districts of Uttar Pradesh :
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 31
+Office of the Insurance Ombudsman,
+Lalitpur, Jhansi, Mahoba,
+6th Floor, Jeevan Bhawan, Phase-II,
+Hamirpur, Banda,
+Nawal Kishore Road, Hazratganj, Lucknow
+Chitrakoot, Allahabad,
+- 226 001.
+Mirzapur, Sonbhabdra,
+Tel.: 0522 - 2231330 / 2231331
+Fatehpur, Pratapgarh,
+Fax: 0522 - 2231310
+Jaunpur,Varanasi, Gazipur,
+Email: bimalokpal.lucknow@cioins.co.in
+Jalaun, Kanpur, Lucknow,
+Unnao, Sitapur, Lakhimpur,
+Bahraich, Barabanki,
+Raebareli, Sravasti, Gonda,
+Faizabad, Amethi,
+Kaushambi, Balrampur,
+Basti, Ambedkarnagar,
+Sultanpur, Maharajgang,
+Santkabirnagar, Azamgarh,
+Kushinagar, Gorkhpur,
+Deoria, Mau, Ghazipur,
+Chandauli, Ballia,
+Sidharathnagar.
+MUMBAI - Goa,
+Office of the Insurance Ombudsman, Mumbai Metropolitan
+Region
+3rd Floor, Jeevan Seva Annexe, excluding Navi Mumbai &
+Thane.
+S. V. Road, Santacruz (W), Mumbai
+- 400 054.
+Tel.:
+69038821/23/24/25/26/27/28/28/29/30/31
+Fax: 022 - 26106052
+Email: bimalokpal.mumbai@cioins.co.in
+NOIDA - Shri Chandra Shekhar Prasad State of Uttaranchal and
+the following Districts of
+Uttar Pradesh:
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 32
+Office of the Insurance Ombudsman, Agra, Aligarh, Bagpat,
+Bhagwan Sahai Palace Bareilly, Bijnor, Budaun,
+4th Floor, Main Road, Bulandshehar, Etah, Kanooj,
+Naya Bans, Sector 15, Distt: Mainpuri, Mathura, Meerut,
+Gautam Buddh Nagar, U.P- Moradabad,
+201301.
+Muzaffarnagar, Oraiyya,
+Tel.: 0120-2514252 / 2514253
+Pilibhit, Etawah,
+Email: bimalokpal.noida@cioins.co.in
+Farrukhabad, Firozbad,
+Gautambodhanagar,
+Ghaziabad, Hardoi,
+Shahjahanpur, Hapur,
+Shamli, Rampur, Kashganj,
+Sambhal, Amroha, Hathras,
+Kanshiramnagar,
+Saharanpur.
+PATNA - Shri N. K. Singh Bihar,
+Office of the Insurance Ombudsman, Jharkhand.
+2nd Floor, Lalit Bhawan,
+Bailey Road, Patna
+800 001.
+Tel.: 0612-2547068
+Email: bimalokpal.patna@cioins.co.in
+PUNE - Shri Vinay Sah Maharashtra,
+Office of the Insurance Ombudsman, Area of Navi Mumbai and
+Thane
+Jeevan Darshan Bldg., 3rd Floor, excluding Mumbai
+Metropolitan Region.
+C.T.S. No.s. 195 to 198,
+N.C. Kelkar Road, Narayan Peth, Pune
+– 411 030.
+Tel.: 020-41312555
+Email: bimalokpal.pune@cioins.co.in
+*****************************
+Policy Wording- Travel Insurance Policy UIN: UNITIOP09003V020809 Page 33

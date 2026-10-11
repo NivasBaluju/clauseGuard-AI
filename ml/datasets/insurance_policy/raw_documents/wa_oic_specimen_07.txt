@@ -1,0 +1,39 @@
+DOCUMENT ID: wa_oic_specimen_07
+SOURCE URL: Washington State Office of the Insurance Commissioner (OIC) Sample HO-4 Form (https://www.insurance.wa.gov)
+========================================================================
+
+1. PROPERTY COVERAGE
+Coverage C covers personal property owned or used by insured worldwide.
+
+2. LOSS OF USE
+Additional living expense for uninhabitable premises.
+
+3. PERILS COVERED
+Fire, wind, hail, smoke, theft, vehicle damage.
+
+4. EXCLUSIONS
+Excludes earth movement, flood, neglect, and intentional acts.
+
+5. DEDUCTIBLE
+$500.00 standard deductible per occurrence.
+
+6. NOTICE OF LOSS
+Notice required within reasonable time.
+
+7. CANCELLATION RULES
+45 days advance notice required for non-renewal under Washington law.
+
+8. GRACE PERIOD
+A grace period of 30 days is granted for payment of renewal premium.
+
+9. CONCEALMENT OR FRAUD
+Willful concealment or misrepresentation of material fact voids policy coverage.
+
+10. APPRAISAL CLAUSE
+Disputes on valuation of loss may be submitted to appraisal by neutral appraisers and umpire.
+
+11. SUBROGATION
+Company acquires right of recovery against third parties upon payment.
+
+12. POLICY TERM
+Policy applies to losses occurring during the 12-month period specified.

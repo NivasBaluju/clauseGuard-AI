@@ -1,0 +1,51 @@
+{
+  "activation": "gelu",
+  "architectures": [
+    "DistilBertForSequenceClassification"
+  ],
+  "attention_dropout": 0.1,
+  "bos_token_id": null,
+  "dim": 768,
+  "dropout": 0.1,
+  "dtype": "float32",
+  "eos_token_id": null,
+  "hidden_dim": 3072,
+  "id2label": {
+    "0": "cancellation_non_renewal",
+    "1": "claims_process",
+    "2": "coverage_scope",
+    "3": "deductible_premium",
+    "4": "dispute_resolution_appraisal",
+    "5": "exclusions",
+    "6": "grace_period",
+    "7": "limits_of_liability",
+    "8": "policy_period_renewal",
+    "9": "subrogation"
+  },
+  "initializer_range": 0.02,
+  "label2id": {
+    "cancellation_non_renewal": 0,
+    "claims_process": 1,
+    "coverage_scope": 2,
+    "deductible_premium": 3,
+    "dispute_resolution_appraisal": 4,
+    "exclusions": 5,
+    "grace_period": 6,
+    "limits_of_liability": 7,
+    "policy_period_renewal": 8,
+    "subrogation": 9
+  },
+  "max_position_embeddings": 512,
+  "model_type": "distilbert",
+  "n_heads": 12,
+  "n_layers": 6,
+  "pad_token_id": 0,
+  "problem_type": "single_label_classification",
+  "qa_dropout": 0.1,
+  "seq_classif_dropout": 0.2,
+  "sinusoidal_pos_embds": false,
+  "tie_weights_": true,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.17.0",
+  "vocab_size": 30522
+}
